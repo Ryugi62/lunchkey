@@ -46,21 +46,23 @@ const seen = new Set();
 const ambiguousLines = [];
 const stat = { ambiguous: 0, lines: 0, coded: 0, uncoded: 0, malformed: 0, uncodedWithDigits: 0, variantTags: 0, glossFull: 0, glossPartial: 0, glossNone: 0 };
 const malformed = [], uncodedDigits = [], unglossed = new Map(), all = [];
-const schoolsWithMeals = new Set(), officesWithMeals = new Set();
+const schoolsWithMeals = new Set(), officesWithMeals = new Set(), byOffice = {};
 let mealsN = 0;
 for (const { s, meals } of fetched) {
   for (const m of meals) {
     const k = `${s.code}:${m.date}`;
     if (seen.has(k)) continue; // never count the same school-day twice
     seen.add(k); mealsN++; schoolsWithMeals.add(s.code); officesWithMeals.add(s.office);
+    const po = (byOffice[s.office] ??= { lines: 0, coded: 0, uncoded: 0, malformed: 0, ambiguous: 0 });
+    for (const d of m.dishes) { po.lines++; po[d.parseStatus]++; if (d.ambiguousCodes?.length) po.ambiguous++; }
     for (const d of m.dishes) {
       stat.lines++; stat[d.parseStatus]++; all.push(d);
       if (/-\d{1,2}(?=[\s(]|$)/.test(d.raw)) stat.variantTags++;
       // Non-circular check: digits anywhere in the RAW line (minus variant tags and digits kept in the name) but no code read.
       const digitsOutsideName = d.raw.replace(/-\d{1,2}(?=[\s(]|$)/g, '').replace(/\(\s*[\d.]+\s*(?:g|kg|ml|l|개|ea|인분|조각|%)[^)]*\)|\d\/\d\s*$/gi, '').replace(d.nameKo, '');
-      if (d.parseStatus === 'uncoded' && /\d|[①-⑳]/.test(digitsOutsideName)) { stat.uncodedWithDigits++; if (uncodedDigits.length < 30) uncodedDigits.push(d.raw); }
-      if (d.parseStatus === 'malformed' && malformed.length < 30) malformed.push(d.raw);
-      if (d.ambiguousCodes?.length) { stat.ambiguous++; if (ambiguousLines.length < 200) ambiguousLines.push({ raw: d.raw, codes: d.codes, ambiguousCodes: d.ambiguousCodes }); }
+      if (d.parseStatus === 'uncoded' && /\d|[①-⑳]/.test(digitsOutsideName)) { stat.uncodedWithDigits++; uncodedDigits.push(d.raw); }
+      if (d.parseStatus === 'malformed') malformed.push(d.raw);
+      if (d.ambiguousCodes?.length) { stat.ambiguous++; ambiguousLines.push({ raw: d.raw, codes: d.codes, ambiguousCodes: d.ambiguousCodes }); }
       const g = glossDish(d.nameKo, 'en');
       stat[g.status === 'full' ? 'glossFull' : g.status === 'partial' ? 'glossPartial' : 'glossNone']++;
       if (g.status !== 'full') for (const p of g.parts.filter((x) => !x.known)) unglossed.set(p.ko, (unglossed.get(p.ko) ?? 0) + 1);
@@ -76,6 +78,7 @@ const summary = {
   uncodedLinesWithDigits: stat.uncodedWithDigits, variantTagLines: stat.variantTags, linesWithAmbiguousNumbers: stat.ambiguous,
   glossShare: { full: pct(stat.glossFull, stat.lines), partial: pct(stat.glossPartial, stat.lines), none: pct(stat.glossNone, stat.lines) },
   errors, seconds: Math.round((Date.now() - t0) / 1000),
+  byOffice,
 };
 mkdirSync('docs', { recursive: true });
 const step = Math.max(1, Math.floor(all.length / 150));

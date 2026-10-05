@@ -56,7 +56,7 @@ test('duplicate codes are removed and sorted', () => {
   assert.deepEqual(parseDishLine('국 (5.1.5.2)').codes, [1, 2, 5]);
 });
 
-test('variant tags glued to the name are not codes (audit finding)', () => {
+test('variant tags glued to the name are not codes', () => {
   const a = parseDishLine('호박죽-1 (13)');
   assert.equal(a.nameKo, '호박죽'); assert.deepEqual(a.codes, [13]);
   const b = parseDishLine('부대찌개1 (1.2.5.6.9.10.15.16)');
@@ -65,14 +65,14 @@ test('variant tags glued to the name are not codes (audit finding)', () => {
   assert.equal(c.nameKo, '친환경현미밥'); assert.equal(c.parseStatus, 'uncoded');
 });
 
-test('hand-check finding: "공통양념-2" is a variant tag, not milk', () => {
+test('"공통양념-2" is a variant tag, not milk', () => {
   const d = parseDishLine('공통양념-2');
   assert.equal(d.nameKo, '공통양념');
   assert.equal(d.parseStatus, 'uncoded');
   assert.equal(parseDishLine('파김치-1(자율) (9)').nameKo, '파김치(자율)');
 });
 
-test('R1 engineer finding: odd separators and multi-dish lines are read fully or never cleared', async () => {
+test('odd separators and multi-dish lines are read fully or never cleared', async () => {
   const { judgeDish } = await import('../src/domain/verdict.js');
   const egg = new Set([1]);
   const lines = ['달걀찜 (1 5 6)', '달걀찜 (1/5/6)', '달걀찜 (1·5·6)', '스크램블에그 (1..5)', '카레라이스(1.2.5.6)/요구르트(2)', '계란말이(1.5)&김(5)', '달걀(1.)(5.)'];
@@ -95,7 +95,7 @@ test('an unclosed bracket with digits is malformed, never clear', () => {
   assert.deepEqual(parseDishLine('달걀찜 (1.5').codes, [1, 5]); // fully readable even without ")"
 });
 
-test('audit finding: portion notes are not codes', () => {
+test('portion notes are not codes', () => {
   const a = parseDishLine('배추김치(20kg) (9)');
   assert.equal(a.nameKo, '배추김치'); assert.deepEqual(a.codes, [9]); assert.equal(a.parseStatus, 'coded');
   const b = parseDishLine('김치전(30g*3개) (1.2.5.6.12.15.16)');
@@ -104,7 +104,7 @@ test('audit finding: portion notes are not codes', () => {
   assert.equal(c.nameKo, '바나나'); assert.equal(c.parseStatus, 'uncoded');
 });
 
-test('audit finding: number-led notes are not codes', () => {
+test('number-led notes are not codes', () => {
   assert.deepEqual(parseDishLine('총각김치(25초등) (9)').codes, [9]);
   assert.equal(parseDishLine('총각김치(25초등) (9)').parseStatus, 'coded');
   assert.equal(parseDishLine('아삭모둠피클(4색)').parseStatus, 'uncoded');

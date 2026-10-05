@@ -4,6 +4,7 @@ import { GLOSS_LANGS } from '../domain/gloss.js';
 import { buildWeekView, weekRange } from '../application/weekView.js';
 import { buildPasteView } from '../application/pasteView.js';
 import { headline } from '../application/headline.js';
+import { mergeIncoming } from '../application/children.js';
 import { createNeisSource, OFFICES } from '../adapters/neis.js';
 import { encodeProfile, decodeProfile, UI_LANGS } from '../adapters/profileStore.js';
 import { t, LANG_NAMES } from './i18n.js';
@@ -15,7 +16,10 @@ const CACHE = 'lunchkey.cache.v1';
 const params = new URLSearchParams(location.search);
 const DEMO = params.get('demo') === '1';
 const KEY_STORE = 'lunchkey.neisKey';
-if (params.get('key')) { try { localStorage.setItem(KEY_STORE, params.get('key')); } catch { /* ignore */ } }
+if (params.get('key')) {
+  try { localStorage.setItem(KEY_STORE, params.get('key')); } catch { /* ignore */ }
+  params.delete('key'); history.replaceState(null, '', location.pathname + (params.toString() ? `?${params}` : '') + location.hash); // don't leave the key in the address bar
+}
 let neisKey = ''; try { neisKey = localStorage.getItem(KEY_STORE) || ''; } catch { /* ignore */ }
 const neis = createNeisSource({ fetch: (u) => fetch(u), key: neisKey || undefined }); // optional free NEIS key enables full paging
 const $app = document.getElementById('app');
@@ -42,18 +46,14 @@ function loadState() {
   // Stored shape: { children: [profile...], active } (older single-profile saves are upgraded).
   let children = saved?.children ?? (saved ? [saved] : []);
   let active = saved?.active ?? 0;
-  let notice = '';
-  if (fromHash.school || fromHash.allergens.length) {
-    const same = children.findIndex((c) => c.school?.code === fromHash.school?.code && JSON.stringify(c.allergens) === JSON.stringify(fromHash.allergens));
-    if (same >= 0) active = same;
-    else if (children.length && fromHash.allergens.length) { children.push({ ...fromHash, lang: children[active]?.lang ?? fromHash.lang }); active = children.length - 1; notice = 'linkedChild'; }
-    else if (children.length && !fromHash.allergens.length) { children[active] = { ...children[active], school: fromHash.school }; } // a school link: keep the child, set the school
-    else { children = [fromHash]; active = 0; }
-  }
+  const merged = mergeIncoming(children, active, fromHash, guessLang());
+  children = merged.children; active = merged.active;
+  const notice = merged.notice;
   if (!children.length) children = [{ allergens: [], lang: guessLang(), name: '', school: null }];
   let profile = children[Math.min(active, children.length - 1)];
   if (DEMO) { profile = { ...profile, ...SAMPLE, lang: UI_LANGS.includes(params.get('lang')) ? params.get('lang') : profile.lang }; children = [profile]; active = 0; }
-  const step = params.get('paste') === '1' ? 'paste' : profile.school && profile.allergens.length ? 'week' : profile.school ? 'allergens' : 'lang';
+  // A parent arriving from a school link (school set, nothing chosen yet) starts at the language step.
+  const step = params.get('paste') === '1' ? 'paste' : profile.school && profile.allergens.length ? 'week' : 'lang';
   return { children, active, profile, step, monday: weekRange(todayIso()).monday, day: null, firstLoad: true, notice, pasteText: '', office: '', weeks: new Map() };
 }
 function guessLang() {
@@ -78,7 +78,7 @@ function renderLang() {
     <p style="margin-top:24px"><a class="btn link" href="?demo=1&lang=${state.profile.lang}">${esc(L.sampleSchool)}</a></p>`;
   $app.querySelectorAll('[data-lang]').forEach((b) => b.onclick = () => setLang(b.dataset.lang));
   cta(`<button class="btn" id="go">${esc(L.next)}</button>`);
-  $cta.querySelector('#go').onclick = () => { state.step = 'school'; render(); };
+  $cta.querySelector('#go').onclick = () => { state.step = state.profile.school ? 'allergens' : 'school'; render(); };
 }
 
 function renderSchool() {
@@ -143,15 +143,20 @@ function verdictLabel(v, L) {
 function dishCard(d, lang, L) {
   const showGloss = lang !== 'ko';
   const glossLang = d.gloss.status === 'none' ? 'ko' : GLOSS_LANGS.includes(lang) ? htmlLang(lang) : 'en';
-  const chips = d.codes.map((c) => `<span class="chip ${d.matched.includes(c) ? 'hit' : ''}">${c} ${esc(allergenName(c, lang))}</span>`).join('');
+  const chips = d.codes.map((c) => `<span class="chip ${d.matched.includes(c) ? 'hit' : ''}">${c} ${esc(allergenName(c, lang))}</span>`).join('')
+    + d.maybe.map((c) => `<span class="chip maybe">${c} ${esc(allergenName(c, lang))}?</span>`).join('');
+  const maybeNames = d.maybe.map((c) => allergenName(c, lang)).join(', ');
+  const label = d.maybe.length ? `<span class="verdict unreadable"><span aria-hidden="true">?</span>${esc(L.mightContain(maybeNames))}</span>` : verdictLabel(d.verdict, L);
+  const why = d.reason === 'number' ? L.whyNumber(d.maybe.join(', ')) : d.reason === 'name' ? L.whyName : '';
   return `<article class="dish ${d.verdict}">
-    ${verdictLabel(d.verdict, L)}${d.matched.length ? ` <b class="err">${esc(d.matched.map((c) => allergenName(c, lang)).join(', '))}</b>` : ''}
+    ${label}${d.matched.length ? ` <b class="err">${esc(d.matched.map((c) => allergenName(c, lang)).join(', '))}</b>` : ''}
+    ${why ? `<div class="why">${esc(why)}</div>` : ''}
     <div class="name" lang="${showGloss ? glossLang : 'ko'}">${esc(showGloss ? d.gloss.text : d.nameKo)}</div>
     ${showGloss ? `<div class="ko" lang="ko">${esc(d.nameKo)}</div>` : ''}
     ${chips ? `<div class="chips">${chips}</div>` : ''}
     <details><summary>${esc(L.howRead)}</summary>
       <div>${esc(L.printed)}: <code lang="ko">${esc(d.raw)}</code></div>
-      <div>${esc(L.codes)}: <code>${d.codes.join(', ') || '—'}${d.unknownCodes.length ? ` · ? ${d.unknownCodes.join(', ')}` : ''}</code></div>
+      <div>${esc(L.codes)}: <code>${d.codes.join(', ') || '—'}${d.unknownCodes.length ? ` · ? ${d.unknownCodes.join(', ')}` : ''}${d.ambiguousCodes?.length ? ` · (? ${d.ambiguousCodes.join(', ')})` : ''}</code></div>
       ${showGloss ? `<div>${d.gloss.parts.map((p) => `<code lang="ko">${esc(p.ko)}</code>→${esc(p.out)}${p.known ? '' : ' (?)'}`).join(' + ')}</div>` : ''}
     </details>
   </article>`;
@@ -222,7 +227,7 @@ async function renderWeek() {
   const today = todayIso();
   if (!state.day || !dates.includes(state.day)) state.day = dates.includes(today) && view.days.some((d) => d.date === today) ? today : (view.days[0]?.date ?? dates[0]);
   const dayView = view.days.find((d) => d.date === state.day);
-  const mark = (dv) => (!dv ? `<span aria-label="${esc(L.noLunch)}" title="${esc(L.noLunch)}">–</span>` : { contains: `⛔ ${dv.summary.contains}`, clear: '✓', nolisted: '○', unknown: '?', empty: '–' }[dv.status]);
+  const mark = (dv) => (!dv ? `<span class="nolunch">${esc(L.noLunch)}</span>` : { contains: `⛔ ${dv.summary.contains}`, clear: '✓', nolisted: '○', unknown: '?', empty: '–' }[dv.status]);
   const tabs = dates.map((d, i) => {
     const dv = view.days.find((x) => x.date === d);
     return `<button class="tab ${dv ? `s-${dv.status}` : ''}" role="tab" id="tab-${d}" aria-controls="panel" aria-selected="${d === state.day}" tabindex="${d === state.day ? 0 : -1}" data-d="${d}">${esc(L.days[i])}<span class="dot">${esc(fmtDate(d, p.lang))}</span><span class="mark">${mark(dv)}</span></button>`;
@@ -245,8 +250,11 @@ async function renderWeek() {
     <div class="weeknav" style="margin-top:12px"><button class="btn link" id="prev">${esc(L.prevWeek)}</button><span class="aux">${esc(L.week)} ${esc(fmtDate(state.monday, p.lang))}</span><button class="btn link" id="next">${esc(L.nextWeek)}</button></div>
     <div class="tabs" role="tablist">${tabs}</div><div id="panel" role="tabpanel" aria-labelledby="tab-${state.day}">${body}</div>
     <p class="note">${esc(L.safety)}</p><p class="note">${esc(L.glossNote)} · ${esc(L.dataSource)}</p>
-    <p class="note"><button class="btn link" id="schoollink">${esc(L.schoolLink)}</button></p>`;
+    <p class="note"><button class="btn link" id="schoollink">${esc(L.schoolLink)}</button></p>
+    ${neisKey ? '<p class="note">NEIS key in use · <button class="btn link" id="rmkey">Remove key</button></p>' : ''}`;
   bindHeader();
+  const rm = $app.querySelector('#rmkey');
+  if (rm) rm.onclick = () => { try { localStorage.removeItem(KEY_STORE); } catch { /* ignore */ } location.reload(); };
   const go = (n) => { state.monday = addDays(state.monday, n); state.day = null; state.notice = ''; renderWeek(); };
   $app.querySelector('#prev').onclick = () => go(-7);
   $app.querySelector('#next').onclick = () => go(7);
@@ -264,7 +272,7 @@ async function renderWeek() {
     try { await navigator.clipboard.writeText(url); } catch { prompt(note, url); }
     btn.textContent = L.copied; announce(`${L.copied}. ${note}`);
   };
-  $app.querySelector('#schoollink').onclick = (e) => copy(`${location.origin}${location.pathname}${encodeProfile({ allergens: [], lang: p.lang, name: '', school: p.school })}`, e.currentTarget, L.schoolLink);
+  $app.querySelector('#schoollink').onclick = (e) => copy(`${location.origin}${location.pathname}${encodeProfile({ allergens: [], lang: '', name: '', school: p.school })}`, e.currentTarget, L.schoolLink);
   cta(`<button class="btn ghost" id="share">${esc(L.share)}</button><button class="btn" id="print">${esc(L.print)}</button>`);
   $cta.querySelector('#print').onclick = () => window.print();
   $cta.querySelector('#share').onclick = (e) => copy(`${location.origin}${location.pathname}${encodeProfile({ ...p, name: '' })}`, e.currentTarget, L.shareNote);
@@ -274,17 +282,18 @@ function renderPrint(view, dates, L) {
   const p = state.profile;
   const cell = (d) => {
     const dv = view.days.find((x) => x.date === d);
-    if (!dv) return '—';
+    if (!dv) return `— ${esc(L.noLunch)}`;
     return dv.meals.flatMap((m) => m.dishes).map((x) => {
       const mark = { contains: '⛔', clear: '✓', nonumbers: '○', unreadable: '?' }[x.verdict];
       const name = p.lang === 'ko' ? x.nameKo : `${x.gloss.text} (${x.nameKo})`;
       return `<div class="${x.verdict === 'contains' ? 'x' : ''}">${mark} ${esc(name)}${x.matched.length ? ` — ${esc(x.matched.map((c) => allergenName(c, p.lang)).join(', '))}` : ''}</div>`;
     }).join('');
   };
-  $print.innerHTML = `<h2>🔑 ${esc(p.name || '')} — <span lang="ko">${esc(p.school.name)}</span> · ${esc(L.week)} ${esc(fmtDate(state.monday, p.lang))}</h2>
-    <p>⛔ ${esc(L.contains)} · ✓ ${esc(L.clear)} · ○ ${esc(L.nonumbers)} · ? ${esc(L.unreadable)} — ${p.allergens.map((a) => esc(allergenName(a, p.lang))).join(', ')}</p>
+  $print.innerHTML = `<h2>🔑 LunchKey — ${p.name ? `${esc(p.name)} · ` : ''}<span lang="ko">${esc(p.school.name)}</span> · ${esc(L.week)} ${esc(fmtDate(state.monday, p.lang))}</h2>
+    <p><b>${esc(L.avoid)}: ${p.allergens.map((a) => esc(allergenName(a, p.lang))).join(', ')}</b></p>
+    <p>⛔ ${esc(L.contains)} · ✓ ${esc(L.clear)} · ○ ${esc(L.nonumbers)} · ? ${esc(L.unreadable)}</p>
     <table><tr>${dates.map((d, i) => `<th>${esc(L.days[i])} ${esc(fmtDate(d, p.lang))}</th>`).join('')}</tr><tr>${dates.map((d) => `<td>${cell(d)}</td>`).join('')}</tr></table>
-    <p>${esc(L.safety)}</p>`;
+    <p>${esc(L.safety)}</p><p>${esc(location.origin + location.pathname)}</p>`;
 }
 
 function renderPaste() {

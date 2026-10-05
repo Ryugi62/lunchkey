@@ -49,13 +49,14 @@ export function glossDish(nameKo, lang) {
   const hangulKnown = parts.filter((p) => p.known).reduce((n, p) => n + [...p.ko].filter(isHangul).length, 0);
   const coverage = Math.round((hangulKnown / hangulTotal) * 1000) / 1000;
   const status = coverage >= 1 ? 'full' : coverage > 0 ? 'partial' : 'none';
-  if (status === 'none') return { text: romanize(clean.replace(/\s+/g, ' ')), coverage, status, parts };
+  // Nothing known: English shows romanization, Vietnamese/Chinese keep the Korean letters; both marked "(?)".
+  if (status === 'none') return { text: `${L === 'en' ? romanize(clean.replace(/\s+/g, ' ')) : clean}(?)`, coverage, status, parts };
   return { text: order(parts, L), coverage, status, parts };
 }
 
 /** Put the parts in a natural order for the target language and mark unknown parts with "(?)". */
 function order(parts, L) {
-  let ps = parts.map((p) => ({ ...p, out: p.known ? p.out : `${p.out}(?)` }));
+  let ps = parts.map((p) => ({ ...p, out: p.known ? p.out : `${L === 'en' ? p.out : p.ko}(?)` }));
   const last = ps[ps.length - 1];
   const methodLast = ps.length > 1 && last.known && METHODS.has(last.ko);
   if (methodLast) {

@@ -1,6 +1,6 @@
 {
   "summary": {
-    "measuredAt": "2026-10-05T21:16:19.478Z",
+    "measuredAt": "2026-10-05T21:33:39.868Z",
     "lunchesFrom": "2026-06-01",
     "weeks": 4,
     "offices": 17,
@@ -11,20 +11,141 @@
     "lunches": 2792,
     "dishLines": 19209,
     "statusShare": {
-      "coded": 79.08,
-      "uncoded": 20.89,
-      "malformed": 0.03
+      "coded": 79.09,
+      "uncoded": 20.9,
+      "malformed": 0.01
     },
-    "uncodedLinesWithDigits": 20,
+    "uncodedLinesWithDigits": 30,
     "variantTagLines": 110,
-    "linesWithAmbiguousNumbers": 163,
+    "linesWithAmbiguousNumbers": 190,
     "glossShare": {
-      "full": 77.2,
-      "partial": 21.66,
-      "none": 1.14
+      "full": 77.14,
+      "partial": 21.74,
+      "none": 1.12
     },
     "errors": 0,
-    "seconds": 10
+    "seconds": 11,
+    "byOffice": {
+      "B10": {
+        "lines": 1125,
+        "coded": 933,
+        "uncoded": 192,
+        "malformed": 0,
+        "ambiguous": 0
+      },
+      "C10": {
+        "lines": 1263,
+        "coded": 1046,
+        "uncoded": 217,
+        "malformed": 0,
+        "ambiguous": 11
+      },
+      "D10": {
+        "lines": 1123,
+        "coded": 908,
+        "uncoded": 214,
+        "malformed": 1,
+        "ambiguous": 6
+      },
+      "E10": {
+        "lines": 1205,
+        "coded": 967,
+        "uncoded": 238,
+        "malformed": 0,
+        "ambiguous": 13
+      },
+      "F10": {
+        "lines": 193,
+        "coded": 162,
+        "uncoded": 31,
+        "malformed": 0,
+        "ambiguous": 0
+      },
+      "G10": {
+        "lines": 1105,
+        "coded": 881,
+        "uncoded": 224,
+        "malformed": 0,
+        "ambiguous": 2
+      },
+      "H10": {
+        "lines": 1269,
+        "coded": 981,
+        "uncoded": 288,
+        "malformed": 0,
+        "ambiguous": 1
+      },
+      "I10": {
+        "lines": 1232,
+        "coded": 954,
+        "uncoded": 278,
+        "malformed": 0,
+        "ambiguous": 30
+      },
+      "J10": {
+        "lines": 1201,
+        "coded": 966,
+        "uncoded": 234,
+        "malformed": 1,
+        "ambiguous": 69
+      },
+      "K10": {
+        "lines": 937,
+        "coded": 722,
+        "uncoded": 215,
+        "malformed": 0,
+        "ambiguous": 9
+      },
+      "M10": {
+        "lines": 1270,
+        "coded": 977,
+        "uncoded": 293,
+        "malformed": 0,
+        "ambiguous": 2
+      },
+      "N10": {
+        "lines": 1545,
+        "coded": 1206,
+        "uncoded": 339,
+        "malformed": 0,
+        "ambiguous": 19
+      },
+      "P10": {
+        "lines": 1404,
+        "coded": 1084,
+        "uncoded": 320,
+        "malformed": 0,
+        "ambiguous": 20
+      },
+      "Q10": {
+        "lines": 227,
+        "coded": 176,
+        "uncoded": 51,
+        "malformed": 0,
+        "ambiguous": 4
+      },
+      "R10": {
+        "lines": 1381,
+        "coded": 1139,
+        "uncoded": 242,
+        "malformed": 0,
+        "ambiguous": 4
+      },
+      "S10": {
+        "lines": 1314,
+        "coded": 1044,
+        "uncoded": 270,
+        "malformed": 0,
+        "ambiguous": 0
+      },
+      "T10": {
+        "lines": 1415,
+        "coded": 1046,
+        "uncoded": 369,
+        "malformed": 0,
+        "ambiguous": 0
+      }
+    }
   },
   "ambiguousLines": [
     {
@@ -55,6 +176,28 @@
       ]
     },
     {
+      "raw": "알타리김치(물2) (9.13)",
+      "codes": [
+        9,
+        13
+      ],
+      "ambiguousCodes": [
+        2
+      ]
+    },
+    {
+      "raw": "버섯수제비매운탕(추천07) (5.6.9.13)",
+      "codes": [
+        5,
+        6,
+        9,
+        13
+      ],
+      "ambiguousCodes": [
+        7
+      ]
+    },
+    {
       "raw": "무말랭이무침2(대저중앙)",
       "codes": [],
       "ambiguousCodes": [
@@ -66,6 +209,24 @@
       "codes": [
         5,
         6
+      ],
+      "ambiguousCodes": [
+        2
+      ]
+    },
+    {
+      "raw": "깍두기2주발주 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        2
+      ]
+    },
+    {
+      "raw": "깍두기2주발주 (9)",
+      "codes": [
+        9
       ],
       "ambiguousCodes": [
         2
@@ -99,6 +260,17 @@
       ]
     },
     {
+      "raw": "바나나1/2 (2.5.6)",
+      "codes": [
+        2,
+        5,
+        6
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
       "raw": "아삭모둠피클(4색)",
       "codes": [],
       "ambiguousCodes": [
@@ -109,6 +281,7 @@
       "raw": "도시락김(9절7매)",
       "codes": [],
       "ambiguousCodes": [
+        7,
         9
       ]
     },
@@ -123,9 +296,49 @@
       ]
     },
     {
-      "raw": "열무김치1 (9)",
+      "raw": "골드파인애플1",
+      "codes": [],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "카프레제샐러드(초1) (2.12.13)",
       "codes": [
-        9
+        2,
+        12,
+        13
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "바지락배추된장국_1 (5.6.9.18)",
+      "codes": [
+        5,
+        6,
+        9,
+        18
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "비름나물무침_1 (5.6)",
+      "codes": [
+        5,
+        6
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "미역오이냉국_1 (13)",
+      "codes": [
+        13
       ],
       "ambiguousCodes": [
         1
@@ -150,9 +363,81 @@
       ]
     },
     {
+      "raw": "비엔나케찹볶음_1 (2.5.6.10.12.13.15.16)",
+      "codes": [
+        2,
+        5,
+        6,
+        10,
+        12,
+        13,
+        15,
+        16
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "바지락배추된장국_1 (5.6.9.18)",
+      "codes": [
+        5,
+        6,
+        9,
+        18
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "비름나물무침_1 (5.6)",
+      "codes": [
+        5,
+        6
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "미역오이냉국_1 (13)",
+      "codes": [
+        13
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
       "raw": "열무김치1 (9)",
       "codes": [
         9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "열무김치1 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "비엔나케찹볶음_1 (2.5.6.10.12.13.15.16)",
+      "codes": [
+        2,
+        5,
+        6,
+        10,
+        12,
+        13,
+        15,
+        16
       ],
       "ambiguousCodes": [
         1
@@ -188,6 +473,13 @@
         13,
         18
       ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "1인용 구운김",
+      "codes": [],
       "ambiguousCodes": [
         1
       ]
@@ -401,10 +693,31 @@
       ]
     },
     {
+      "raw": "시원한수박1",
+      "codes": [],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "친환경구운김(개별)1",
+      "codes": [],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
       "raw": "한라봉감귤쥬스1 (13)",
       "codes": [
         13
       ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "참외1",
+      "codes": [],
       "ambiguousCodes": [
         1
       ]
@@ -717,6 +1030,32 @@
       ],
       "ambiguousCodes": [
         4
+      ]
+    },
+    {
+      "raw": "오이토마토샐러드(지중해식 (1.2.5.6.12.13)",
+      "codes": [],
+      "ambiguousCodes": [
+        1,
+        2,
+        5,
+        6,
+        12,
+        13
+      ]
+    },
+    {
+      "raw": "`돈까스샐러드(씨제이-남산식왕돈까스 (1.2.5.6.10.12.13.18)",
+      "codes": [],
+      "ambiguousCodes": [
+        1,
+        2,
+        5,
+        6,
+        10,
+        12,
+        13,
+        18
       ]
     },
     {
@@ -1115,6 +1454,40 @@
       ]
     },
     {
+      "raw": "19감자햄허브맛구이 (1.2.5.6.10.15.16)",
+      "codes": [
+        1,
+        2,
+        5,
+        6,
+        10,
+        15,
+        16
+      ],
+      "ambiguousCodes": [
+        19
+      ]
+    },
+    {
+      "raw": "19현미찹쌀밥",
+      "codes": [],
+      "ambiguousCodes": [
+        19
+      ]
+    },
+    {
+      "raw": "19닭조림 (5.6.13.15)",
+      "codes": [
+        5,
+        6,
+        13,
+        15
+      ],
+      "ambiguousCodes": [
+        19
+      ]
+    },
+    {
       "raw": "19돼지갈비찜1 (5.6.10.13)",
       "codes": [
         5,
@@ -1123,7 +1496,18 @@
         13
       ],
       "ambiguousCodes": [
-        1
+        1,
+        19
+      ]
+    },
+    {
+      "raw": "18열무애호박장무침 (5.6)",
+      "codes": [
+        5,
+        6
+      ],
+      "ambiguousCodes": [
+        18
       ]
     },
     {
@@ -1135,6 +1519,13 @@
       ],
       "ambiguousCodes": [
         13
+      ]
+    },
+    {
+      "raw": "19현미찹쌀밥",
+      "codes": [],
+      "ambiguousCodes": [
+        19
       ]
     },
     {
@@ -1173,6 +1564,16 @@
       ],
       "ambiguousCodes": [
         3
+      ]
+    },
+    {
+      "raw": "가지구이무침 18 (5.6)",
+      "codes": [
+        5,
+        6
+      ],
+      "ambiguousCodes": [
+        18
       ]
     },
     {
@@ -1656,21 +2057,19 @@
   ],
   "malformedExamples": [
     "바나나1/2 (2.5.6)",
-    "목살스테이크2/초 (2.5.6.10.11.12.13.16.18)",
-    "반미샌드1/2 (1.2.5.6.10.12.13.15.16.18)",
-    "가지구이무침 18 (5.6)",
-    "오렌지 31",
-    "디저트39 청사과주스# (11)"
+    "반미샌드1/2 (1.2.5.6.10.12.13.15.16.18)"
   ],
   "uncodedWithDigitsExamples": [
     "무말랭이무침2(대저중앙)",
     "아삭모둠피클(4색)",
     "도시락김(9절7매)",
     "골드파인애플바(50)",
+    "골드파인애플1",
     "발아현미밥(80)",
     "발아현미밥(80)",
     "귀리밥(80)",
     "율무밥(80)",
+    "1인용 구운김",
     "아이스망고(0)",
     "모둠쌈(친)(0)",
     "블루베리(0)",
@@ -1679,9 +2078,17 @@
     "야채피클(0)",
     "김구이(0)",
     "거봉(0)",
+    "백설기(입학100일축하)",
+    "시원한수박1",
+    "친환경구운김(개별)1",
+    "참외1",
     "파인애플(30)-4",
     "식혜(100)",
+    "오이토마토샐러드(지중해식 (1.2.5.6.12.13)",
+    "`돈까스샐러드(씨제이-남산식왕돈까스 (1.2.5.6.10.12.13.18)",
     "흑미밥(2011)",
+    "19현미찹쌀밥",
+    "19현미찹쌀밥",
     "100일떡(2026학년도)"
   ],
   "topUnglossed": [
@@ -1695,7 +2102,7 @@
     ],
     [
       "물",
-      56
+      57
     ],
     [
       "차",
@@ -1751,6 +2158,10 @@
     ],
     [
       "돈",
+      23
+    ],
+    [
+      "희망",
       23
     ],
     [
@@ -1838,6 +2249,10 @@
       17
     ],
     [
+      "비",
+      16
+    ],
+    [
       "오향장",
       16
     ],
@@ -1851,10 +2266,6 @@
     ],
     [
       "톳",
-      15
-    ],
-    [
-      "비",
       15
     ],
     [
@@ -1926,6 +2337,10 @@
       12
     ],
     [
+      "스테비아",
+      12
+    ],
+    [
       "스",
       11
     ],
@@ -1994,15 +2409,7 @@
       10
     ],
     [
-      "고춧",
-      10
-    ],
-    [
-      "텐더",
-      10
-    ],
-    [
-      "장어",
+      "호",
       10
     ]
   ],

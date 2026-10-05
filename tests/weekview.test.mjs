@@ -19,8 +19,8 @@ test('weekRange gives Monday to Friday', () => {
   assert.deepEqual(weekRange('2026-10-07'), { from: '20261005', to: '20261009', monday: '2026-10-05' });
 });
 
-test('R1 finding: a day with only unnumbered dishes is never green (neutral "nolisted")', () => {
-  const view = buildWeekView([meal('2026-10-05', ['쌀밥', '바나나', '우유'])], { allergens: [2], lang: 'en' });
+test('a day with only unnumbered dishes is never green (neutral "nolisted")', () => {
+  const view = buildWeekView([meal('2026-10-05', ['쌀밥', '바나나', '수박'])], { allergens: [7], lang: 'en' });
   assert.equal(view.days[0].status, 'nolisted');
   assert.equal(view.days[0].meals[0].status, 'nolisted');
 });
@@ -42,7 +42,7 @@ test('weekend looks ahead to the coming week', () => {
   assert.equal(weekRange('2026-10-11').monday, '2026-10-12');
 });
 
-test('R1 finding: paste keeps a double-spaced line as one dish', async () => {
+test('paste keeps a double-spaced line as one dish', async () => {
   const { buildPasteView } = await import('../src/application/pasteView.js');
   const v = buildPasteView('달걀찜  (1.5)\n우유 (2)', { allergens: [1], lang: 'en' });
   assert.equal(v.dishes.length, 2);

@@ -19,8 +19,25 @@ const TAIL = /(?:^|[^\d])((?:\d{1,2}[.,]\s*)+\d{0,2}\.?|\s\d{1,2})\s*$/;
 export function splitMenu(ddish) {
   return String(ddish ?? '')
     .split(/<br\s*\/?>|\n/i)
-    .map((s) => s.trim())
-    .filter(Boolean);
+    .map((x) => x.trim())
+    .filter(Boolean)
+    .flatMap(splitCompound);
+}
+
+const HAS_CODE_GROUP = /[(\[<]\s*\d{1,2}(?:[.,/·\s]+\d{1,2})*\s*[.,]?\s*[)\]>]|[\u2460-\u2473\u2776-\u277f]/;
+/**
+ * "카레라이스(1.5.6)/요구르트(2)" is two dishes. Split on / & + , when both sides name a dish.
+ * If only the LAST part carries a code group ("잡채밥/짜장소스 (5.6.10)"), the codes are shared and the line stays one dish.
+ * @param {string} line
+ * @returns {string[]}
+ */
+export function splitCompound(line) {
+  const parts = line.split(/\s*[/&+]\s*|\s*,\s*(?=[\uac00-\ud7a3])/).map((x) => x.trim()).filter(Boolean);
+  if (parts.length < 2 || !parts.every((x) => /[\uac00-\ud7a3]/.test(x))) return [line];
+  const coded = parts.map((x) => HAS_CODE_GROUP.test(x));
+  if (!coded.some(Boolean)) return [line];
+  if (coded.filter(Boolean).length === 1 && coded[coded.length - 1]) return [line];
+  return parts;
 }
 
 const numbers = (group) => group.split(/[^\d]+/).filter(Boolean).map(Number);
@@ -33,48 +50,57 @@ const numbers = (group) => group.split(/[^\d]+/).filter(Boolean).map(Number);
  * @returns {DishLine}
  */
 export function parseDishLine(raw) {
-  let s = String(raw ?? '').replace(MARKERS, '');
   const found = [];
-  const ambiguous = []; // numbers we removed as notes/tags but that COULD be codes: never allowed to support "clear"
+  const ambiguous = []; // numbers that COULD be codes but aren't clearly codes: never allowed to support "clear"
   const maybe = (n) => { if (isAllergenCode(n)) ambiguous.push(n); };
   let hadGroup = false;
 
-  // Portion notes are not codes: "(30g*3개)", "(20kg)", "(50g*2)", and a trailing fraction "바나나1/2" (half a banana).
-  s = s.replace(/\(\s*[\d.]+\s*(?:g|kg|ml|l|개|ea|인분|조각|%)[^)]*\)/gi, ' ').replace(/(?<=[\uac00-\ud7a3])\s*([1-3])\/([2-4])\s*$/, (_, a, b) => { maybe(+a); maybe(+b); return ''; });
-  // Notes that start with a number but are words: "(25초등)", "(4색)", "(2탄)". "(1난류)" keeps 1 as ambiguous.
-  s = s.replace(/\(\s*(\d+)\s*[\uac00-\ud7a3A-Za-z][^)]*\)/g, (_, n) => { maybe(+n); return ' '; });
-  // A bracketed single number outside 1–19, like "(80)" or "(0)", is a portion size, not a code.
-  s = s.replace(/\(\s*(\d+)\s*\)/g, (all, n) => (isAllergenCode(+n) ? all : ' '));
-  for (const ch of s.match(CIRCLED) ?? []) { found.push(ch.codePointAt(0) - 0x2460 + 1); hadGroup = true; }
-  s = s.replace(CIRCLED, ' ');
+  let s = String(raw ?? '');
+  // Circled numbers are codes: ①..⑳ and ❶..❿. Read them before NFKC, which would turn ① into a bare "1".
+  s = s.replace(/[①-⑳]/g, (ch) => { found.push(ch.codePointAt(0) - 0x2460 + 1); hadGroup = true; return ' '; });
+  s = s.replace(/[❶-❿]/g, (ch) => { found.push(ch.codePointAt(0) - 0x2776 + 1); hadGroup = true; return ' '; });
+  // Full-width brackets/digits, parenthesized ⑴ and superscript ¹ become plain ASCII.
+  s = s.normalize('NFKC').replace(/ㆍ/g, '·').replace(MARKERS, '');
 
-  // Menu numbering glued to a name right before a code group: "부대찌개1 (…)", "호박죽-1 (…)" → ambiguous, not codes.
-  // (a glued 20+ like "요구르트80 (2)" is a portion size; a glued 1–19 might be a code → ambiguous)
-  s = s.replace(/(?<=[\uac00-\ud7a3])-?(\d{1,2})(?=\*?\s*\()/g, (_, n) => { maybe(+n); return ''; });
+  // Portion notes are not codes: "(30g*3개)", "(20kg)", "(50 ml)". If several numbers precede a unit ("(2.13 ml)"), it is unreadable.
+  s = s.replace(/\(\s*([\d.]+)\s*(?:g|kg|ml|l|개|ea|인분|조각|%)[^)]*\)/gi, (all, num) => (/^\d+(?:\.\d+)?$/.test(num) && !/^\d{1,2}\.\d{1,2}$/.test(num) ? ' ' : `(${num})`));
+  // A trailing fraction "바나나1/2" is a portion; its numbers stay ambiguous.
+  s = s.replace(/(?<=[가-힣])\s*([1-3])\/([2-4])\s*$/, (_, a, b) => { maybe(+a); maybe(+b); return ''; });
+  // Bracketed notes that mix numbers and words ("(25초등)", "(1난류 2우유)", "(가공:2)", "[난류1]"): drop the note,
+  // keep EVERY number in it as ambiguous.
+  s = s.replace(/[([<][^)\]>]*?(?:\d[^)\]>]*[가-힣A-Za-z]|[가-힣A-Za-z][^)\]>]*\d)[^)\]>]*[)\]>]/g, (note) => { for (const m of note.matchAll(/\d+/g)) maybe(+m[0]); return ' '; });
+  // A bracketed single number outside 1–19, like "(80)" or "(0)", is a portion size.
+  s = s.replace(/\(\s*(\d+)\s*\)/g, (all, n) => (isAllergenCode(+n) ? all : ' '));
+  // Menu numbering glued right before a code group: "부대찌개1 (…)", "호박죽-1 (…)", "요구르트80 (2)" → ambiguous.
+  s = s.replace(/(?<=[가-힣])-?(\d{1,2})(?=\*?\s*[(\[<])/g, (_, n) => { maybe(+n); return ''; });
+  // Code groups in ( ), [ ] or < >: read as codes (over-warning is the safe side).
   s = s.replace(GROUP, (_, g) => { found.push(...numbers(g)); hadGroup = true; return ' '; });
-  // Square/angle bracket number groups are read as codes (over-warning is the safe side).
   s = s.replace(/[[<]\s*(\d{1,2}(?:[.,/·\s]+\d{1,2})*)\s*[.,]?\s*[\]>]/g, (_, g) => { found.push(...numbers(g)); hadGroup = true; return ' '; });
 
   if (!hadGroup) {
-    // "공통양념-2" / "호박죽-1": a number after a hyphen is menu numbering → ambiguous.
-    s = s.replace(/-(\d{1,2})\s*$/, (_, n) => { maybe(+n); return ''; });
-    // "요구르트2": a 1–2 digit number glued to the end of a dish with no code group anywhere might be a code → ambiguous.
-    s = s.replace(/(?<=[\uac00-\ud7a3])(\d{1,2})\s*$/, (_, n) => { maybe(+n); return ''; });
-    const m = s.match(TAIL);
-    if (m && m.index + m[0].length - m[1].length > 0) {
+    // An unbracketed list with dots/commas is a code group: "볶음밥1.5.6.10", "우유 2.", "짜장면 1, 5".
+    const m = s.match(/(?:^|[^\d])((?:\d{1,2}[.,]\s*)+\d{0,2}\.?)\s*$/);
+    if (m && /[가-힣]/.test(s.slice(0, s.length - m[1].length))) {
       found.push(...numbers(m[1]));
       hadGroup = true;
       s = s.slice(0, s.length - m[1].length);
     }
   }
-  s = s.replace(/-(\d{1,2})(?=[\s(/&]|$)/g, (_, n) => { maybe(+n); return ''; });
 
-  const nameKo = s.replace(/\s{2,}/g, ' ').replace(/\s*([/&])\s*/g, '$1').replace(/[\s(.]+$/, '').replace(MARKERS, '').trim();
-  // Leftover code-like text makes the line unreadable: an unclosed bracket with digits, digit-separator-digit runs,
-  // or a lone 1–2 digit number standing as its own token or glued to the end of a dish ("요구르트2", "우유 2").
-  const leftover = /\(\s*\d|\d\s*[.,/·]\s*\d/.test(nameKo)
-    || /(?:^|[\s/&<[\]>])\d{1,2}(?=$|[\s/&<[\]>])/.test(nameKo)
-    || (hadGroup && /(?<=[\uac00-\ud7a3])\d{1,2}(?=$|[\s/&])/.test(nameKo));
+  // An unclosed bracket with digits or digit-separator-digit runs can't be read at all.
+  const leftover = /[([<]\s*\d|\d\s*[.,/·]\s*\d/.test(s);
+  // Everything left: any 1–19 number still in the name is ambiguous, except counting words ("10곡", "3색", "2탄").
+  const COUNTER = /^(?:곡|색|탄|가지|종|혼합|개|인분|년|학년|월|일|호|절|매|수|분|단계|차|회|등급|겹|절미|줄|알|입|봉|팩|컵|미)/;
+  s = s.replace(/\d+/g, (num, at, whole) => {
+    const after = whole.slice(at + num.length);
+    if (COUNTER.test(after)) return num; // part of the dish name
+    const v = Number(num);
+    if (num.length > 2 || v > 19 || v === 0) return num; // "비타500", "오렌지 31": not a code
+    maybe(v);
+    return /[가-힣]/.test(whole[at - 1] ?? '') && /[가-힣]/.test(after[0] ?? '') ? num : ' ';
+  });
+
+  const nameKo = s.replace(/\s{2,}/g, ' ').replace(/\s*([/&])\s*/g, '$1').replace(/[\s(.:;,·~_\-]+$/, '').replace(/^[\s(.:;,·~_\-]+/, '').replace(MARKERS, '').trim();
 
   const codes = [...new Set(found.filter(isAllergenCode))].sort((a, b) => a - b);
   const unknownCodes = [...new Set(found.filter((n) => !isAllergenCode(n)))].sort((a, b) => a - b);

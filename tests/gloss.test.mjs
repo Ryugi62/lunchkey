@@ -15,7 +15,8 @@ test('AC-7 compound dish is glossed from parts', () => {
 test('AC-7 unknown name falls back to romanization, marked not translated', () => {
   const g = glossDish('뀨뀨뀨', 'en');
   assert.equal(g.status, 'none');
-  assert.equal(g.text, romanize('뀨뀨뀨'));
+  assert.equal(g.text, `${romanize('뀨뀨뀨')}(?)`);
+  assert.equal(glossDish('뀨뀨뀨', 'zh').text, '뀨뀨뀨(?)'); // no Latin letters inside Chinese
 });
 
 test('partial gloss keeps the unknown part romanized', () => {
@@ -41,7 +42,7 @@ test('romanize follows Revised Romanization basics', () => {
   assert.equal(romanize('불고기'), 'bulgogi');
 });
 
-test('hand-check findings: mis-segmentations fixed', () => {
+test('mis-segmentations fixed', () => {
   const en = (k) => glossDish(k, 'en').text;
   assert.equal(en('과일화채'), 'fruit punch');
   assert.match(en('중국식볶음밥'), /^Chinese-style fried rice$/);
@@ -50,7 +51,7 @@ test('hand-check findings: mis-segmentations fixed', () => {
   assert.match(en('조갯살아욱된장국'), /^clam meat mallow/);
 });
 
-test('R2 findings: natural order, no repeats, crab is known', () => {
+test('gloss: natural word order, no repeated words, crab is known', () => {
   assert.equal(glossDish('달걀찜', 'en').text, 'steamed egg');
   assert.equal(glossDish('달걀찜', 'zh').text, '蒸鸡蛋');
   assert.equal(glossDish('달걀찜', 'vi').text, 'trứng hấp');

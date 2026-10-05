@@ -549,7 +549,7 @@ export const GLOSSARY = {
 "강정": {
 "en": "sweet crispy",
 "vi": "chiên giòn sốt ngọt",
-"zh": "糖醋"
+"zh": "裹酱炸"
 },
 "탕수육": {
 "en": "sweet and sour pork",
@@ -3290,5 +3290,45 @@ export const GLOSSARY = {
 "en": "cold buckwheat noodles",
 "vi": "mì kiều mạch lạnh",
 "zh": "冷荞麦面"
+},
+"땅콩버터": {
+"en": "peanut butter",
+"vi": "bơ đậu phộng",
+"zh": "花生酱"
+},
+"호두파이": {
+"en": "walnut pie",
+"vi": "bánh óc chó",
+"zh": "核桃派"
+},
+"잣죽": {
+"en": "pine nut porridge",
+"vi": "cháo hạt thông",
+"zh": "松子粥"
+},
+"계란말이": {
+"en": "rolled omelette",
+"vi": "trứng cuộn",
+"zh": "鸡蛋卷"
+},
+"달걀말이": {
+"en": "rolled omelette",
+"vi": "trứng cuộn",
+"zh": "鸡蛋卷"
+},
+"두유": {
+"en": "soy milk",
+"vi": "sữa đậu nành",
+"zh": "豆浆"
+},
+"방울": {
+"en": "mini",
+"vi": "nhỏ",
+"zh": "小"
+},
+"나박": {
+"en": "sliced radish",
+"vi": "củ cải thái lát",
+"zh": "萝卜片"
 }
 };

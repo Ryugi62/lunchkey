@@ -58,26 +58,30 @@ No login, no server, no cost. Built solo for WarriorHacks 2.0 (theme: *solve an 
 | ○ **No numbers printed** | nothing code-like printed (plain rice, fruit) | grey, neutral — not green |
 | ✓ **None of your child's allergens listed** | numbers printed, read cleanly, none match | green — the only green |
 
-A day or meal is green only if every dish is ✓. A property test appends every possible code N (as `N`, ` N`, `/요구르트N`, `[N]`, `<N>`, `(N난류)`) to real lines and checks the app never says ✓ for a child avoiding N.
+A day or meal is green only if every dish is ✓. Two safety layers make sure of that:
+- **The parser treats any leftover number from 1 to 19 as possibly a code**, unless it is part of a counting word (`10곡`, `3색`).
+- **The dish name can only add warnings.** For example, `우유` (milk) printed without a number shows "Might contain Milk" to a milk-allergic child.
+
+A fuzz test checks this. For every code N, it puts N after 28 separators (`,` `·` `ㆍ` `;` `~` `–` `※` …), in front of the name, inside notes (`(난류N)`, `(가공:N)`), in full-width brackets and as a circled number. That is about 2,200 generated lines, and none of them may produce ✓ for a child avoiding N. Lines with two dishes (`카레라이스(1.5.6)/요구르트`) are split, so the unnumbered dish is never folded into a green one.
 
 ## Does it actually read real menus? (measured, not claimed)
 
 `npm run audit` asks the live NEIS API one school-week of lunches at a time: **170 distinct schools** (10 per office × **all 17 provincial education offices**). Each school-day counted once. Run 2026-10-06:
 
-| | Aug 31 – Oct 2, 2026 | June 2026 (held out until the last round) |
-|---|---|---|
-| Schools with lunches / offices | 160 · 17 of 17 | 165 · 17 of 17 |
-| Lunches · dish lines | 3,580 · **24,745** | 2,792 · **19,209** |
-| Lines with numbers / no numbers / unreadable (→ ?) | 79.4% / 20.6% / 0.01% | 79.1% / 20.9% / 0.03% |
-| Lines holding a number that *might* be a code (shown as ? only to children avoiding it) | 221 (0.9%) | 163 (0.8%) |
-| Dish names fully / partly / not explained | 78.8% / 20.1% / 1.2% | 77.2% / 21.7% / 1.1% |
+| | Aug 31 – Oct 2, 2026 | June 2026 (looked at once, one fix) | **May 2026 (untouched, run once)** |
+|---|---|---|---|
+| Schools with lunches / offices | 160 · 17 of 17 | 165 · 17 of 17 | 145 · 15 of 17 |
+| Lunches · dish lines | 3,580 · **24,745** | 2,792 · **19,209** | 2,441 · **16,799** |
+| Lines with numbers / no numbers / unreadable (→ ?) | 79.4% / 20.6% / 0% | 79.1% / 20.9% / 0.01% | 79.7% / 20.3% / 0.01% |
+| Lines holding a number that *might* be a code (shown as ? only to children avoiding it) | 261 (1.1%) | 190 (1.0%) | 156 (0.9%) |
+| Dish names fully / partly / not explained | 78.6% / 20.2% / 1.2% | 77.1% / 21.7% / 1.1% | 76.2% / 22.3% / 1.5% |
 
-Every one of those odd lines is listed in [`docs/audit.json`](docs/audit.json) and [`docs/audit-heldout-june.json`](docs/audit-heldout-june.json). The sample is a convenience sample (schools found by short name searches, because keyless NEIS can't page a full list).
+Every one of those odd lines is listed in [`docs/audit.json`](docs/audit.json), [`docs/audit-heldout-june.json`](docs/audit-heldout-june.json) and [`docs/audit-holdout-may.json`](docs/audit-holdout-may.json) (no caps). Each audit also breaks the counts down by office (`byOffice`). The sample is a convenience sample (schools found by short name searches, because keyless NEIS can't page a full list).
 
 **Hand checks** ([`docs/audit-labels.json`](docs/audit-labels.json), enforced by tests):
-- **Even sample:** 150 real lines read one by one — 150/150 agree; 0 false ✓ for every single-allergen child.
+- **Even sample:** 150 real lines read one by one: 150/150 agree, with 0 false ✓ for every single-allergen child. With 0 errors in 150, the 95% upper bound on the error rate is about 2% (rule of three).
 - **Stratified odd formats:** all **111** distinct odd formats found in both audits (glued numbers, fractions, lone numbers, menu numbering, number notes) read by hand — codes as labeled, never ✓ for any number that could be a code.
-- **What the checks and three rounds of mock judging caught**, each now a regression test: "common seasoning #2" read as milk; `(20kg)`/`(25초등)` read as codes; `달걀찜 (1 5 6)`, `A(…)/B2`, `[2]`, `(1난류)` losing a code (false ✓). June's held-out run added one fix (`요구르트80 (2)` = an 80 ml portion).
+- **What the checks and three review rounds caught**, each now a regression test: "common seasoning #2" read as milk; `(20kg)`/`(25초등)` read as codes; `달걀찜 (1 5 6)`, `A(…)/B2`, `[2]`, `(1난류)` losing a code (false ✓). June's run added one fix (`요구르트80 (2)` is an 80 ml portion), so June is not a clean holdout. May was run once after the code was frozen and is reported as-is.
 - **Dish names:** 100 English explanations checked by hand — 95 acceptable on the first pass, the 5 mis-splits fixed with tests.
 
 ### Dish names: explained, not machine-translated
@@ -99,7 +103,7 @@ scripts/          audit.mjs (national sample) · check-layers.mjs
 - **Keyless NEIS returns only the first 5 rows and ignores paging.** I measured this on 2026-10-06. So LunchKey asks narrow questions: one school, one week, lunch only. That is at most 5 rows, fetched once per week and re-rendered from memory, and the tests use a fake API that behaves the same way.
 - **Sustainability.** The code already supports a free personal NEIS key (`?key=…`, stored on the device) for full paging. If keyless sample access ever changes, the fallback is a small scheduled job that pre-fetches opted-in schools into static JSON on GitHub Pages, behind the same adapter port.
 - **Resilience.** NEIS error codes are shown as errors, never as "no menu". The last loaded weeks are saved on the phone and shown, labeled, if the network fails. The sample school ships with a bundled week.
-- **Tests: 60** (`npm test`, Node's built-in runner, CI on Node 20/22/24). They cover every acceptance criterion in [`SPEC.md`](SPEC.md), the hand-checked real lines, the never-✓ property test, the top-card logic (`application/headline.js`), and a layer check. The check fails if `domain/` or `application/` imports adapters or the UI, or touches `fetch`, `localStorage` or `document`.
+- **Tests: 68** (`npm test`, Node's built-in runner, CI on Node 20/22/24). They cover every acceptance criterion in [`SPEC.md`](SPEC.md), the hand-checked real lines, the never-✓ property and fuzz tests, the top-card logic (`application/headline.js`), the link-merge rules (`application/children.js`), and a layer check. The check fails if `domain/` or `application/` imports adapters or the UI, or touches `fetch`, `localStorage` or `document`.
 - **Accessibility.**
   - Every verdict is shown as an icon, a word and a color.
   - Each language block carries its own `lang` attribute.

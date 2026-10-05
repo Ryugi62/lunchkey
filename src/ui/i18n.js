@@ -31,6 +31,7 @@ export const T = {
     sample: "Sample: a Changwon elementary school, a child who avoids egg and milk.",
     notPublished: "This week's menu isn't published yet.", addChild: '+ Add another child', linkedChild: 'Added as another child.',
     schoolLink: 'For schools and family centers: copy a link with this school already chosen', noLunch: 'No lunch',
+    mightContain: (a) => `Might contain ${a} — ask the school`, whyNumber: (n) => `A "${n}" is printed next to the name.`, whyName: 'The dish name suggests it, but no number is printed for it.', avoid: 'Avoid',
   },
   ko: {
     tagline: '우리 아이 학교 급식, 내 언어로.',
@@ -61,6 +62,7 @@ export const T = {
     sample: '예시: 창원의 한 초등학교, 달걀·우유를 피하는 아이.',
     notPublished: '이번 주 식단이 아직 올라오지 않았어요.', addChild: '+ 아이 추가', linkedChild: '다른 아이로 추가했어요.',
     schoolLink: '학교·가족센터용: 이 학교가 미리 선택된 링크 복사', noLunch: '급식 없음',
+    mightContain: (a) => `${a} 들어 있을 수 있음 — 학교에 확인`, whyNumber: (n) => `이름 옆에 "${n}"이(가) 적혀 있어요.`, whyName: '메뉴 이름에 들어 있는데 번호는 없어요.', avoid: '피할 것',
   },
   vi: {
     tagline: 'Bữa trưa ở trường của con, bằng ngôn ngữ của bạn.',
@@ -91,6 +93,7 @@ export const T = {
     sample: 'Ví dụ: một trường tiểu học ở Changwon, bé cần tránh trứng và sữa.',
     notPublished: 'Thực đơn tuần này chưa được đăng.', addChild: '+ Thêm con', linkedChild: 'Đã thêm như một bé khác.',
     schoolLink: 'Dành cho trường và trung tâm gia đình: sao chép liên kết đã chọn sẵn trường này', noLunch: 'Không có bữa trưa',
+    mightContain: (a) => `Có thể có ${a} — hãy hỏi nhà trường`, whyNumber: (n) => `Có số "${n}" in cạnh tên món.`, whyName: 'Tên món gợi ý có, nhưng không có số.', avoid: 'Cần tránh',
   },
   zh: {
     tagline: '孩子的学校午餐，用您的语言看懂。',
@@ -121,6 +124,7 @@ export const T = {
     sample: '示例：昌原的一所小学，孩子需要避开鸡蛋和牛奶。',
     notPublished: '本周菜单尚未发布。', addChild: '+ 添加孩子', linkedChild: '已作为另一个孩子添加。',
     schoolLink: '供学校和家庭中心使用：复制已选好本校的链接', noLunch: '无午餐',
+    mightContain: (a) => `可能含有${a} — 请向学校确认`, whyNumber: (n) => `菜名旁印有“${n}”。`, whyName: '菜名提示含有，但没有编号。', avoid: '需避开',
   },
   tl: {
     tagline: 'Ang tanghalian ng anak mo sa paaralan, sa sarili mong wika.',
@@ -151,6 +155,7 @@ export const T = {
     sample: 'Halimbawa: isang elementary school sa Changwon, batang umiiwas sa itlog at gatas.',
     notPublished: 'Hindi pa nailalabas ang menu ngayong linggo.', addChild: '+ Magdagdag ng anak', linkedChild: 'Idinagdag bilang ibang anak.',
     schoolLink: 'Para sa paaralan at family center: kopyahin ang link na napili na ang paaralang ito', noLunch: 'Walang tanghalian',
+    mightContain: (a) => `Maaaring may ${a} — itanong sa paaralan`, whyNumber: (n) => `May "${n}" na nakasulat sa tabi ng pangalan.`, whyName: 'Ipinahihiwatig ng pangalan ng ulam, pero walang numero.', avoid: 'Iwasan',
   },
   ja: {
     tagline: 'お子さんの給食を、あなたの言葉で。',
@@ -181,6 +186,7 @@ export const T = {
     sample: '例：昌原の小学校、卵と牛乳を避けるお子さん。',
     notPublished: '今週の献立はまだ公開されていません。', addChild: '+ 子どもを追加', linkedChild: '別のお子さんとして追加しました。',
     schoolLink: '学校・家族支援センター向け：この学校を選択済みのリンクをコピー', noLunch: '給食なし',
+    mightContain: (a) => `${a}を含む可能性 — 学校に確認`, whyNumber: (n) => `料理名の横に「${n}」と書かれています。`, whyName: '料理名からは含まれそうですが、番号はありません。', avoid: '避けるもの',
   },
   ru: {
     tagline: 'Школьный обед вашего ребёнка — на вашем языке.',
@@ -211,6 +217,7 @@ export const T = {
     sample: 'Пример: начальная школа в Чханвоне, ребёнку нельзя яйца и молоко.',
     notPublished: 'Меню на эту неделю ещё не опубликовано.', addChild: '+ Добавить ребёнка', linkedChild: 'Добавлен как другой ребёнок.',
     schoolLink: 'Для школ и семейных центров: скопировать ссылку с уже выбранной школой', noLunch: 'Нет обеда',
+    mightContain: (a) => `Может содержать: ${a} — уточните в школе`, whyNumber: (n) => `Рядом с названием напечатано «${n}».`, whyName: 'Название блюда указывает на это, но номера нет.', avoid: 'Избегать',
   },
 };
 

@@ -70,6 +70,9 @@ h2 { font-size: 22px; margin: 0 0 8px; font-weight: 800; }
 .dish .ko { color: var(--sub); font-size: 15px; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 .chip { font-size: 13px; border-radius: 999px; padding: 3px 10px; background: var(--card); border: 1px solid var(--line); }
+.chip.maybe { background: var(--warn-weak); color: var(--warn); border-color: var(--warn); font-weight: 700; }
+.why { font-size: 13px; color: var(--warn); margin-top: 6px; }
+.tab .nolunch { font-size: 11px; font-weight: 400; color: var(--sub); }
 .chip.hit { background: var(--no); color: #fff; border-color: var(--no); font-weight: 700; }
 details { margin-top: 10px; font-size: 13px; color: var(--sub); }
 details summary { cursor: pointer; padding: 12px 0; line-height: 20px; }
