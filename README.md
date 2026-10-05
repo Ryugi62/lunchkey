@@ -92,8 +92,8 @@ Every one of those odd lines is listed in [`docs/audit.json`](docs/audit.json), 
 **How often a child sees each colour** (`dayLoadPercentBySingleAllergen` in the audit). For a child avoiding only peanut, school days come out:
 - ⛔ 5%: peanut is printed on the menu;
 - ? 0.6%;
-- ○ 82%: some dish had no numbers, usually rice or fruit;
-- ✓ 13%.
+- ○ 85%: some dish had no numbers, usually rice or fruit, or numbers were printed for only part of a line;
+- ✓ 9%.
 
 Amber "?" days stay under 2% for every allergen, so the warning keeps its meaning. Milk shows ⛔ on 81% of days because the daily milk carton is numbered.
 
