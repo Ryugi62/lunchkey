@@ -46,7 +46,7 @@ No login, no server, no cost. Built solo for WarriorHacks 2.0 (theme: *solve an 
 
    Each dish shows its verdict, an explanation of the dish name, and every allergen number decoded, with your child's in red. Families with several children switch with one tap.
 5. **Print a one-page fridge sheet** in your language, or **copy a family link**. The link holds the school and allergens in its `#hash`, which is never sent to a server. It does *not* include the child's name. Opening a link for a second child adds that child instead of replacing the first.
-6. **No Korean typing needed when the school shares a link.** "For schools and family centers: copy a link with this school already chosen" gives a nutrition teacher or a multicultural family center a link to print as a QR code. The parent then only picks a language and the allergens.
+6. **No Korean typing needed when the school shares a link.** "For schools and family centers: copy a link with this school already chosen" gives a nutrition teacher or a multicultural family center a link to print as a QR code with any free QR maker (the app copies the link; it does not draw the QR itself). The parent then only picks a language and the allergens.
 7. **Paste a menu** from a daycare or kindergarten. These use the same numbers and the same checker.
 
 ### Four verdicts, one rule: never green without evidence
