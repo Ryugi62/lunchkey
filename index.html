@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LunchKey — your child's Korean school lunch, in your language</title>
+<meta name="description" content="Korean school menus mark allergens with bare numbers. LunchKey shows each dish as contains / no listed allergen / not labeled, per child, in your language.">
+<link rel="stylesheet" href="src/ui/styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔑</text></svg>">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span aria-hidden="true">🔑</span> LunchKey</div>
+  <select id="langSelect" aria-label="Language"></select>
+</header>
+<main id="app" aria-live="polite"></main>
+<div id="cta" class="cta" hidden></div>
+<section id="printSheet" class="print-only" aria-hidden="true"></section>
+<noscript>LunchKey needs JavaScript to read the live school menu.</noscript>
+<script type="module" src="src/ui/app.js"></script>
+</body>
+</html>

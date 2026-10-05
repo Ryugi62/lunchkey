@@ -1,0 +1,15 @@
+{
+  "name": "lunchkey",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "description": "LunchKey: read a Korean school lunch menu's allergen numbers in your own language, per child.",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "layers": "node scripts/check-layers.mjs",
+    "audit": "node scripts/audit.mjs",
+    "serve": "python3 -m http.server 4321 --bind 127.0.0.1"
+  }
+}

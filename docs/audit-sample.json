@@ -1,0 +1,1066 @@
+[
+ {
+  "raw": "흑미밥",
+  "nameKo": "흑미밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "계란부추국 (1.5.9)",
+  "nameKo": "계란부추국",
+  "codes": [
+   1,
+   5,
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "새송이애호박볶음",
+  "nameKo": "새송이애호박볶음",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "캠핑구이 (2.5.6.10.15.16)",
+  "nameKo": "캠핑구이",
+  "codes": [
+   2,
+   5,
+   6,
+   10,
+   15,
+   16
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "백김치 (9.19)",
+  "nameKo": "백김치",
+  "codes": [
+   9,
+   19
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "파인애플",
+  "nameKo": "파인애플",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "귀리밥",
+  "nameKo": "귀리밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "콩가루배추국 (5.6.9)",
+  "nameKo": "콩가루배추국",
+  "codes": [
+   5,
+   6,
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "슈바인학센/사과마늘소스 (10)",
+  "nameKo": "슈바인학센/사과마늘소스",
+  "codes": [
+   10
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "쌈장 (4.5.6.13.19)",
+  "nameKo": "쌈장",
+  "codes": [
+   4,
+   5,
+   6,
+   13,
+   19
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "상추/오이고추",
+  "nameKo": "상추/오이고추",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "팥밥",
+  "nameKo": "팥밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "돼지고기김치찜 (9.10.13)",
+  "nameKo": "돼지고기김치찜",
+  "codes": [
+   9,
+   10,
+   13
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "열무김치 (9)",
+  "nameKo": "열무김치",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "찹쌀현미기장작은밥",
+  "nameKo": "찹쌀현미기장작은밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "로제떡볶이 (1.2.5.6.10.12.13.15.16)",
+  "nameKo": "로제떡볶이",
+  "codes": [
+   1,
+   2,
+   5,
+   6,
+   10,
+   12,
+   13,
+   15,
+   16
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "열무김치 (9)",
+  "nameKo": "열무김치",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "귀리밥",
+  "nameKo": "귀리밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "돈육청경채볶음-고 (5.6.10.13.18)",
+  "nameKo": "돈육청경채볶음-고",
+  "codes": [
+   5,
+   6,
+   10,
+   13,
+   18
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "오픈칠리도그 (1.2.5.6.10.12.15.16)",
+  "nameKo": "오픈칠리도그",
+  "codes": [
+   1,
+   2,
+   5,
+   6,
+   10,
+   12,
+   15,
+   16
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "보리밥",
+  "nameKo": "보리밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "분모자로제찜닭 (2.5.6.12.13.15.18)",
+  "nameKo": "분모자로제찜닭",
+  "codes": [
+   2,
+   5,
+   6,
+   12,
+   13,
+   15,
+   18
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "배추김치 (9)",
+  "nameKo": "배추김치",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "강황쌀밥",
+  "nameKo": "강황쌀밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "쇠고기미역국 (5.6.9.16.18)",
+  "nameKo": "쇠고기미역국",
+  "codes": [
+   5,
+   6,
+   9,
+   16,
+   18
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "등갈비김치찜 (9.10.13)",
+  "nameKo": "등갈비김치찜",
+  "codes": [
+   9,
+   10,
+   13
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "찰보리빵 (1.2.5.6)",
+  "nameKo": "찰보리빵",
+  "codes": [
+   1,
+   2,
+   5,
+   6
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "두부감자된장국 (5.6.18)",
+  "nameKo": "두부감자된장국",
+  "codes": [
+   5,
+   6,
+   18
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "마파두부 (5.6.10.12.13.18)",
+  "nameKo": "마파두부",
+  "codes": [
+   5,
+   6,
+   10,
+   12,
+   13,
+   18
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "샤인머스캣",
+  "nameKo": "샤인머스캣",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "콘차우더스프 (2.5.6.13.16)",
+  "nameKo": "콘차우더스프",
+  "codes": [
+   2,
+   5,
+   6,
+   13,
+   16
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "조각피자 (1.2.5.6.10.12.15.16.18)",
+  "nameKo": "조각피자",
+  "codes": [
+   1,
+   2,
+   5,
+   6,
+   10,
+   12,
+   15,
+   16,
+   18
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "부추양파무침 (13)",
+  "nameKo": "부추양파무침",
+  "codes": [
+   13
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "가자미카레구이 (2.5.6.12.13.16)",
+  "nameKo": "가자미카레구이",
+  "codes": [
+   2,
+   5,
+   6,
+   12,
+   13,
+   16
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "에그타르트 (1.2.5.6)",
+  "nameKo": "에그타르트",
+  "codes": [
+   1,
+   2,
+   5,
+   6
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "거봉",
+  "nameKo": "거봉",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "15혼합곡밥 (5)",
+  "nameKo": "15혼합곡밥",
+  "codes": [
+   5
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "콩나물김치국 (5.9)",
+  "nameKo": "콩나물김치국",
+  "codes": [
+   5,
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "돈육폭찹스테이크 (1.2.5.6.10.12.13.16)",
+  "nameKo": "돈육폭찹스테이크",
+  "codes": [
+   1,
+   2,
+   5,
+   6,
+   10,
+   12,
+   13,
+   16
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "마라대패오리불고기 (5.6.13)",
+  "nameKo": "마라대패오리불고기",
+  "codes": [
+   5,
+   6,
+   13
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "건새우아욱국 (5.6.9.13)",
+  "nameKo": "건새우아욱국",
+  "codes": [
+   5,
+   6,
+   9,
+   13
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "아이스망고",
+  "nameKo": "아이스망고",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "소떡갈떡 (1.2.5.6.10.12.13.15.16)",
+  "nameKo": "소떡갈떡",
+  "codes": [
+   1,
+   2,
+   5,
+   6,
+   10,
+   12,
+   13,
+   15,
+   16
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "홍합살미역국 (5.6.13.18)",
+  "nameKo": "홍합살미역국",
+  "codes": [
+   5,
+   6,
+   13,
+   18
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "*배추김치 (9)",
+  "nameKo": "배추김치",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "숙주맛살무침",
+  "nameKo": "숙주맛살무침",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "친환경차수수밥",
+  "nameKo": "친환경차수수밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "*볶음김치 (9.13)",
+  "nameKo": "볶음김치",
+  "codes": [
+   9,
+   13
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "*새송이브로콜리들깨무침 (5.6.13)",
+  "nameKo": "새송이브로콜리들깨무침",
+  "codes": [
+   5,
+   6,
+   13
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "진미채무침 (5.6.13.17)",
+  "nameKo": "진미채무침",
+  "codes": [
+   5,
+   6,
+   13,
+   17
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "발아현미밥",
+  "nameKo": "발아현미밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "배추김치 (9)",
+  "nameKo": "배추김치",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "가지나물(자율)",
+  "nameKo": "가지나물(자율)",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "발아현미밥",
+  "nameKo": "발아현미밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "백김치(자율) (9)",
+  "nameKo": "백김치(자율)",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "쇠고기미역국 (16)",
+  "nameKo": "쇠고기미역국",
+  "codes": [
+   16
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "깍두기 (9)",
+  "nameKo": "깍두기",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "야채달걀말이 (1.5)",
+  "nameKo": "야채달걀말이",
+  "codes": [
+   1,
+   5
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "녹두밥",
+  "nameKo": "녹두밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "@진미채꽈리고추볶음 (5.6.13.17)",
+  "nameKo": "진미채꽈리고추볶음",
+  "codes": [
+   5,
+   6,
+   13,
+   17
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "(유상)우유 (2)",
+  "nameKo": "(유상)우유",
+  "codes": [
+   2
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "*순두부백탕 (5.6.9)",
+  "nameKo": "순두부백탕",
+  "codes": [
+   5,
+   6,
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "*배추겉절이 (9)",
+  "nameKo": "배추겉절이",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "찰흑미밥",
+  "nameKo": "찰흑미밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "*오이배무침 (5.6.13)",
+  "nameKo": "오이배무침",
+  "codes": [
+   5,
+   6,
+   13
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "사과푸딩",
+  "nameKo": "사과푸딩",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "*LA갈비구이(돈육) (5.6.10.13.18)",
+  "nameKo": "LA갈비구이(돈육)",
+  "codes": [
+   5,
+   6,
+   10,
+   13,
+   18
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "(유상)우유 (2)",
+  "nameKo": "(유상)우유",
+  "codes": [
+   2
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "깍두기 (9)",
+  "nameKo": "깍두기",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "요거톡초코볼크런치 (2)",
+  "nameKo": "요거톡초코볼크런치",
+  "codes": [
+   2
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "기장밥",
+  "nameKo": "기장밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "얼큰콩나물국 (5.6)",
+  "nameKo": "얼큰콩나물국",
+  "codes": [
+   5,
+   6
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "잡채 (5.6.10.13)",
+  "nameKo": "잡채",
+  "codes": [
+   5,
+   6,
+   10,
+   13
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "가자미구이 (5.6)",
+  "nameKo": "가자미구이",
+  "codes": [
+   5,
+   6
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "배추김치 (9)",
+  "nameKo": "배추김치",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "배추김치 (9)",
+  "nameKo": "배추김치",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "친환경강황찹쌀밥",
+  "nameKo": "친환경강황찹쌀밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "쇠고기육개장 (16)",
+  "nameKo": "쇠고기육개장",
+  "codes": [
+   16
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "깻잎순볶음 (5.6)",
+  "nameKo": "깻잎순볶음",
+  "codes": [
+   5,
+   6
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "궁중식떡볶이 (5.6.13.16.18)",
+  "nameKo": "궁중식떡볶이",
+  "codes": [
+   5,
+   6,
+   13,
+   16,
+   18
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "배추김치 (9)",
+  "nameKo": "배추김치",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "열무김치 (9)",
+  "nameKo": "열무김치",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "친환경기장밥",
+  "nameKo": "친환경기장밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "옥수수밥",
+  "nameKo": "옥수수밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "배추김치 (9)",
+  "nameKo": "배추김치",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "두부구이양념조림* (5.6)",
+  "nameKo": "두부구이양념조림",
+  "codes": [
+   5,
+   6
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "친환경현미밥",
+  "nameKo": "친환경현미밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "배추김치 (9)",
+  "nameKo": "배추김치",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "꼬시래기야채무침* (5.6.13)",
+  "nameKo": "꼬시래기야채무침",
+  "codes": [
+   5,
+   6,
+   13
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "친환경기장밥",
+  "nameKo": "친환경기장밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "파김치-1(자율) (9)",
+  "nameKo": "파김치(자율)",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "돼지갈비고구마찜 (5.6.10.13.18)",
+  "nameKo": "돼지갈비고구마찜",
+  "codes": [
+   5,
+   6,
+   10,
+   13,
+   18
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "공통양념-2",
+  "nameKo": "공통양념",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "배추김치 (9)",
+  "nameKo": "배추김치",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "제육김치볶음/두부구이 (5.6.9.10)",
+  "nameKo": "제육김치볶음/두부구이",
+  "codes": [
+   5,
+   6,
+   9,
+   10
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "배추김치 (9)",
+  "nameKo": "배추김치",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "청경채고추장무침 (5.6)",
+  "nameKo": "청경채고추장무침",
+  "codes": [
+   5,
+   6
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "고등어카레구이 (2.5.6.7.12.13.16)",
+  "nameKo": "고등어카레구이",
+  "codes": [
+   2,
+   5,
+   6,
+   7,
+   12,
+   13,
+   16
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "매실즙간장제육볶음 (5.6.10.13)",
+  "nameKo": "매실즙간장제육볶음",
+  "codes": [
+   5,
+   6,
+   10,
+   13
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "유기농요구르트 (2)",
+  "nameKo": "유기농요구르트",
+  "codes": [
+   2
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "샤인머스켓",
+  "nameKo": "샤인머스켓",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "망고주스 (13)",
+  "nameKo": "망고주스",
+  "codes": [
+   13
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "감자베이컨볶음 (10)",
+  "nameKo": "감자베이컨볶음",
+  "codes": [
+   10
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "모듬햄두부찌개 (1.2.5.6.9.10.15.16)",
+  "nameKo": "모듬햄두부찌개",
+  "codes": [
+   1,
+   2,
+   5,
+   6,
+   9,
+   10,
+   15,
+   16
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "우유 (2)",
+  "nameKo": "우유",
+  "codes": [
+   2
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "돼지목살큐브조림 (5.6.10.12.13)",
+  "nameKo": "돼지목살큐브조림",
+  "codes": [
+   5,
+   6,
+   10,
+   12,
+   13
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "클로렐라밥",
+  "nameKo": "클로렐라밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "배추김치 (9)",
+  "nameKo": "배추김치",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "전복죽(자율) (5.6.18)",
+  "nameKo": "전복죽(자율)",
+  "codes": [
+   5,
+   6,
+   18
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "깻잎김치(자율) (9)",
+  "nameKo": "깻잎김치(자율)",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "새콤달콤오이무침 (13)",
+  "nameKo": "새콤달콤오이무침",
+  "codes": [
+   13
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "보리밥",
+  "nameKo": "보리밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "된장찌개(한우). (5.6.13.16)",
+  "nameKo": "된장찌개(한우)",
+  "codes": [
+   5,
+   6,
+   13,
+   16
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "배추김치 (9)",
+  "nameKo": "배추김치",
+  "codes": [
+   9
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "찰옥수수밥",
+  "nameKo": "찰옥수수밥",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "깻잎장아찌(선택) (5.6.13)",
+  "nameKo": "깻잎장아찌(선택)",
+  "codes": [
+   5,
+   6,
+   13
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "수박",
+  "nameKo": "수박",
+  "codes": [],
+  "status": "uncoded"
+ },
+ {
+  "raw": "오이무침 (13)",
+  "nameKo": "오이무침",
+  "codes": [
+   13
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "우유(아침) (2)",
+  "nameKo": "우유(아침)",
+  "codes": [
+   2
+  ],
+  "status": "coded"
+ },
+ {
+  "raw": "호밀딸기쨈파이 (1.2.5.6)",
+  "nameKo": "호밀딸기쨈파이",
+  "codes": [
+   1,
+   2,
+   5,
+   6
+  ],
+  "status": "coded"
+ }
+]
