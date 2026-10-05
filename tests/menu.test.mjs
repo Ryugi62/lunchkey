@@ -71,3 +71,44 @@ test('hand-check finding: "공통양념-2" is a variant tag, not milk', () => {
   assert.equal(d.parseStatus, 'uncoded');
   assert.equal(parseDishLine('파김치-1(자율) (9)').nameKo, '파김치(자율)');
 });
+
+test('R1 engineer finding: odd separators and multi-dish lines are read fully or never cleared', async () => {
+  const { judgeDish } = await import('../src/domain/verdict.js');
+  const egg = new Set([1]);
+  const lines = ['달걀찜 (1 5 6)', '달걀찜 (1/5/6)', '달걀찜 (1·5·6)', '스크램블에그 (1..5)', '카레라이스(1.2.5.6)/요구르트(2)', '계란말이(1.5)&김(5)', '달걀(1.)(5.)'];
+  for (const l of lines) {
+    const d = parseDishLine(l);
+    assert.notEqual(judgeDish(d, egg).verdict, 'clear', l);
+    assert.ok(d.codes.includes(1), l);
+  }
+  assert.equal(parseDishLine('카레라이스(1.2.5.6)/요구르트(2)').nameKo, '카레라이스/요구르트');
+});
+
+test('digits that belong to the name are kept', () => {
+  assert.equal(parseDishLine('비타500 (2)').nameKo, '비타500');
+  assert.equal(parseDishLine('요플레100').nameKo, '요플레100');
+  assert.equal(parseDishLine('15혼합곡밥 (5)').nameKo, '15혼합곡밥');
+});
+
+test('an unclosed bracket with digits is malformed, never clear', () => {
+  assert.equal(parseDishLine('달걀찜 (1.5) (2').parseStatus, 'malformed');
+  assert.deepEqual(parseDishLine('달걀찜 (1.5').codes, [1, 5]); // fully readable even without ")"
+});
+
+test('audit finding: portion notes are not codes', () => {
+  const a = parseDishLine('배추김치(20kg) (9)');
+  assert.equal(a.nameKo, '배추김치'); assert.deepEqual(a.codes, [9]); assert.equal(a.parseStatus, 'coded');
+  const b = parseDishLine('김치전(30g*3개) (1.2.5.6.12.15.16)');
+  assert.equal(b.nameKo, '김치전'); assert.deepEqual(b.codes, [1, 2, 5, 6, 12, 15, 16]);
+  const c = parseDishLine('바나나1/2');
+  assert.equal(c.nameKo, '바나나'); assert.equal(c.parseStatus, 'uncoded');
+});
+
+test('audit finding: number-led notes are not codes', () => {
+  assert.deepEqual(parseDishLine('총각김치(25초등) (9)').codes, [9]);
+  assert.equal(parseDishLine('총각김치(25초등) (9)').parseStatus, 'coded');
+  assert.equal(parseDishLine('아삭모둠피클(4색)').parseStatus, 'uncoded');
+  assert.deepEqual(parseDishLine('갈릭연어스테이크(70) (2.5.6.12.13.16)').codes, [2, 5, 6, 12, 13, 16]);
+  assert.equal(parseDishLine('압맥보리밥(80)').parseStatus, 'uncoded');
+  assert.deepEqual(parseDishLine('우유 (2)').codes, [2]);
+});

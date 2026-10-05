@@ -7,7 +7,7 @@ Essence: not a menu translator, but **the key that lets a parent who can't read 
 ## 1. Success criteria · deadline · non-goals
 - Reference: Korean schools already publish menus with allergen numbers. Parents get a one-time number legend sheet at the start of each term. Nothing gives a per-child, in-language view of the live menu.
 - Success (numbers):
-  1. The code parser reads the allergen codes of **≥ 99%** of coded dish lines in a national sample (17 provincial education offices, ≥ 150 schools, one month of lunches). Measured by `npm run audit`. Results go in `docs/audit.json` and the README.
+  1. National sample (17 provincial education offices, ≥ 150 distinct schools, one month of lunches, each school-day once): **0% unreadable lines**, and a ≥ 150-line hand check agrees with an independent reading. Measured by `npm run audit` → `docs/audit.json`, labels in `docs/audit-labels.json`. (2026-10-06: 170 schools, 24,745 lines, 0 unreadable, 150/150.)
   2. **0 false "no listed allergen" results** on the hand-labeled test set. A dish whose codes include the child's allergen must never be shown as clear.
   3. Dish-name gloss: **≥ 80% of dish lines** in the audit sample get a full or partial English gloss. Unglossed names fall back to the Korean name plus romanization. A dish name is never invented.
   4. On a phone (390 px wide), a parent goes from opening the app to seeing this week's view in **≤ 3 taps** after picking a school once.
@@ -17,7 +17,7 @@ Essence: not a menu translator, but **the key that lets a parent who can't read 
 
 ## 2. Constraints
 - Theme (organizer): "Create a project that solves an issue in your community, county, state, or nation."
-- Data: NEIS Open API `mealServiceDietInfo` and `schoolInfo` (Korean Ministry of Education). Keyless calls are allowed but limited to 5 rows per page, and CORS is `*` (measured 2026-10-06). An optional key raises the page size.
+- Data: NEIS Open API `mealServiceDietInfo` and `schoolInfo` (Korean Ministry of Education). Keyless calls return **only the first 5 rows and ignore `pIndex`** (measured 2026-10-06); CORS is `*`. So the app asks narrow questions (one school-week of lunch = ≤ 5 rows). An optional key enables real paging.
 - Allergen numbering follows the Korean school-meal allergen notice (19 items): 1 egg, 2 milk, 3 buckwheat, 4 peanut, 5 soybean, 6 wheat, 7 mackerel, 8 crab, 9 shrimp, 10 pork, 11 peach, 12 tomato, 13 sulfites, 14 walnut, 15 chicken, 16 beef, 17 squid, 18 shellfish (incl. oyster, abalone, mussel), 19 pine nut.
 - Cost: $0 (static site on GitHub Pages, no backend).
 - Privacy: the child's allergen profile lives in `localStorage` and, optionally, in a share link's `#hash`. A hash is never sent to a server.
@@ -44,7 +44,7 @@ Essence: not a menu translator, but **the key that lets a parent who can't read 
 ## 5. Use cases
 | UC | Input | Output | Rule |
 |---|---|---|---|
-| UC-1 Find school | name text (Korean or romanized), optional province | up to 20 schools | NEIS `schoolInfo` |
+| UC-1 Find school | Korean name text (pasted or typed), optional province | keyless: up to 5 matches + "type more" notice | NEIS `schoolInfo`, placeholder schools with blank codes dropped |
 | UC-2 Week view | school, week start, child profile, language | 5 days × meals × dishes with verdicts + gloss | `contains` wins over everything; `unlabeled` is never shown as clear |
 | UC-3 Paste a menu | free text (e.g. daycare menu photo transcription) | the same dish verdicts | same parser |
 | UC-4 Fridge sheet | week view | printable one-page A4/Letter sheet in the parent's language | print CSS |
@@ -59,7 +59,8 @@ Essence: not a menu translator, but **the key that lets a parent who can't read 
 - AC-5: Given profile {2 milk} and dish codes [1,5], Then verdict `clear`. Given profile {2} and codes [2,6], Then `contains` with matched=[2].
 - AC-6: Given NEIS `DDISH_NM` with `<br/>` separators, When split, Then one DishLine per dish, trimmed, empty parts dropped.
 - AC-7: Given `돼지고기김치찌개`, When glossed to English, Then the text contains "pork", "kimchi" and "stew", with coverage 1.0. Given an unknown name, Then status `none`, and the text is the romanization, marked as not translated.
-- AC-8: Given a NEIS page size of 5, When a month is requested, Then the adapter pages until `list_total_count` is reached, and maps rows to `Meal`s.
+- AC-8: Given keyless NEIS (first 5 rows only), When a range with more rows is requested, Then one call is made, the first 5 rows are mapped to `Meal`s and `truncated` is reported; With a key, Then pages are fetched until `list_total_count`. Non-`INFO-200` result codes are errors; only 5xx/network errors are retried.
+- AC-11: Given a day with no match but ≥ 1 unlabeled dish, Then the day/meal status is `unknown` (amber ?), never `clear`.
 - AC-9: Given a profile, When encoded to a hash and decoded, Then you get the same profile back. Garbage hash → empty profile, no throw.
 - AC-10: Layer rule: no file in `src/domain` or `src/application` imports from `src/adapters` or `src/ui`.
 
@@ -74,8 +75,8 @@ tests/            node:test
 ```
 
 ## 8. Non-functional
-- No build step, zero runtime dependencies, works offline once a week is loaded (cached in localStorage).
-- NEIS politeness: ≤ 4 concurrent requests and retry with backoff on 5xx.
+- No build step, zero runtime dependencies. The last 12 loaded school-weeks are saved in localStorage and shown (labeled) when the network fails; the sample school has a bundled week.
+- NEIS politeness: the app makes 1 request per school-week; the audit uses ≤ 4 concurrent requests; retry with backoff on 5xx/network only.
 
 ## 9. Physical verification
 - Live: pick 3 real schools (one in Changwon, one in Seoul, one rural) and check the week view against the school's own menu text.
@@ -87,3 +88,5 @@ tests/            node:test
 
 ## 11. UI acceptance (Toss-style checklist)
 1. Mobile first: 390 px, no horizontal scroll (measured: scrollWidth 390). 2. One question per setup screen (language → school → allergens) with a progress bar. 3. Type scale: titles 22–24 px bold, body 16 px, auxiliary 13 px. 4. Cards 16 px radius, sections ≥ 24 px apart. 5. One fixed bottom CTA, ≥ 52 px tall. 6. The result leads with the count ("2 dishes contain Milk", 32 px), the verdict list below. 7. Evidence (printed line, numbers, gloss parts) sits in a closed `<details>`. 8. Short, friendly microcopy in 7 languages. 9. White + one blue + three status colors, icon + word + color for every status, dark mode. 10. System fonts, no CDN, skeleton loading.
+
+- v0.2 2026-10-06 mock-review fixes: keyless NEIS reality (first 5 rows), parser reads all bracket groups and odd separators, portion/number notes, `summaryStatus` (never green with unknowns), error codes, saved weeks, honest audit (distinct schools, dedup), hand labels, i18n wording of the clear verdict.

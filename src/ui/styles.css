@@ -46,6 +46,9 @@ h2 { font-size: 22px; margin: 0 0 8px; font-weight: 800; }
 .hero .big { font-size: 32px; font-weight: 800; line-height: 1.2; }
 .hero.no { background: var(--no-weak); color: var(--no); }
 .hero.ok { background: var(--ok-weak); color: var(--ok); }
+.hero.warn { background: var(--warn-weak); color: var(--warn); }
+.banner { background: var(--blue-weak); border-radius: 12px; padding: 10px 14px; font-size: 14px; margin: 16px 0 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .hero.none { background: var(--card); color: var(--sub); }
 .hero p { margin: 6px 0 0; color: var(--text); font-size: 15px; }
 .dish { border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-bottom: 12px; background: var(--bg); }

@@ -1,0 +1,1272 @@
+{
+ "method": "150 lines sampled evenly from the 2026-10-06 national audit. Expected codes were checked line by line against the printed text and against an independent regex (numbers inside parenthesized digit groups); 150/150 agree, 1 ambiguous line noted.",
+ "labels": [
+  {
+   "raw": "흑미밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "음료(자몽허니블랙티)",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "노티드 소다팡팡초코케익 (1.2.5.6)",
+   "expectedCodes": [
+    1,
+    2,
+    5,
+    6
+   ],
+   "note": ""
+  },
+  {
+   "raw": "배추김치* (9)",
+   "expectedCodes": [
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "애느타리버섯들깨무침 (5.6.18)",
+   "expectedCodes": [
+    5,
+    6,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "떡갈비구이 (5.6.10.15.16.18)",
+   "expectedCodes": [
+    5,
+    6,
+    10,
+    15,
+    16,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "순살찜닭 (5.6.13.15)",
+   "expectedCodes": [
+    5,
+    6,
+    13,
+    15
+   ],
+   "note": ""
+  },
+  {
+   "raw": "온두부(추천) (5)",
+   "expectedCodes": [
+    5
+   ],
+   "note": ""
+  },
+  {
+   "raw": "비타민C젤리",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "미니밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "오리대패불고기(중앙) (5.6.13)",
+   "expectedCodes": [
+    5,
+    6,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "멘치커틀릿&소스 (1.2.5.6.10.15.16)",
+   "expectedCodes": [
+    1,
+    2,
+    5,
+    6,
+    10,
+    15,
+    16
+   ],
+   "note": ""
+  },
+  {
+   "raw": "과일화채 (11.13)",
+   "expectedCodes": [
+    11,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "도라지무나물 (5.6)",
+   "expectedCodes": [
+    5,
+    6
+   ],
+   "note": ""
+  },
+  {
+   "raw": "김치(배추또는무) (9)",
+   "expectedCodes": [
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "#크래미숙주나물무침(낙동) (1.5.6.8.12)",
+   "expectedCodes": [
+    1,
+    5,
+    6,
+    8,
+    12
+   ],
+   "note": ""
+  },
+  {
+   "raw": "배추김치* (8.9.18)",
+   "expectedCodes": [
+    8,
+    9,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "오리불고기 (5.6.13)",
+   "expectedCodes": [
+    5,
+    6,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": ".깨송편,미니약과 (1.2.5.6)",
+   "expectedCodes": [
+    1,
+    2,
+    5,
+    6
+   ],
+   "note": ""
+  },
+  {
+   "raw": "갈비맛닭꼬치 (5.6.15)",
+   "expectedCodes": [
+    5,
+    6,
+    15
+   ],
+   "note": ""
+  },
+  {
+   "raw": "깍두기 (9)",
+   "expectedCodes": [
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "곰돌이아이스슈 (1.2.5.6)",
+   "expectedCodes": [
+    1,
+    2,
+    5,
+    6
+   ],
+   "note": ""
+  },
+  {
+   "raw": "배추김치(J) (9)",
+   "expectedCodes": [
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "대패오리불고기 (5.6.13)",
+   "expectedCodes": [
+    5,
+    6,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "식혜",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "돼지고기김치찜 (2.5.6.9.10.13.15.16)",
+   "expectedCodes": [
+    2,
+    5,
+    6,
+    9,
+    10,
+    13,
+    15,
+    16
+   ],
+   "note": ""
+  },
+  {
+   "raw": "누룽현미밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "배추김치 (9)",
+   "expectedCodes": [
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "프렌치토스트 (1.2.5.6.13)",
+   "expectedCodes": [
+    1,
+    2,
+    5,
+    6,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "중국식볶음밥 (1.5.6.9.18)",
+   "expectedCodes": [
+    1,
+    5,
+    6,
+    9,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "깍두기(5) (9)",
+   "expectedCodes": [
+    5,
+    9
+   ],
+   "note": "ambiguous: \"(5)\" may be a menu note; read conservatively as soybean (can only over-warn)"
+  },
+  {
+   "raw": "감자채햄볶음 (1.2.5.6.10.15.16)",
+   "expectedCodes": [
+    1,
+    2,
+    5,
+    6,
+    10,
+    15,
+    16
+   ],
+   "note": ""
+  },
+  {
+   "raw": "미나리곰탕 (5.6.9.16)",
+   "expectedCodes": [
+    5,
+    6,
+    9,
+    16
+   ],
+   "note": ""
+  },
+  {
+   "raw": "돈까스소스 (5.6.12.13.18)",
+   "expectedCodes": [
+    5,
+    6,
+    12,
+    13,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "요구르트 (2)",
+   "expectedCodes": [
+    2
+   ],
+   "note": ""
+  },
+  {
+   "raw": "친환경검정쌀밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "두부새우젓맑은국 (5.9)",
+   "expectedCodes": [
+    5,
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "떠먹는요구르트 (2)",
+   "expectedCodes": [
+    2
+   ],
+   "note": ""
+  },
+  {
+   "raw": "구슬아이스크림 (1.2.5)",
+   "expectedCodes": [
+    1,
+    2,
+    5
+   ],
+   "note": ""
+  },
+  {
+   "raw": "사과 배",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "로제닭갈비분모자 (5.15.18)",
+   "expectedCodes": [
+    5,
+    15,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "꼬치어묵국 (1.5.6.7.9.13.18)",
+   "expectedCodes": [
+    1,
+    5,
+    6,
+    7,
+    9,
+    13,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "두부두루치기 (5.6.13)",
+   "expectedCodes": [
+    5,
+    6,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "참치마요&미니김 (1.5.16.18)",
+   "expectedCodes": [
+    1,
+    5,
+    16,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "무지개별떡국 (5.6.16)",
+   "expectedCodes": [
+    5,
+    6,
+    16
+   ],
+   "note": ""
+  },
+  {
+   "raw": "도토리묵야채무침 (5.6.13)",
+   "expectedCodes": [
+    5,
+    6,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "속초식닭강정 (1.4.5.6.15)",
+   "expectedCodes": [
+    1,
+    4,
+    5,
+    6,
+    15
+   ],
+   "note": ""
+  },
+  {
+   "raw": "맛있는 쌀밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "칼슘가바찹쌀밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "★애호박볶음 (9)",
+   "expectedCodes": [
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "유부주먹밥(권장중등) (1.2.5.6.9.13.16.18)",
+   "expectedCodes": [
+    1,
+    2,
+    5,
+    6,
+    9,
+    13,
+    16,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "강황쌀밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "야채비빔만두+ (1.5.6.10.13.15.16)",
+   "expectedCodes": [
+    1,
+    5,
+    6,
+    10,
+    13,
+    15,
+    16
+   ],
+   "note": ""
+  },
+  {
+   "raw": "부추비빔라면 (1.5.6.13)",
+   "expectedCodes": [
+    1,
+    5,
+    6,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "차조밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "도토리묵채국(권장초등) (5.6.9.13)",
+   "expectedCodes": [
+    5,
+    6,
+    9,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "치즈스틱꼬치 (1.2.5.6)",
+   "expectedCodes": [
+    1,
+    2,
+    5,
+    6
+   ],
+   "note": ""
+  },
+  {
+   "raw": "클로렐라쌀밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "배추김치 (9)",
+   "expectedCodes": [
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "새우미나리전 (5.6.9.13)",
+   "expectedCodes": [
+    5,
+    6,
+    9,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "브로컬리달걀찜 (1.2.9.13)",
+   "expectedCodes": [
+    1,
+    2,
+    9,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "자장면/군만두,부식(초) (1.5.6.10.13.16.18)",
+   "expectedCodes": [
+    1,
+    5,
+    6,
+    10,
+    13,
+    16,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "배추김치 (9)",
+   "expectedCodes": [
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "패션후르츠에이드",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "친환경귀리쌀밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "양상추샐러드 (1.2.5.6.12)",
+   "expectedCodes": [
+    1,
+    2,
+    5,
+    6,
+    12
+   ],
+   "note": ""
+  },
+  {
+   "raw": "보리밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "생선까스 (1.5.6.12.13)",
+   "expectedCodes": [
+    1,
+    5,
+    6,
+    12,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "감자바사삭아귀뿌링클 (1.5.6)",
+   "expectedCodes": [
+    1,
+    5,
+    6
+   ],
+   "note": ""
+  },
+  {
+   "raw": "단무지",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "차조밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "순살안동식찜닭 (2.5.6.13.15)",
+   "expectedCodes": [
+    2,
+    5,
+    6,
+    13,
+    15
+   ],
+   "note": ""
+  },
+  {
+   "raw": "파인애플",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "닭갈비볶음 (2.5.6.12.13.15.16.18)",
+   "expectedCodes": [
+    2,
+    5,
+    6,
+    12,
+    13,
+    15,
+    16,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "연두부/간장-1 (5.6)",
+   "expectedCodes": [
+    5,
+    6
+   ],
+   "note": ""
+  },
+  {
+   "raw": "도토리묵무침 (5.6.13)",
+   "expectedCodes": [
+    5,
+    6,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "닭봉.윙 데리야끼조림 (5.6.13.15)",
+   "expectedCodes": [
+    5,
+    6,
+    13,
+    15
+   ],
+   "note": ""
+  },
+  {
+   "raw": "가지강정 (5.6.12.13)",
+   "expectedCodes": [
+    5,
+    6,
+    12,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "핫도그 (1.2.5.6.10.16)",
+   "expectedCodes": [
+    1,
+    2,
+    5,
+    6,
+    10,
+    16
+   ],
+   "note": ""
+  },
+  {
+   "raw": "고등어양념구이 (5.6.7.12.13)",
+   "expectedCodes": [
+    5,
+    6,
+    7,
+    12,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "삼치구이 (5.6.13)",
+   "expectedCodes": [
+    5,
+    6,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "우유 (2)",
+   "expectedCodes": [
+    2
+   ],
+   "note": ""
+  },
+  {
+   "raw": "목살필라프 (5.6.10.12.13.16.18)",
+   "expectedCodes": [
+    5,
+    6,
+    10,
+    12,
+    13,
+    16,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "깍두기 (9)",
+   "expectedCodes": [
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "배추김치 (9)",
+   "expectedCodes": [
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "콩나물무침 (5)",
+   "expectedCodes": [
+    5
+   ],
+   "note": ""
+  },
+  {
+   "raw": "유제품(발효유)우유급식용 (2)",
+   "expectedCodes": [
+    2
+   ],
+   "note": ""
+  },
+  {
+   "raw": "배추김치 (9)",
+   "expectedCodes": [
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "샤인머스켓",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "미소장국 (5.6.9)",
+   "expectedCodes": [
+    5,
+    6,
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "조갯살아욱된장국 (5.6.9.18)",
+   "expectedCodes": [
+    5,
+    6,
+    9,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "배추김치 (9)",
+   "expectedCodes": [
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "배추김치 (5.9.13)",
+   "expectedCodes": [
+    5,
+    9,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "찰흑미밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "도라지초무침(자율) (5.6.13)",
+   "expectedCodes": [
+    5,
+    6,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "잡채밥/짜장소스 (5.6.10.13)",
+   "expectedCodes": [
+    5,
+    6,
+    10,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "소보루비빔밥 (1.5.6.13.16)",
+   "expectedCodes": [
+    1,
+    5,
+    6,
+    13,
+    16
+   ],
+   "note": ""
+  },
+  {
+   "raw": "녹차카테킨밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "우유 (2)",
+   "expectedCodes": [
+    2
+   ],
+   "note": ""
+  },
+  {
+   "raw": "갓피클",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "갈비만두 (1.2.5.6.10.16.18)",
+   "expectedCodes": [
+    1,
+    2,
+    5,
+    6,
+    10,
+    16,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "공통양념1 (8.9.18)",
+   "expectedCodes": [
+    8,
+    9,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "배추김치 (9)",
+   "expectedCodes": [
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "친환경잡곡밥 (5)",
+   "expectedCodes": [
+    5
+   ],
+   "note": ""
+  },
+  {
+   "raw": "버터오징어조림 (17)",
+   "expectedCodes": [
+    17
+   ],
+   "note": ""
+  },
+  {
+   "raw": "소떡소떡+매직강정소스 (2.5.6.12.13)",
+   "expectedCodes": [
+    2,
+    5,
+    6,
+    12,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "찰보리밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "들깨미역국 (5.6)",
+   "expectedCodes": [
+    5,
+    6
+   ],
+   "note": ""
+  },
+  {
+   "raw": "순대국 (2.5.6.10.13.16.18)",
+   "expectedCodes": [
+    2,
+    5,
+    6,
+    10,
+    13,
+    16,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "배추김치 (9)",
+   "expectedCodes": [
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "우리밀핫도그 (1.2.5.6.10.12.15.16.18)",
+   "expectedCodes": [
+    1,
+    2,
+    5,
+    6,
+    10,
+    12,
+    15,
+    16,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "방울토마토 (12)",
+   "expectedCodes": [
+    12
+   ],
+   "note": ""
+  },
+  {
+   "raw": "느타리애호박초무침 (5.6.13)",
+   "expectedCodes": [
+    5,
+    6,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "만두국 (1.5.6.9.10.16.18)",
+   "expectedCodes": [
+    1,
+    5,
+    6,
+    9,
+    10,
+    16,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "발아현미밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "귀리쌀밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "돈육고추장불고기 (5.6.10.13)",
+   "expectedCodes": [
+    5,
+    6,
+    10,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "깨찰송편",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "멜론",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "순두부/양념간장(자율) (5.6.13)",
+   "expectedCodes": [
+    5,
+    6,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "제육볶음 (5.6.10.13)",
+   "expectedCodes": [
+    5,
+    6,
+    10,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "비빔메밀국수 (3.5.6.13)",
+   "expectedCodes": [
+    3,
+    5,
+    6,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "쌀밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "단배추들깨된장국 (5.6)",
+   "expectedCodes": [
+    5,
+    6
+   ],
+   "note": ""
+  },
+  {
+   "raw": "조기순살전(자) (1.5.6.13)",
+   "expectedCodes": [
+    1,
+    5,
+    6,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "배추김치(자율) (9)",
+   "expectedCodes": [
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "훈제오리/머스터드드레싱 (1.5.6.13)",
+   "expectedCodes": [
+    1,
+    5,
+    6,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "닭볶음탕 (5.6.13.15)",
+   "expectedCodes": [
+    5,
+    6,
+    13,
+    15
+   ],
+   "note": ""
+  },
+  {
+   "raw": "사과매실주스 (13)",
+   "expectedCodes": [
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "배추김치(자율) (9)",
+   "expectedCodes": [
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "팽이버섯맛살전 (1.5.6.8.12)",
+   "expectedCodes": [
+    1,
+    5,
+    6,
+    8,
+    12
+   ],
+   "note": ""
+  },
+  {
+   "raw": "닭다리살스테이크*스리라차마요 (6.12.13.15)",
+   "expectedCodes": [
+    6,
+    12,
+    13,
+    15
+   ],
+   "note": ""
+  },
+  {
+   "raw": "[후식과일]골드파인애플",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "오이토마토무침 (5.6.12.13)",
+   "expectedCodes": [
+    5,
+    6,
+    12,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "배추김치* (9)",
+   "expectedCodes": [
+    9
+   ],
+   "note": ""
+  },
+  {
+   "raw": "율무밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "순두부찌개 (5.9.10)",
+   "expectedCodes": [
+    5,
+    9,
+    10
+   ],
+   "note": ""
+  },
+  {
+   "raw": "베이컨감자채볶음 (10)",
+   "expectedCodes": [
+    10
+   ],
+   "note": ""
+  },
+  {
+   "raw": "찹쌀꿔바로우 (1.5.6.10.12.13)",
+   "expectedCodes": [
+    1,
+    5,
+    6,
+    10,
+    12,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "비빔막국수 (3.5.6.13)",
+   "expectedCodes": [
+    3,
+    5,
+    6,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "유부미니우동 (1.2.5.6.7.9.18)",
+   "expectedCodes": [
+    1,
+    2,
+    5,
+    6,
+    7,
+    9,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "청경채굴소스무침 (5.6.13.18)",
+   "expectedCodes": [
+    5,
+    6,
+    13,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "삼색묵무침 (5.6.13)",
+   "expectedCodes": [
+    5,
+    6,
+    13
+   ],
+   "note": ""
+  },
+  {
+   "raw": "콩나물맑은국 (5)",
+   "expectedCodes": [
+    5
+   ],
+   "note": ""
+  },
+  {
+   "raw": "보리밥-",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "호박된장국 (5.6)",
+   "expectedCodes": [
+    5,
+    6
+   ],
+   "note": ""
+  },
+  {
+   "raw": "c쇠고기숙주볶음 (5.6.13.16.18)",
+   "expectedCodes": [
+    5,
+    6,
+    13,
+    16,
+    18
+   ],
+   "note": ""
+  },
+  {
+   "raw": "차조보리밥",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "b샤인머스캣",
+   "expectedCodes": [],
+   "note": ""
+  },
+  {
+   "raw": "돈육주꾸미볶음 (5.6.10)",
+   "expectedCodes": [
+    5,
+    6,
+    10
+   ],
+   "note": ""
+  }
+ ]
+}

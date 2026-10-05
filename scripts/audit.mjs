@@ -1,12 +1,16 @@
-// UC-6: national audit of the parser and glossary on real NEIS menus (keyless API, polite).
-// Usage: node scripts/audit.mjs [schoolsPerOffice=10] [from=20260901] [to=20260930]
+// UC-6: national audit of the parser and glossary on real NEIS menus.
+// Keyless NEIS returns only the first 5 rows and ignores pIndex (measured 2026-10-06), so the audit asks narrow questions:
+// distinct schools are found with many short name queries per office, and menus are read one school-week of lunches at a time (≤ 5 rows).
+// Usage: node scripts/audit.mjs [schoolsPerOffice=10] [firstMonday=2026-08-31] [weeks=5]
 import { writeFileSync, mkdirSync } from 'node:fs';
-import { createNeisSource } from '../src/adapters/neis.js';
+import { createNeisSource, OFFICES } from '../src/adapters/neis.js';
 import { glossDish } from '../src/domain/gloss.js';
+import { weekRange } from '../src/application/weekView.js';
 
-const OFFICES = ['B10', 'C10', 'D10', 'E10', 'F10', 'G10', 'H10', 'I10', 'J10', 'K10', 'M10', 'N10', 'P10', 'Q10', 'R10', 'S10', 'T10'];
-const [perOffice = 10, from = '20260901', to = '20260930'] = process.argv.slice(2);
+const [perOffice = 10, firstMonday = '2026-08-31', weeks = 5] = process.argv.slice(2);
+const KEYS = ['중앙', '동', '서', '남', '북', '신', '대', '산', '성', '해', '평', '광', '명', '용', '봉', '천', '화', '양', '덕', '월'];
 const neis = createNeisSource({ fetch });
+const addDays = (iso, n) => { const d = new Date(`${iso}T00:00:00Z`); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
 
 async function pool(items, n, fn) {
   const out = []; let i = 0;
@@ -15,48 +19,46 @@ async function pool(items, n, fn) {
 }
 
 async function pickSchools(office) {
-  // Spread picks across the office's list: read the total, then sample evenly spaced 5-row pages.
-  const u = new URL('https://open.neis.go.kr/hub/schoolInfo');
-  Object.entries({ Type: 'json', pIndex: 1, pSize: 5, ATPT_OFCDC_SC_CODE: office }).forEach(([k, v]) => u.searchParams.set(k, v));
-  const first = await (await fetch(u)).json();
-  const total = Number(first.schoolInfo[0].head[0].list_total_count);
-  const pages = Math.ceil(total / 5);
-  const want = Number(perOffice);
-  const idx = Array.from({ length: want }, (_, k) => 1 + Math.floor((k * pages) / want));
-  const picks = [];
-  for (const p of idx) {
-    u.searchParams.set('pIndex', String(p));
-    const j = await (await fetch(u)).json();
-    const rows = j.schoolInfo?.[1]?.row ?? [];
-    const r = rows.find((x) => /초등|중학|고등/.test(x.SCHUL_KND_SC_NM)) ?? rows[0];
-    if (r) picks.push({ office, code: r.SD_SCHUL_CODE, name: r.SCHUL_NM, kind: r.SCHUL_KND_SC_NM });
+  const byCode = new Map();
+  for (const k of KEYS) {
+    if (byCode.size >= Number(perOffice)) break;
+    try {
+      const { schools } = await neis.searchSchools({ name: k, office: office.code, limit: 5 });
+      for (const s of schools) if (/초등|중학|고등/.test(s.kind) && !byCode.has(s.code)) byCode.set(s.code, s);
+    } catch { /* skip this key */ }
   }
-  return picks;
+  return [...byCode.values()].slice(0, Number(perOffice)).map((s) => ({ office: office.code, code: s.code, name: s.name, kind: s.kind }));
 }
 
 const t0 = Date.now();
 const schools = (await pool(OFFICES, 4, pickSchools)).flat();
-const results = await pool(schools, 4, async (s) => {
-  try { return { s, meals: await neis.listMeals({ office: s.office, school: s.code, from, to, mealType: '2' }) }; }
-  catch (e) { return { s, meals: [], error: String(e) }; }
+const distinct = new Set(schools.map((s) => s.code)).size;
+const mondays = Array.from({ length: Number(weeks) }, (_, i) => addDays(firstMonday, 7 * i));
+const jobs = schools.flatMap((s) => mondays.map((m) => ({ s, m })));
+let errors = 0;
+const fetched = await pool(jobs, 4, async ({ s, m }) => {
+  const r = weekRange(m);
+  try { return { s, meals: [...(await neis.listMeals({ office: s.office, school: s.code, from: r.from, to: r.to, mealType: '2' }))] }; }
+  catch { errors++; return { s, meals: [] }; }
 });
 
-const stat = { lines: 0, coded: 0, uncoded: 0, malformed: 0, codeLike: 0, codeLikeParsed: 0, residualDigits: 0, glossFull: 0, glossPartial: 0, glossNone: 0 };
-const malformed = [], residual = [], unglossed = new Map(), all = [];
-let mealsN = 0, schoolsWithMeals = 0;
-for (const { meals } of results) {
-  if (meals.length) schoolsWithMeals++;
+const seen = new Set();
+const stat = { lines: 0, coded: 0, uncoded: 0, malformed: 0, uncodedWithDigits: 0, variantTags: 0, glossFull: 0, glossPartial: 0, glossNone: 0 };
+const malformed = [], uncodedDigits = [], unglossed = new Map(), all = [];
+const schoolsWithMeals = new Set(), officesWithMeals = new Set();
+let mealsN = 0;
+for (const { s, meals } of fetched) {
   for (const m of meals) {
-    mealsN++;
+    const k = `${s.code}:${m.date}`;
+    if (seen.has(k)) continue; // never count the same school-day twice
+    seen.add(k); mealsN++; schoolsWithMeals.add(s.code); officesWithMeals.add(s.office);
     for (const d of m.dishes) {
       stat.lines++; stat[d.parseStatus]++; all.push(d);
-      // Variant tags like 호박죽-1 / 공통양념-2 are menu numbering, not allergen codes.
-      const stripped = d.raw.replace(/-\d{1,2}(?=\(|\s|$)/g, '');
-      if (stripped !== d.raw) stat.variantTags = (stat.variantTags ?? 0) + 1;
-      const codeLike = /\d|[①-⑳]/.test(stripped.replace(d.nameKo, ''));
-      if (codeLike) { stat.codeLike++; if (d.parseStatus === 'coded') stat.codeLikeParsed++; }
+      if (/-\d{1,2}(?=[\s(]|$)/.test(d.raw)) stat.variantTags++;
+      // Non-circular check: digits anywhere in the RAW line (minus variant tags and digits kept in the name) but no code read.
+      const digitsOutsideName = d.raw.replace(/-\d{1,2}(?=[\s(]|$)/g, '').replace(/\(\s*[\d.]+\s*(?:g|kg|ml|l|개|ea|인분|조각|%)[^)]*\)|\d\/\d\s*$/gi, '').replace(d.nameKo, '');
+      if (d.parseStatus === 'uncoded' && /\d|[①-⑳]/.test(digitsOutsideName)) { stat.uncodedWithDigits++; if (uncodedDigits.length < 30) uncodedDigits.push(d.raw); }
       if (d.parseStatus === 'malformed' && malformed.length < 30) malformed.push(d.raw);
-      if (/[\d.]\s*$/.test(d.nameKo)) { stat.residualDigits++; if (residual.length < 30) residual.push(d.raw); }
       const g = glossDish(d.nameKo, 'en');
       stat[g.status === 'full' ? 'glossFull' : g.status === 'partial' ? 'glossPartial' : 'glossNone']++;
       if (g.status !== 'full') for (const p of g.parts.filter((x) => !x.known)) unglossed.set(p.ko, (unglossed.get(p.ko) ?? 0) + 1);
@@ -65,18 +67,18 @@ for (const { meals } of results) {
 }
 const pct = (a, b) => (b ? Math.round((a / b) * 10000) / 100 : null);
 const summary = {
-  measuredAt: new Date().toISOString(), range: { from, to, mealType: 'lunch' },
-  offices: OFFICES.length, schoolsSampled: schools.length, schoolsWithMeals, meals: mealsN, dishLines: stat.lines,
-  parseRateOfCodeLikeLines: pct(stat.codeLikeParsed, stat.codeLike),
+  measuredAt: new Date().toISOString(), lunchesFrom: firstMonday, weeks: Number(weeks),
+  offices: OFFICES.length, officesWithMeals: officesWithMeals.size, schoolsSampled: schools.length, distinctSchools: distinct, schoolsWithMeals: schoolsWithMeals.size,
+  lunches: mealsN, dishLines: stat.lines,
   statusShare: { coded: pct(stat.coded, stat.lines), uncoded: pct(stat.uncoded, stat.lines), malformed: pct(stat.malformed, stat.lines) },
-  residualDigitLines: stat.residualDigits, variantTagLines: stat.variantTags ?? 0,
-  glossShare: { full: pct(stat.glossFull, stat.lines), partial: pct(stat.glossPartial, stat.lines), none: pct(stat.glossNone, stat.lines), fullOrPartial: pct(stat.glossFull + stat.glossPartial, stat.lines) },
-  errors: results.filter((r) => r.error).length, seconds: Math.round((Date.now() - t0) / 1000),
+  uncodedLinesWithDigits: stat.uncodedWithDigits, variantTagLines: stat.variantTags,
+  glossShare: { full: pct(stat.glossFull, stat.lines), partial: pct(stat.glossPartial, stat.lines), none: pct(stat.glossNone, stat.lines) },
+  errors, seconds: Math.round((Date.now() - t0) / 1000),
 };
 mkdirSync('docs', { recursive: true });
-// Deterministic sample of 120 lines for hand checking (every k-th line).
-const step = Math.max(1, Math.floor(all.length / 120));
-const sample = all.filter((_, i) => i % step === 0).slice(0, 120).map((d) => ({ raw: d.raw, nameKo: d.nameKo, codes: d.codes, status: d.parseStatus }));
+const step = Math.max(1, Math.floor(all.length / 150));
+const sample = all.filter((_, i) => i % step === 0).slice(0, 150).map((d) => ({ raw: d.raw, nameKo: d.nameKo, codes: d.codes, status: d.parseStatus }));
 writeFileSync('docs/audit-sample.json', JSON.stringify(sample, null, 1));
-writeFileSync('docs/audit.json', JSON.stringify({ summary, malformedExamples: malformed, residualExamples: residual, topUnglossed: [...unglossed.entries()].sort((a, b) => b[1] - a[1]).slice(0, 80), schools }, null, 2));
+writeFileSync('docs/audit.json', JSON.stringify({ summary, malformedExamples: malformed, uncodedWithDigitsExamples: uncodedDigits, topUnglossed: [...unglossed.entries()].sort((a, b) => b[1] - a[1]).slice(0, 80), schools }, null, 2));
 console.log(JSON.stringify(summary, null, 2));
+if (distinct < Number(perOffice) * OFFICES.length * 0.85) { console.error(`too few distinct schools: ${distinct}`); process.exit(1); }

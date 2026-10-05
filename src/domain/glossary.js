@@ -2370,5 +2370,900 @@ export const GLOSSARY = {
 "en": "homemade assorted",
 "vi": "thập cẩm tự làm",
 "zh": "手工什锦"
+},
+"차조": {
+"en": "glutinous millet",
+"vi": "kê nếp",
+"zh": "黏小米"
+},
+"삼색": {
+"en": "three-color",
+"vi": "ba màu",
+"zh": "三色"
+},
+"오색": {
+"en": "five-color",
+"vi": "năm màu",
+"zh": "五色"
+},
+"흰": {
+"en": "white",
+"vi": "trắng",
+"zh": "白"
+},
+"줄기": {
+"en": "stems",
+"vi": "thân",
+"zh": "茎"
+},
+"칼슘강화": {
+"en": "calcium-fortified",
+"vi": "bổ sung canxi",
+"zh": "高钙"
+},
+"칼슘": {
+"en": "calcium",
+"vi": "canxi",
+"zh": "钙"
+},
+"볼": {
+"en": "balls",
+"vi": "viên",
+"zh": "丸"
+},
+"통": {
+"en": "whole",
+"vi": "nguyên",
+"zh": "整"
+},
+"곰탕": {
+"en": "beef bone soup",
+"vi": "canh xương bò",
+"zh": "牛骨汤"
+},
+"포기김치": {
+"en": "whole-cabbage kimchi",
+"vi": "kim chi cải nguyên bắp",
+"zh": "整棵泡菜"
+},
+"꿀": {
+"en": "honey",
+"vi": "mật ong",
+"zh": "蜂蜜"
+},
+"석박지": {
+"en": "chunky radish kimchi",
+"vi": "kim chi củ cải miếng to",
+"zh": "萝卜块泡菜"
+},
+"순대": {
+"en": "Korean blood sausage",
+"vi": "dồi Hàn Quốc",
+"zh": "血肠"
+},
+"오븐": {
+"en": "oven-baked",
+"vi": "nướng lò",
+"zh": "烤箱"
+},
+"연두부": {
+"en": "silken tofu",
+"vi": "đậu phụ non",
+"zh": "嫩豆腐"
+},
+"자장": {
+"en": "black bean sauce",
+"vi": "tương đen",
+"zh": "炸酱"
+},
+"데리야끼": {
+"en": "teriyaki",
+"vi": "teriyaki",
+"zh": "照烧"
+},
+"실곤약": {
+"en": "konjac noodles",
+"vi": "mì khoai nưa",
+"zh": "魔芋丝"
+},
+"무말랭이": {
+"en": "dried radish strips",
+"vi": "củ cải khô",
+"zh": "萝卜干"
+},
+"말랭이": {
+"en": "dried strips",
+"vi": "sấy khô",
+"zh": "干"
+},
+"북어": {
+"en": "dried pollack",
+"vi": "cá minh thái khô",
+"zh": "干明太鱼"
+},
+"황태": {
+"en": "dried pollack",
+"vi": "cá minh thái khô",
+"zh": "黄太鱼"
+},
+"구운": {
+"en": "grilled",
+"vi": "nướng",
+"zh": "烤"
+},
+"오이소박이": {
+"en": "stuffed cucumber kimchi",
+"vi": "kim chi dưa chuột nhồi",
+"zh": "黄瓜泡菜"
+},
+"소박이": {
+"en": "stuffed kimchi",
+"vi": "kim chi nhồi",
+"zh": "夹心泡菜"
+},
+"미소": {
+"en": "miso",
+"vi": "miso",
+"zh": "味噌"
+},
+"꿔바로우": {
+"en": "crispy sweet and sour pork",
+"vi": "thịt heo chiên giòn chua ngọt",
+"zh": "锅包肉"
+},
+"모둠": {
+"en": "assorted",
+"vi": "thập cẩm",
+"zh": "什锦"
+},
+"청포묵": {
+"en": "mung bean jelly",
+"vi": "thạch đậu xanh",
+"zh": "绿豆凉粉"
+},
+"곤드레": {
+"en": "thistle greens",
+"vi": "rau cúc gai",
+"zh": "高丽蓟"
+},
+"짜먹는": {
+"en": "squeezable",
+"vi": "dạng ống bóp",
+"zh": "挤压式"
+},
+"비름": {
+"en": "amaranth greens",
+"vi": "rau dền",
+"zh": "苋菜"
+},
+"영양": {
+"en": "nutritious",
+"vi": "bổ dưỡng",
+"zh": "营养"
+},
+"슈크림": {
+"en": "cream puff",
+"vi": "bánh su kem",
+"zh": "泡芙"
+},
+"후라이": {
+"en": "fried (egg)",
+"vi": "ốp la",
+"zh": "煎"
+},
+"계란후라이": {
+"en": "fried egg",
+"vi": "trứng ốp la",
+"zh": "煎鸡蛋"
+},
+"열대과일": {
+"en": "tropical fruit",
+"vi": "trái cây nhiệt đới",
+"zh": "热带水果"
+},
+"메밀": {
+"en": "buckwheat",
+"vi": "kiều mạch",
+"zh": "荞麦"
+},
+"숯불": {
+"en": "charcoal-grilled",
+"vi": "nướng than",
+"zh": "炭烤"
+},
+"꼬지": {
+"en": "skewers",
+"vi": "xiên",
+"zh": "串"
+},
+"부각": {
+"en": "crispy fried laver",
+"vi": "rong biển chiên giòn",
+"zh": "炸紫菜"
+},
+"타르타르": {
+"en": "tartar sauce",
+"vi": "sốt tartar",
+"zh": "塔塔酱"
+},
+"눈꽃": {
+"en": "snowflake",
+"vi": "bông tuyết",
+"zh": "雪花"
+},
+"아삭이고추": {
+"en": "crunchy green pepper",
+"vi": "ớt xanh giòn",
+"zh": "脆青椒"
+},
+"아삭": {
+"en": "crunchy",
+"vi": "giòn",
+"zh": "脆"
+},
+"사리": {
+"en": "noodles (add-in)",
+"vi": "mì thêm",
+"zh": "面条"
+},
+"꼬들": {
+"en": "chewy",
+"vi": "dai",
+"zh": "筋道"
+},
+"하트": {
+"en": "heart-shaped",
+"vi": "hình trái tim",
+"zh": "心形"
+},
+"아몬드": {
+"en": "almonds",
+"vi": "hạnh nhân",
+"zh": "杏仁"
+},
+"사골": {
+"en": "ox-bone broth",
+"vi": "nước hầm xương bò",
+"zh": "牛骨汤"
+},
+"갈릭": {
+"en": "garlic",
+"vi": "tỏi",
+"zh": "蒜香"
+},
+"케찹": {
+"en": "ketchup",
+"vi": "tương cà",
+"zh": "番茄酱"
+},
+"약과": {
+"en": "honey cookie",
+"vi": "bánh mật ong",
+"zh": "药果"
+},
+"아귀": {
+"en": "monkfish",
+"vi": "cá vây chân",
+"zh": "鮟鱇鱼"
+},
+"홍시": {
+"en": "soft persimmon",
+"vi": "hồng chín mềm",
+"zh": "红柿"
+},
+"생": {
+"en": "fresh",
+"vi": "tươi",
+"zh": "鲜"
+},
+"닭다리": {
+"en": "chicken drumsticks",
+"vi": "đùi gà",
+"zh": "鸡腿"
+},
+"다리": {
+"en": "legs",
+"vi": "đùi",
+"zh": "腿"
+},
+"순살치킨": {
+"en": "boneless fried chicken",
+"vi": "gà rán không xương",
+"zh": "无骨炸鸡"
+},
+"초코우유": {
+"en": "chocolate milk",
+"vi": "sữa sô cô la",
+"zh": "巧克力牛奶"
+},
+"딸기우유": {
+"en": "strawberry milk",
+"vi": "sữa dâu",
+"zh": "草莓牛奶"
+},
+"바나나우유": {
+"en": "banana milk",
+"vi": "sữa chuối",
+"zh": "香蕉牛奶"
+},
+"흑임자": {
+"en": "black sesame",
+"vi": "mè đen",
+"zh": "黑芝麻"
+},
+"수수부꾸미": {
+"en": "sorghum pancake",
+"vi": "bánh cao lương",
+"zh": "高粱煎饼"
+},
+"닭개장": {
+"en": "spicy chicken soup",
+"vi": "canh gà cay",
+"zh": "辣鸡汤"
+},
+"개장": {
+"en": "spicy soup",
+"vi": "canh cay",
+"zh": "辣汤"
+},
+"떡만두국": {
+"en": "rice cake dumpling soup",
+"vi": "canh bánh gạo bánh xếp",
+"zh": "年糕饺子汤"
+},
+"오징어채": {
+"en": "dried squid strips",
+"vi": "mực khô xé",
+"zh": "鱿鱼丝"
+},
+"견과류": {
+"en": "nuts",
+"vi": "các loại hạt",
+"zh": "坚果类"
+},
+"멸치볶음": {
+"en": "stir-fried anchovies",
+"vi": "cá cơm xào",
+"zh": "炒小鱼干"
+},
+"깐풍기": {
+"en": "sweet and spicy fried chicken",
+"vi": "gà chiên sốt cay ngọt",
+"zh": "干烹鸡"
+},
+"탕평채": {
+"en": "mung bean jelly salad",
+"vi": "gỏi thạch đậu xanh",
+"zh": "荡平菜"
+},
+"잡곡밥": {
+"en": "multigrain rice",
+"vi": "cơm ngũ cốc",
+"zh": "杂粮饭"
+},
+"오곡": {
+"en": "five-grain",
+"vi": "ngũ cốc",
+"zh": "五谷"
+},
+"기장밥": {
+"en": "millet rice",
+"vi": "cơm kê",
+"zh": "小米饭"
+},
+"조": {
+"en": "millet",
+"vi": "kê",
+"zh": "小米"
+},
+"깨찰빵": {
+"en": "sesame mochi bread",
+"vi": "bánh mì nếp mè",
+"zh": "芝麻糯米面包"
+},
+"소불고기": {
+"en": "beef bulgogi",
+"vi": "thịt bò bulgogi",
+"zh": "牛肉烤肉"
+},
+"돼지불고기": {
+"en": "pork bulgogi",
+"vi": "thịt heo bulgogi",
+"zh": "猪肉烤肉"
+},
+"오리불고기": {
+"en": "duck bulgogi",
+"vi": "thịt vịt bulgogi",
+"zh": "鸭肉烤肉"
+},
+"떡잎": {
+"en": "sprouts",
+"vi": "mầm",
+"zh": "嫩芽"
+},
+"새싹": {
+"en": "sprouts",
+"vi": "rau mầm",
+"zh": "芽菜"
+},
+"비빔국수": {
+"en": "spicy mixed noodles",
+"vi": "mì trộn cay",
+"zh": "拌面"
+},
+"열무국수": {
+"en": "young radish kimchi noodles",
+"vi": "mì kim chi củ cải non",
+"zh": "萝卜缨面"
+},
+"메추리알장조림": {
+"en": "soy-braised quail eggs",
+"vi": "trứng cút kho tương",
+"zh": "酱鹌鹑蛋"
+},
+"진미채볶음": {
+"en": "stir-fried dried squid strips",
+"vi": "mực khô xé xào",
+"zh": "炒鱿鱼丝"
+},
+"고추장불고기": {
+"en": "spicy pork bulgogi",
+"vi": "thịt heo bulgogi cay",
+"zh": "辣酱烤肉"
+},
+"감자조림": {
+"en": "soy-braised potatoes",
+"vi": "khoai tây kho",
+"zh": "酱土豆"
+},
+"콩나물무침": {
+"en": "seasoned bean sprouts",
+"vi": "giá trộn",
+"zh": "凉拌豆芽"
+},
+"시금치나물": {
+"en": "seasoned spinach",
+"vi": "rau bina trộn",
+"zh": "凉拌菠菜"
+},
+"배추된장국": {
+"en": "napa cabbage soybean-paste soup",
+"vi": "canh tương đậu cải thảo",
+"zh": "白菜大酱汤"
+},
+"등심": {
+"en": "pork loin",
+"vi": "thăn heo",
+"zh": "里脊"
+},
+"들기름": {
+"en": "perilla oil",
+"vi": "dầu tía tô",
+"zh": "紫苏油"
+},
+"참기름": {
+"en": "sesame oil",
+"vi": "dầu mè",
+"zh": "香油"
+},
+"냉채": {
+"en": "cold salad",
+"vi": "gỏi lạnh",
+"zh": "冷菜"
+},
+"두루치기": {
+"en": "spicy stir-fry",
+"vi": "món xào cay",
+"zh": "辣炒"
+},
+"초장": {
+"en": "vinegar chili sauce",
+"vi": "tương ớt giấm",
+"zh": "醋辣酱"
+},
+"섞박지": {
+"en": "chunky radish kimchi",
+"vi": "kim chi củ cải miếng to",
+"zh": "萝卜块泡菜"
+},
+"우렁": {
+"en": "river snails",
+"vi": "ốc",
+"zh": "田螺"
+},
+"그린": {
+"en": "green",
+"vi": "xanh",
+"zh": "绿色"
+},
+"채식": {
+"en": "vegetarian",
+"vi": "chay",
+"zh": "素食"
+},
+"커틀렛": {
+"en": "cutlet",
+"vi": "chiên xù",
+"zh": "炸排"
+},
+"떠먹는": {
+"en": "spoonable",
+"vi": "ăn bằng thìa",
+"zh": "舀着吃"
+},
+"궁채": {
+"en": "celtuce stems",
+"vi": "thân rau diếp",
+"zh": "贡菜"
+},
+"골뱅이": {
+"en": "whelk",
+"vi": "ốc biển",
+"zh": "海螺"
+},
+"가바": {
+"en": "GABA",
+"vi": "GABA",
+"zh": "GABA"
+},
+"씻은": {
+"en": "washed",
+"vi": "rửa sạch",
+"zh": "洗过的"
+},
+"우거지": {
+"en": "cabbage outer leaves",
+"vi": "lá cải muối",
+"zh": "干白菜叶"
+},
+"갓": {
+"en": "mustard greens",
+"vi": "cải bẹ xanh",
+"zh": "芥菜"
+},
+"스팸": {
+"en": "Spam (ham)",
+"vi": "thịt hộp Spam",
+"zh": "午餐肉"
+},
+"밤": {
+"en": "chestnuts",
+"vi": "hạt dẻ",
+"zh": "栗子"
+},
+"애플": {
+"en": "apple",
+"vi": "táo",
+"zh": "苹果"
+},
+"웨지": {
+"en": "wedge",
+"vi": "miếng múi cau",
+"zh": "角"
+},
+"완자": {
+"en": "meatballs",
+"vi": "thịt viên",
+"zh": "丸子"
+},
+"계절": {
+"en": "seasonal",
+"vi": "theo mùa",
+"zh": "时令"
+},
+"제철": {
+"en": "in-season",
+"vi": "đúng mùa",
+"zh": "应季"
+},
+"야끼": {
+"en": "grilled (yaki)",
+"vi": "nướng",
+"zh": "烧"
+},
+"롤": {
+"en": "roll",
+"vi": "cuộn",
+"zh": "卷"
+},
+"카프레제": {
+"en": "caprese",
+"vi": "caprese",
+"zh": "卡普里沙拉"
+},
+"카로틴": {
+"en": "carotene",
+"vi": "caroten",
+"zh": "胡萝卜素"
+},
+"숙회": {
+"en": "parboiled",
+"vi": "chần",
+"zh": "焯"
+},
+"뿌링클": {
+"en": "cheese-powder",
+"vi": "bột phô mai",
+"zh": "奶酪粉"
+},
+"마시는": {
+"en": "drinkable",
+"vi": "uống",
+"zh": "饮用"
+},
+"크런치": {
+"en": "crunchy",
+"vi": "giòn",
+"zh": "酥脆"
+},
+"무농약": {
+"en": "pesticide-free",
+"vi": "không thuốc trừ sâu",
+"zh": "无农药"
+},
+"급식": {
+"en": "school meal",
+"vi": "bữa ăn trường",
+"zh": "供餐"
+},
+"홍국": {
+"en": "red yeast",
+"vi": "men đỏ",
+"zh": "红曲"
+},
+"병아리콩": {
+"en": "chickpeas",
+"vi": "đậu gà",
+"zh": "鹰嘴豆"
+},
+"압맥": {
+"en": "rolled barley",
+"vi": "lúa mạch cán",
+"zh": "压麦"
+},
+"단감": {
+"en": "sweet persimmon",
+"vi": "hồng giòn",
+"zh": "甜柿"
+},
+"단호박": {
+"en": "sweet pumpkin",
+"vi": "bí đỏ ngọt",
+"zh": "甜南瓜"
+},
+"채": {
+"en": "julienned",
+"vi": "thái sợi",
+"zh": "丝"
+},
+"참나물": {
+"en": "Korean wild parsley",
+"vi": "rau cần núi",
+"zh": "鸭儿芹"
+},
+"차돌박이": {
+"en": "thin-sliced brisket",
+"vi": "ba chỉ bò thái mỏng",
+"zh": "肥牛片"
+},
+"청양고추": {
+"en": "hot green chili",
+"vi": "ớt xanh cay",
+"zh": "青阳辣椒"
+},
+"물김치": {
+"en": "water kimchi",
+"vi": "kim chi nước",
+"zh": "水泡菜"
+},
+"오이지": {
+"en": "pickled cucumber",
+"vi": "dưa chuột muối",
+"zh": "腌黄瓜"
+},
+"불닭": {
+"en": "fire chicken (very spicy)",
+"vi": "gà cay",
+"zh": "火鸡"
+},
+"율무": {
+"en": "Job's tears",
+"vi": "ý dĩ",
+"zh": "薏米"
+},
+"당면": {
+"en": "glass noodles",
+"vi": "miến",
+"zh": "粉条"
+},
+"우리쌀": {
+"en": "Korean rice",
+"vi": "gạo Hàn Quốc",
+"zh": "国产大米"
+},
+"밀": {
+"en": "wheat",
+"vi": "lúa mì",
+"zh": "小麦"
+},
+"봉골레": {
+"en": "vongole (clam pasta)",
+"vi": "mì nghêu",
+"zh": "蛤蜊意面"
+},
+"닭봉": {
+"en": "chicken wingettes",
+"vi": "cánh gà",
+"zh": "鸡翅根"
+},
+"칼국수": {
+"en": "knife-cut noodle soup",
+"vi": "mì cắt tay",
+"zh": "刀切面"
+},
+"군만두": {
+"en": "fried dumplings",
+"vi": "bánh xếp chiên",
+"zh": "煎饺"
+},
+"왕만두": {
+"en": "large dumplings",
+"vi": "bánh bao nhân thịt",
+"zh": "大包子"
+},
+"감자채": {
+"en": "julienned potato",
+"vi": "khoai tây thái sợi",
+"zh": "土豆丝"
+},
+"무채": {
+"en": "julienned radish",
+"vi": "củ cải thái sợi",
+"zh": "萝卜丝"
+},
+"진미": {
+"en": "seasoned dried squid",
+"vi": "mực khô tẩm",
+"zh": "珍味鱿鱼"
+},
+"닭갈비": {
+"en": "spicy stir-fried chicken",
+"vi": "gà xào cay",
+"zh": "辣炒鸡排"
+},
+"돼지갈비": {
+"en": "pork ribs",
+"vi": "sườn heo",
+"zh": "猪排骨"
+},
+"소갈비": {
+"en": "beef short ribs",
+"vi": "sườn bò",
+"zh": "牛排骨"
+},
+"찜갈비": {
+"en": "braised ribs",
+"vi": "sườn hầm",
+"zh": "炖排骨"
+},
+"유린": {
+"en": "soy-dressed fried",
+"vi": "chiên sốt xì dầu",
+"zh": "油淋"
+},
+"깨소스": {
+"en": "sesame sauce",
+"vi": "sốt mè",
+"zh": "芝麻酱"
+},
+"흑임자소스": {
+"en": "black sesame sauce",
+"vi": "sốt mè đen",
+"zh": "黑芝麻酱"
+},
+"오리엔탈": {
+"en": "oriental dressing",
+"vi": "sốt kiểu Á",
+"zh": "东方风味"
+},
+"화채": {
+"en": "fruit punch",
+"vi": "nước trái cây hoa quả",
+"zh": "花菜(水果饮)"
+},
+"과일화채": {
+"en": "fruit punch",
+"vi": "nước trái cây",
+"zh": "水果饮"
+},
+"중국식": {
+"en": "Chinese-style",
+"vi": "kiểu Trung Quốc",
+"zh": "中式"
+},
+"일본식": {
+"en": "Japanese-style",
+"vi": "kiểu Nhật",
+"zh": "日式"
+},
+"서양식": {
+"en": "Western-style",
+"vi": "kiểu Âu",
+"zh": "西式"
+},
+"무지개": {
+"en": "rainbow",
+"vi": "cầu vồng",
+"zh": "彩虹"
+},
+"맛있는": {
+"en": "tasty",
+"vi": "ngon",
+"zh": "好吃的"
+},
+"조갯살": {
+"en": "clam meat",
+"vi": "thịt nghêu",
+"zh": "蛤蜊肉"
+},
+"조개살": {
+"en": "clam meat",
+"vi": "thịt nghêu",
+"zh": "蛤蜊肉"
+},
+"새우젓": {
+"en": "salted shrimp",
+"vi": "mắm tôm",
+"zh": "虾酱"
+},
+"애느타리": {
+"en": "baby oyster mushrooms",
+"vi": "nấm sò non",
+"zh": "小平菇"
+},
+"온두부": {
+"en": "warm tofu",
+"vi": "đậu phụ ấm",
+"zh": "热豆腐"
+},
+"브로컬리": {
+"en": "broccoli",
+"vi": "bông cải xanh",
+"zh": "西兰花"
+},
+"프렌치토스트": {
+"en": "French toast",
+"vi": "bánh mì nướng kiểu Pháp",
+"zh": "法式吐司"
+},
+"필라프": {
+"en": "pilaf",
+"vi": "cơm pilaf",
+"zh": "抓饭"
+},
+"녹차": {
+"en": "green tea",
+"vi": "trà xanh",
+"zh": "绿茶"
+},
+"장국": {
+"en": "clear soup",
+"vi": "canh trong",
+"zh": "清汤"
+},
+"소보루": {
+"en": "crumble topping",
+"vi": "vụn bánh",
+"zh": "酥粒"
+},
+"흑미밥": {
+"en": "black rice",
+"vi": "cơm gạo đen",
+"zh": "黑米饭"
+},
+"현미밥": {
+"en": "brown rice",
+"vi": "cơm gạo lứt",
+"zh": "糙米饭"
 }
 };

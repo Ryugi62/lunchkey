@@ -39,3 +39,12 @@ test('romanize follows Revised Romanization basics', () => {
   assert.equal(romanize('밥'), 'bap');
   assert.equal(romanize('불고기'), 'bulgogi');
 });
+
+test('hand-check findings: mis-segmentations fixed', () => {
+  const en = (k) => glossDish(k, 'en').text;
+  assert.equal(en('과일화채'), 'fruit punch');
+  assert.match(en('중국식볶음밥'), /^Chinese-style fried rice$/);
+  assert.match(en('무지개별떡국'), /^rainbow/);
+  assert.match(en('맛있는 쌀밥'), /^tasty rice$/);
+  assert.match(en('조갯살아욱된장국'), /^clam meat mallow/);
+});
