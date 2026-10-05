@@ -80,7 +80,7 @@ Every one of those odd lines is listed in [`docs/audit.json`](docs/audit.json), 
 
 **Hand checks.** These are in [`docs/audit-labels.json`](docs/audit-labels.json) and enforced by tests. Labeled by the author (a native Korean reader), cross-checked with a separate regex. There was no independent second labeler.
 - **Held-out May sample:** 150 lines from a month never used for tuning, read after the parser was frozen. 150/150 agree.
-- **Even sample:** 150 lines from Aug–Oct, 150/150. Most of these are easy `(1.2.5)` lines (113 standard, 34 with no numbers), so the "0 errors in 150, about 2% upper bound" figure covers the easy majority.
+- **Even sample:** 150 lines from Aug–Oct, 150/150. Most of these are easy lines: about 99 in the plain `name (1.2.5)` form and 34 with no numbers. So "0 errors in 150, roughly a 2% upper bound" mostly describes the easy majority.
 - **Stratified odd formats:** all 111 distinct odd formats found in the audits (glued numbers, fractions, lone numbers, menu numbering, number notes). For each one, every number that could be a code is checked, and none ever gets ✓.
 - **What the checks and three AI-assisted review rounds caught**, each now a regression test:
   - "common seasoning #2" read as milk;
