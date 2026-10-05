@@ -291,7 +291,7 @@ function renderPrint(view, dates, L) {
     return dv.meals.flatMap((m) => m.dishes).map((x) => {
       const mark = { contains: '⛔', clear: '✓', nonumbers: '○', unreadable: '?' }[x.verdict];
       const name = p.lang === 'ko' ? x.nameKo : `${x.gloss.text} (${x.nameKo})`;
-      return `<div class="${x.verdict === 'contains' ? 'x' : ''}">${mark} ${esc(name)}${x.matched.length ? ` — ${esc(x.matched.map((c) => allergenName(c, p.lang)).join(', '))}` : ''}</div>`;
+      return `<div class="${x.verdict === 'contains' ? 'x' : ''}">${mark} ${esc(name)}${x.matched.length ? ` — ${esc(x.matched.map((c) => allergenName(c, p.lang)).join(', '))}` : ''}${x.maybe?.length ? ` — ${esc(L.mightContain(x.maybe.map((c) => allergenName(c, p.lang)).join(', ')))}` : ''}</div>`;
     }).join('');
   };
   $print.innerHTML = `<h2>🔑 LunchKey — ${p.name ? `${esc(p.name)} · ` : ''}<span lang="ko">${esc(p.school.name)}</span> · ${esc(L.week)} ${esc(fmtDate(state.monday, p.lang))}</h2>
