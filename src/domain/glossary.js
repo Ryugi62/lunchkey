@@ -3265,5 +3265,30 @@ export const GLOSSARY = {
 "en": "brown rice",
 "vi": "cơm gạo lứt",
 "zh": "糙米饭"
+},
+"게": {
+"en": "crab",
+"vi": "cua",
+"zh": "螃蟹"
+},
+"게맛살": {
+"en": "crab sticks",
+"vi": "thanh cua",
+"zh": "蟹肉棒"
+},
+"소떡소떡": {
+"en": "sausage & rice cake skewers",
+"vi": "xiên xúc xích bánh gạo",
+"zh": "香肠年糕串"
+},
+"모밀": {
+"en": "buckwheat",
+"vi": "kiều mạch",
+"zh": "荞麦"
+},
+"냉모밀": {
+"en": "cold buckwheat noodles",
+"vi": "mì kiều mạch lạnh",
+"zh": "冷荞麦面"
 }
 };

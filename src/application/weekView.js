@@ -10,16 +10,20 @@ const iso = (d) => `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.ge
 
 /**
  * Summary status for a meal or a day. Green only with evidence:
- * contains = any dish matches · clear = every dish coded and none match · unknown = no match but something is not labeled.
- * @param {{contains:number, clear:number, unlabeled:number}} summary
- * @returns {'contains'|'clear'|'unknown'|'empty'}
+ * contains = any dish matches · unknown = something code-like could not be read (amber)
+ * nolisted = no match, but some dishes have no numbers printed (neutral, not green) · clear = every dish coded, none match.
+ * @param {{contains:number, clear:number, nonumbers:number, unreadable:number}} summary
+ * @returns {'contains'|'unknown'|'nolisted'|'clear'|'empty'}
  */
 export function summaryStatus(summary) {
   if (summary.contains) return 'contains';
-  if (summary.unlabeled) return 'unknown';
+  if (summary.unreadable) return 'unknown';
+  if (summary.nonumbers) return 'nolisted';
   if (summary.clear) return 'clear';
   return 'empty';
 }
+
+const zero = () => ({ contains: 0, clear: 0, nonumbers: 0, unreadable: 0 });
 
 /** Monday–Friday range for a date (YYYY-MM-DD). Saturday and Sunday look ahead to the coming week. */
 export function weekRange(dateIso) {
@@ -43,14 +47,14 @@ export function buildWeekView(meals, profile) {
   const byDate = new Map();
   for (const meal of [...meals].sort((a, b) => (a.date + a.mealType).localeCompare(b.date + b.mealType))) {
     const dishes = meal.dishes.map((d) => ({ ...d, ...judgeDish(d, avoid), gloss: glossDish(d.nameKo, profile.lang) }));
-    const summary = { contains: 0, clear: 0, unlabeled: 0 };
+    const summary = zero();
     for (const d of dishes) summary[d.verdict] += 1;
     if (!byDate.has(meal.date)) byDate.set(meal.date, []);
     byDate.get(meal.date).push({ mealType: meal.mealType, mealName: meal.mealName, dishes, summary, status: summaryStatus(summary) });
   }
   return {
     days: [...byDate.entries()].map(([date, ms]) => {
-      const total = ms.reduce((a, m) => ({ contains: a.contains + m.summary.contains, clear: a.clear + m.summary.clear, unlabeled: a.unlabeled + m.summary.unlabeled }), { contains: 0, clear: 0, unlabeled: 0 });
+      const total = ms.reduce((a, m) => { for (const k of Object.keys(a)) a[k] += m.summary[k]; return a; }, zero());
       return { date, meals: ms, summary: total, status: summaryStatus(total) };
     }),
   };

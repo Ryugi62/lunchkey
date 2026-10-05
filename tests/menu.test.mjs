@@ -112,3 +112,10 @@ test('audit finding: number-led notes are not codes', () => {
   assert.equal(parseDishLine('압맥보리밥(80)').parseStatus, 'uncoded');
   assert.deepEqual(parseDishLine('우유 (2)').codes, [2]);
 });
+
+test('glued numbers before a code group: 20+ is a portion, 1–19 is ambiguous', () => {
+  const a = parseDishLine('요구르트80* (2)');
+  assert.equal(a.nameKo, '요구르트'); assert.deepEqual(a.codes, [2]); assert.equal(a.parseStatus, 'coded');
+  const b = parseDishLine('자장면14 (1.2.5.6.10.13)');
+  assert.equal(b.parseStatus, 'coded'); assert.deepEqual(b.ambiguousCodes, [14]);
+});

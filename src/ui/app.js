@@ -3,6 +3,7 @@ import { ALLERGENS, allergenName } from '../domain/allergens.js';
 import { GLOSS_LANGS } from '../domain/gloss.js';
 import { buildWeekView, weekRange } from '../application/weekView.js';
 import { buildPasteView } from '../application/pasteView.js';
+import { headline } from '../application/headline.js';
 import { createNeisSource, OFFICES } from '../adapters/neis.js';
 import { encodeProfile, decodeProfile, UI_LANGS } from '../adapters/profileStore.js';
 import { t, LANG_NAMES } from './i18n.js';
@@ -13,7 +14,10 @@ const STORE = 'lunchkey.v1';
 const CACHE = 'lunchkey.cache.v1';
 const params = new URLSearchParams(location.search);
 const DEMO = params.get('demo') === '1';
-const neis = createNeisSource({ fetch: (u) => fetch(u) });
+const KEY_STORE = 'lunchkey.neisKey';
+if (params.get('key')) { try { localStorage.setItem(KEY_STORE, params.get('key')); } catch { /* ignore */ } }
+let neisKey = ''; try { neisKey = localStorage.getItem(KEY_STORE) || ''; } catch { /* ignore */ }
+const neis = createNeisSource({ fetch: (u) => fetch(u), key: neisKey || undefined }); // optional free NEIS key enables full paging
 const $app = document.getElementById('app');
 const $cta = document.getElementById('cta');
 const $lang = document.getElementById('langSelect');
@@ -35,10 +39,22 @@ function loadState() {
   const fromHash = decodeProfile(location.hash);
   let saved = null;
   try { saved = JSON.parse(localStorage.getItem(STORE) || 'null'); } catch { /* private mode */ }
-  let profile = fromHash.school || fromHash.allergens.length ? fromHash : saved ?? { allergens: [], lang: guessLang(), name: '', school: null };
-  if (DEMO) profile = { ...profile, ...SAMPLE, lang: UI_LANGS.includes(params.get('lang')) ? params.get('lang') : profile.lang };
-  const ready = profile.school && profile.allergens.length;
-  return { profile, step: ready ? 'week' : 'lang', monday: weekRange(todayIso()).monday, day: null, firstLoad: true, notice: '', pasteText: '', office: '' };
+  // Stored shape: { children: [profile...], active } (older single-profile saves are upgraded).
+  let children = saved?.children ?? (saved ? [saved] : []);
+  let active = saved?.active ?? 0;
+  let notice = '';
+  if (fromHash.school || fromHash.allergens.length) {
+    const same = children.findIndex((c) => c.school?.code === fromHash.school?.code && JSON.stringify(c.allergens) === JSON.stringify(fromHash.allergens));
+    if (same >= 0) active = same;
+    else if (children.length && fromHash.allergens.length) { children.push({ ...fromHash, lang: children[active]?.lang ?? fromHash.lang }); active = children.length - 1; notice = 'linkedChild'; }
+    else if (children.length && !fromHash.allergens.length) { children[active] = { ...children[active], school: fromHash.school }; } // a school link: keep the child, set the school
+    else { children = [fromHash]; active = 0; }
+  }
+  if (!children.length) children = [{ allergens: [], lang: guessLang(), name: '', school: null }];
+  let profile = children[Math.min(active, children.length - 1)];
+  if (DEMO) { profile = { ...profile, ...SAMPLE, lang: UI_LANGS.includes(params.get('lang')) ? params.get('lang') : profile.lang }; children = [profile]; active = 0; }
+  const step = params.get('paste') === '1' ? 'paste' : profile.school && profile.allergens.length ? 'week' : profile.school ? 'allergens' : 'lang';
+  return { children, active, profile, step, monday: weekRange(todayIso()).monday, day: null, firstLoad: true, notice, pasteText: '', office: '', weeks: new Map() };
 }
 function guessLang() {
   const nav = (navigator.language || 'en').toLowerCase();
@@ -48,7 +64,8 @@ function guessLang() {
 }
 function save() {
   if (DEMO) return; // the sample profile never overwrites a parent's own profile
-  try { localStorage.setItem(STORE, JSON.stringify(state.profile)); } catch { /* ignore */ }
+  state.children[state.active] = state.profile;
+  try { localStorage.setItem(STORE, JSON.stringify({ children: state.children, active: state.active })); } catch { /* ignore */ }
 }
 function setLang(lang) { state.profile.lang = lang; save(); render(); }
 function steps(n) { return `<div class="steps" aria-hidden="true">${[1, 2, 3].map((i) => `<i class="${i <= n ? 'on' : ''}"></i>`).join('')}</div>`; }
@@ -108,7 +125,7 @@ function renderAllergens() {
   const L = t(state.profile.lang);
   $app.innerHTML = `${steps(3)}<h1>${esc(L.pickAllergens)}</h1><p class="sub">${esc(L.pickAllergensHint)}</p>
     <p><input type="text" id="cn" maxlength="40" placeholder="${esc(L.childName)}" aria-label="${esc(L.childName)}" value="${esc(state.profile.name)}"></p>
-    ${allergenGrid(state.profile.lang, state.profile.allergens)}`;
+    ${allergenGrid(state.profile.lang, state.profile.allergens)}<p class="note">${esc(L.safety)}</p>`;
   $app.querySelector('#cn').oninput = (e) => { state.profile.name = e.target.value; save(); };
   const sync = () => { const go = $cta.querySelector('#go'); if (go) go.disabled = !state.profile.allergens.length; };
   bindGrid(sync);
@@ -119,7 +136,7 @@ function renderAllergens() {
 }
 
 function verdictLabel(v, L) {
-  const icon = { contains: '⛔', clear: '✓', unlabeled: '?' }[v];
+  const icon = { contains: '⛔', clear: '✓', nonumbers: '○', unreadable: '?' }[v];
   return `<span class="verdict ${v}"><span aria-hidden="true">${icon}</span>${esc(L[v])}</span>`;
 }
 
@@ -153,10 +170,12 @@ async function bundledSample() {
 /** Lunch for one school-week. Live first; on failure, the copy saved on this phone (or the bundled sample in demo mode). */
 async function loadWeek(monday) {
   const key = `${state.profile.school.office}:${state.profile.school.code}:${monday}`;
+  if (state.weeks.has(key)) return state.weeks.get(key); // tab clicks re-render from memory, no network
   const r = weekRange(monday);
   try {
     const meals = [...(await neis.listMeals({ office: state.profile.school.office, school: state.profile.school.code, from: r.from, to: r.to, mealType: '2' }))];
     writeCache(key, meals);
+    state.weeks.set(key, { meals, offline: false });
     return { meals, offline: false };
   } catch (err) {
     const cached = readCache()[key];
@@ -166,51 +185,68 @@ async function loadWeek(monday) {
   }
 }
 
-const header = (p, L) => `<div><h2 lang="ko">${esc(p.school.name)}</h2><div class="aux">${esc(p.name ? `${p.name} · ` : '')}${p.allergens.map((a) => esc(allergenName(a, p.lang))).join(', ')} · <button class="btn link" id="edit">${esc(L.edit)}</button></div></div>`;
+function header(p, L) {
+  const chips = state.children.length > 1 || !DEMO
+    ? `<div class="kids">${state.children.map((c, i) => `<button class="kid" aria-pressed="${i === state.active}" data-kid="${i}">${esc(c.name || `#${i + 1}`)} · ${c.allergens.map((a) => esc(allergenName(a, p.lang))).join(', ')}</button>`).join('')}${DEMO ? '' : `<button class="kid add" id="addkid">${esc(L.addChild)}</button>`}</div>` : '';
+  return `<div><h2 lang="ko">${esc(p.school.name)}</h2><div class="aux">${esc(p.name ? `${p.name} · ` : '')}${p.allergens.map((a) => esc(allergenName(a, p.lang))).join(', ')} · <button class="btn link" id="edit">${esc(L.edit)}</button></div>${chips}</div>`;
+}
+function bindHeader() {
+  $app.querySelector('#edit').onclick = () => { state.step = 'allergens'; render(); };
+  $app.querySelectorAll('[data-kid]').forEach((b) => b.onclick = () => { state.active = Number(b.dataset.kid); state.profile = state.children[state.active]; save(); state.day = null; render(); });
+  const add = $app.querySelector('#addkid');
+  if (add) add.onclick = () => { state.children.push({ allergens: [], lang: state.profile.lang, name: '', school: state.profile.school }); state.active = state.children.length - 1; state.profile = state.children[state.active]; save(); state.step = 'allergens'; render(); };
+}
 
 async function renderWeek() {
   const L = t(state.profile.lang);
   const p = state.profile;
-  $app.innerHTML = `${header(p, L)}<div class="skeleton" style="margin-top:24px"></div><div class="skeleton"></div>`;
-  $app.querySelector('#edit').onclick = () => { state.step = 'allergens'; render(); };
-  cta('');
+  const quick = state.weeks.has(`${p.school.office}:${p.school.code}:${state.monday}`);
+  if (!quick) { $app.innerHTML = `${header(p, L)}<div class="skeleton" style="margin-top:24px"></div><div class="skeleton"></div>`; bindHeader(); cta(''); }
   let res;
   try { res = await loadWeek(state.monday); } catch { $app.insertAdjacentHTML('beforeend', `<p class="err">${esc(L.errNet)}</p>`); return; }
-  // First load only: if this week has no menu yet, look back up to 4 weeks and say so.
+  // First load only: if this week has no menu yet, look back up to 4 weeks and say so; if nothing, stay and say "not published".
   if (!res.meals.length && state.firstLoad) {
-    for (let k = 1; k <= 4 && !res.meals.length; k++) {
-      const m = addDays(state.monday, -7);
-      try { const r2 = await loadWeek(m); if (r2.meals.length) { state.notice = L.showingWeek(fmtDate(m, p.lang)); state.monday = m; res = r2; } else state.monday = m; } catch { break; }
+    const start = state.monday;
+    let found = false;
+    for (let k = 1; k <= 4 && !found; k++) {
+      const m = addDays(start, -7 * k);
+      try { const r2 = await loadWeek(m); if (r2.meals.length) { state.notice = L.showingWeek(fmtDate(m, p.lang)); state.monday = m; res = r2; found = true; } } catch { break; }
     }
+    if (!found) state.notice = L.notPublished;
   }
   state.firstLoad = false;
+  if (state.notice === 'linkedChild') state.notice = L.linkedChild;
   if (DEMO && !state.notice) state.notice = L.sample;
   const view = buildWeekView(res.meals, p);
   const dates = [0, 1, 2, 3, 4].map((i) => addDays(state.monday, i));
   const today = todayIso();
   if (!state.day || !dates.includes(state.day)) state.day = dates.includes(today) && view.days.some((d) => d.date === today) ? today : (view.days[0]?.date ?? dates[0]);
   const dayView = view.days.find((d) => d.date === state.day);
-  const mark = (dv) => (!dv ? '–' : dv.status === 'contains' ? `⛔ ${dv.summary.contains}` : dv.status === 'clear' ? '✓' : '?');
+  const mark = (dv) => (!dv ? `<span aria-label="${esc(L.noLunch)}" title="${esc(L.noLunch)}">–</span>` : { contains: `⛔ ${dv.summary.contains}`, clear: '✓', nolisted: '○', unknown: '?', empty: '–' }[dv.status]);
   const tabs = dates.map((d, i) => {
     const dv = view.days.find((x) => x.date === d);
-    return `<button class="tab" role="tab" id="tab-${d}" aria-controls="panel" aria-selected="${d === state.day}" tabindex="${d === state.day ? 0 : -1}" data-d="${d}">${esc(L.days[i])}<span class="dot">${esc(fmtDate(d, p.lang))} · ${mark(dv)}</span></button>`;
+    return `<button class="tab ${dv ? `s-${dv.status}` : ''}" role="tab" id="tab-${d}" aria-controls="panel" aria-selected="${d === state.day}" tabindex="${d === state.day ? 0 : -1}" data-d="${d}">${esc(L.days[i])}<span class="dot">${esc(fmtDate(d, p.lang))}</span><span class="mark">${mark(dv)}</span></button>`;
   }).join('');
   const body = !dayView ? `<div class="hero none"><div class="big">—</div><p>${esc(L.noMeal)}</p></div>` : dayView.meals.map((m) => {
-    const hitNames = [...new Set(m.dishes.flatMap((d) => d.matched))].map((c) => allergenName(c, p.lang)).join(', ');
-    const hero = m.status === 'contains'
-      ? `<div class="hero no"><div class="big">⛔ ${esc(L.containsCount(m.summary.contains, hitNames))}</div><p>${esc(L.lunch)}${m.summary.unlabeled ? ` · ? ${m.summary.unlabeled} · ${esc(L.unlabeled)}` : ''}</p></div>`
-      : m.status === 'clear'
-        ? `<div class="hero ok"><div class="big">✓ ${esc(L.allClear)}</div><p>${esc(L.lunch)}</p></div>`
-        : `<div class="hero warn"><div class="big">? ${esc(L.unknownHero(m.summary.unlabeled))}</div><p>${esc(L.lunch)}</p></div>`;
-    const order = { contains: 0, unlabeled: 1, clear: 2 };
+    const h = headline(m);
+    const names = h.matched.map((c) => allergenName(c, p.lang)).join(', ');
+    const hero = {
+      no: `<div class="hero no"><div class="big">⛔ ${esc(L.containsCount(h.count, names))}</div><p>${esc(L.lunch)}</p></div>`,
+      warn: `<div class="hero warn"><div class="big">? ${esc(L.unknownHero(h.count))}</div><p>${esc(L.lunch)}</p></div>`,
+      neutral: `<div class="hero neutral"><div class="big">○ ${esc(L.nolistedHero(h.count))}</div><p>${esc(L.lunch)}</p></div>`,
+      ok: `<div class="hero ok"><div class="big">✓ ${esc(L.allClear)}</div><p>${esc(L.lunch)}</p></div>`,
+      none: `<div class="hero none"><div class="big">—</div><p>${esc(L.noMeal)}</p></div>`,
+    }[h.tone];
+    const order = { contains: 0, unreadable: 1, nonumbers: 2, clear: 3 };
     return hero + [...m.dishes].sort((a, b) => order[a.verdict] - order[b.verdict]).map((d) => dishCard(d, p.lang, L)).join('');
   }).join('');
   $app.innerHTML = `${header(p, L)}
     ${state.notice ? `<p class="banner">${esc(state.notice)}</p>` : ''}${res.offline ? `<p class="banner">${esc(L.errNet)} ${esc(L.savedCopy)}</p>` : ''}
     <div class="weeknav" style="margin-top:12px"><button class="btn link" id="prev">${esc(L.prevWeek)}</button><span class="aux">${esc(L.week)} ${esc(fmtDate(state.monday, p.lang))}</span><button class="btn link" id="next">${esc(L.nextWeek)}</button></div>
     <div class="tabs" role="tablist">${tabs}</div><div id="panel" role="tabpanel" aria-labelledby="tab-${state.day}">${body}</div>
-    <p class="note">${esc(L.safety)}</p><p class="note">${esc(L.glossNote)} · ${esc(L.dataSource)}</p>`;
-  $app.querySelector('#edit').onclick = () => { state.step = 'allergens'; render(); };
+    <p class="note">${esc(L.safety)}</p><p class="note">${esc(L.glossNote)} · ${esc(L.dataSource)}</p>
+    <p class="note"><button class="btn link" id="schoollink">${esc(L.schoolLink)}</button></p>`;
+  bindHeader();
   const go = (n) => { state.monday = addDays(state.monday, n); state.day = null; state.notice = ''; renderWeek(); };
   $app.querySelector('#prev').onclick = () => go(-7);
   $app.querySelector('#next').onclick = () => go(7);
@@ -219,16 +255,19 @@ async function renderWeek() {
     b.onclick = () => { state.day = b.dataset.d; renderWeek().then(() => document.getElementById(`tab-${state.day}`)?.focus()); };
     b.onkeydown = (e) => { const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (k) { e.preventDefault(); tabEls[(i + k + tabEls.length) % tabEls.length].click(); } };
   });
-  if (dayView) announce(dayView.status === 'contains' ? L.containsCount(dayView.summary.contains, '') : dayView.status === 'clear' ? L.allClear : L.unknownHero(dayView.summary.unlabeled));
+  if (dayView) {
+    const h = headline(dayView.meals[0] ?? null);
+    announce({ no: L.containsCount(h.count, h.matched.map((c) => allergenName(c, p.lang)).join(', ')), warn: L.unknownHero(h.count), neutral: L.nolistedHero(h.count), ok: L.allClear, none: L.noMeal }[h.tone]);
+  }
   renderPrint(view, dates, L);
+  const copy = async (url, btn, note) => {
+    try { await navigator.clipboard.writeText(url); } catch { prompt(note, url); }
+    btn.textContent = L.copied; announce(`${L.copied}. ${note}`);
+  };
+  $app.querySelector('#schoollink').onclick = (e) => copy(`${location.origin}${location.pathname}${encodeProfile({ allergens: [], lang: p.lang, name: '', school: p.school })}`, e.currentTarget, L.schoolLink);
   cta(`<button class="btn ghost" id="share">${esc(L.share)}</button><button class="btn" id="print">${esc(L.print)}</button>`);
   $cta.querySelector('#print').onclick = () => window.print();
-  $cta.querySelector('#share').onclick = async () => {
-    const url = `${location.origin}${location.pathname}${encodeProfile({ ...p, name: '' })}`;
-    try { await navigator.clipboard.writeText(url); } catch { prompt(L.shareNote, url); }
-    $cta.querySelector('#share').textContent = L.copied;
-    announce(`${L.copied}. ${L.shareNote}`);
-  };
+  $cta.querySelector('#share').onclick = (e) => copy(`${location.origin}${location.pathname}${encodeProfile({ ...p, name: '' })}`, e.currentTarget, L.shareNote);
 }
 
 function renderPrint(view, dates, L) {
@@ -237,13 +276,13 @@ function renderPrint(view, dates, L) {
     const dv = view.days.find((x) => x.date === d);
     if (!dv) return '—';
     return dv.meals.flatMap((m) => m.dishes).map((x) => {
-      const mark = { contains: '⛔', clear: '✓', unlabeled: '?' }[x.verdict];
+      const mark = { contains: '⛔', clear: '✓', nonumbers: '○', unreadable: '?' }[x.verdict];
       const name = p.lang === 'ko' ? x.nameKo : `${x.gloss.text} (${x.nameKo})`;
       return `<div class="${x.verdict === 'contains' ? 'x' : ''}">${mark} ${esc(name)}${x.matched.length ? ` — ${esc(x.matched.map((c) => allergenName(c, p.lang)).join(', '))}` : ''}</div>`;
     }).join('');
   };
   $print.innerHTML = `<h2>🔑 ${esc(p.name || '')} — <span lang="ko">${esc(p.school.name)}</span> · ${esc(L.week)} ${esc(fmtDate(state.monday, p.lang))}</h2>
-    <p>⛔ ${esc(L.contains)} · ✓ ${esc(L.clear)} · ? ${esc(L.unlabeled)} — ${p.allergens.map((a) => esc(allergenName(a, p.lang))).join(', ')}</p>
+    <p>⛔ ${esc(L.contains)} · ✓ ${esc(L.clear)} · ○ ${esc(L.nonumbers)} · ? ${esc(L.unreadable)} — ${p.allergens.map((a) => esc(allergenName(a, p.lang))).join(', ')}</p>
     <table><tr>${dates.map((d, i) => `<th>${esc(L.days[i])} ${esc(fmtDate(d, p.lang))}</th>`).join('')}</tr><tr>${dates.map((d) => `<td>${cell(d)}</td>`).join('')}</tr></table>
     <p>${esc(L.safety)}</p>`;
 }

@@ -5,5 +5,5 @@ import { buildWeekView } from './weekView.js';
 export function buildPasteView(text, profile) {
   const lines = splitMenu(String(text).replace(/\r/g, '')).flatMap((l) => l.split(/\t/)).filter(Boolean);
   const meal = { date: 'pasted', mealType: '0', dishes: lines.map(parseDishLine) };
-  return buildWeekView([meal], profile).days[0]?.meals[0] ?? { dishes: [], summary: { contains: 0, clear: 0, unlabeled: 0 } };
+  return buildWeekView([meal], profile).days[0]?.meals[0] ?? { dishes: [], summary: { contains: 0, clear: 0, nonumbers: 0, unreadable: 0 }, status: 'empty' };
 }

@@ -18,3 +18,14 @@ test('SPEC criterion 2: zero false "clear" on the labeled set, for every single-
     }
   }
 });
+
+const strat = JSON.parse(readFileSync(new URL('../docs/audit-labels.json', import.meta.url))).stratified.labels;
+
+test('stratified odd formats from two national audits: codes as labeled, never clear for any possible code', () => {
+  assert.ok(strat.length >= 40);
+  for (const l of strat) {
+    const d = parseDishLine(l.raw);
+    assert.deepEqual(d.codes, l.expectedCodes, l.raw);
+    for (const n of l.mustNotClearFor) assert.notEqual(judgeDish(d, new Set([n])).verdict, 'clear', `${l.raw} / ${n}`);
+  }
+});

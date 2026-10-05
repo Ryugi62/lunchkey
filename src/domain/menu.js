@@ -1,7 +1,7 @@
 import { isAllergenCode } from './allergens.js';
 
 /** @typedef {'coded'|'uncoded'|'malformed'} ParseStatus */
-/** @typedef {{raw:string, nameKo:string, codes:number[], unknownCodes:number[], parseStatus:ParseStatus}} DishLine */
+/** @typedef {{raw:string, nameKo:string, codes:number[], unknownCodes:number[], ambiguousCodes:number[], parseStatus:ParseStatus}} DishLine */
 
 const MARKERS = /^[\s*@#+~!·•.]+|[\s*@#+~!·•]+$/g;
 const CIRCLED = /[①-⑳]/g; // ① .. ⑳
@@ -35,24 +35,31 @@ const numbers = (group) => group.split(/[^\d]+/).filter(Boolean).map(Number);
 export function parseDishLine(raw) {
   let s = String(raw ?? '').replace(MARKERS, '');
   const found = [];
+  const ambiguous = []; // numbers we removed as notes/tags but that COULD be codes: never allowed to support "clear"
+  const maybe = (n) => { if (isAllergenCode(n)) ambiguous.push(n); };
   let hadGroup = false;
 
   // Portion notes are not codes: "(30g*3개)", "(20kg)", "(50g*2)", and a trailing fraction "바나나1/2" (half a banana).
-  // If a fraction were really codes, the line ends up uncoded, which is shown as "not labeled" — never as clear.
-  s = s.replace(/\(\s*[\d.]+\s*(?:g|kg|ml|l|개|ea|인분|조각|%)[^)]*\)/gi, ' ').replace(/(?<=[\uac00-\ud7a3])\s*[1-3]\/[2-4]\s*$/, '');
-  // Notes that start with a number but are words: "(25초등)" (menu group), "(4색)" (4 colors), "(2탄)".
-  s = s.replace(/\(\s*\d+\s*[\uac00-\ud7a3A-Za-z][^)]*\)/g, ' ');
+  s = s.replace(/\(\s*[\d.]+\s*(?:g|kg|ml|l|개|ea|인분|조각|%)[^)]*\)/gi, ' ').replace(/(?<=[\uac00-\ud7a3])\s*([1-3])\/([2-4])\s*$/, (_, a, b) => { maybe(+a); maybe(+b); return ''; });
+  // Notes that start with a number but are words: "(25초등)", "(4색)", "(2탄)". "(1난류)" keeps 1 as ambiguous.
+  s = s.replace(/\(\s*(\d+)\s*[\uac00-\ud7a3A-Za-z][^)]*\)/g, (_, n) => { maybe(+n); return ' '; });
   // A bracketed single number outside 1–19, like "(80)" or "(0)", is a portion size, not a code.
-  s = s.replace(/\(\s*(\d+)\s*\)/g, (all, n) => (Number(n) >= 1 && Number(n) <= 19 ? all : ' '));
-  for (const ch of s.match(CIRCLED) ?? []) found.push(ch.codePointAt(0) - 0x2460 + 1);
-  if (CIRCLED.test(s)) hadGroup = true;
+  s = s.replace(/\(\s*(\d+)\s*\)/g, (all, n) => (isAllergenCode(+n) ? all : ' '));
+  for (const ch of s.match(CIRCLED) ?? []) { found.push(ch.codePointAt(0) - 0x2460 + 1); hadGroup = true; }
   s = s.replace(CIRCLED, ' ');
 
+  // Menu numbering glued to a name right before a code group: "부대찌개1 (…)", "호박죽-1 (…)" → ambiguous, not codes.
+  // (a glued 20+ like "요구르트80 (2)" is a portion size; a glued 1–19 might be a code → ambiguous)
+  s = s.replace(/(?<=[\uac00-\ud7a3])-?(\d{1,2})(?=\*?\s*\()/g, (_, n) => { maybe(+n); return ''; });
   s = s.replace(GROUP, (_, g) => { found.push(...numbers(g)); hadGroup = true; return ' '; });
+  // Square/angle bracket number groups are read as codes (over-warning is the safe side).
+  s = s.replace(/[[<]\s*(\d{1,2}(?:[.,/·\s]+\d{1,2})*)\s*[.,]?\s*[\]>]/g, (_, g) => { found.push(...numbers(g)); hadGroup = true; return ' '; });
 
   if (!hadGroup) {
-    // "공통양념-2" / "호박죽-1": a number after a hyphen is menu numbering, not an allergen code.
-    s = s.replace(/-\d{1,2}\s*$/, '');
+    // "공통양념-2" / "호박죽-1": a number after a hyphen is menu numbering → ambiguous.
+    s = s.replace(/-(\d{1,2})\s*$/, (_, n) => { maybe(+n); return ''; });
+    // "요구르트2": a 1–2 digit number glued to the end of a dish with no code group anywhere might be a code → ambiguous.
+    s = s.replace(/(?<=[\uac00-\ud7a3])(\d{1,2})\s*$/, (_, n) => { maybe(+n); return ''; });
     const m = s.match(TAIL);
     if (m && m.index + m[0].length - m[1].length > 0) {
       found.push(...numbers(m[1]));
@@ -60,17 +67,19 @@ export function parseDishLine(raw) {
       s = s.slice(0, s.length - m[1].length);
     }
   }
-  // Variant tags next to a code group: "부대찌개1 (…)", "호박죽-1 (…)", "파김치-1(자율) (9)".
-  s = s.replace(/-\d{1,2}(?=[\s(/&]|$)/g, '');
-  if (hadGroup) s = s.replace(/(?<=[가-힣])\d(?=\s*(?:[/&]|$))/g, '');
+  s = s.replace(/-(\d{1,2})(?=[\s(/&]|$)/g, (_, n) => { maybe(+n); return ''; });
 
   const nameKo = s.replace(/\s{2,}/g, ' ').replace(/\s*([/&])\s*/g, '$1').replace(/[\s(.]+$/, '').replace(MARKERS, '').trim();
-  // Leftover code-like text (an unclosed bracket with digits, or digit-separator-digit runs) is unreadable.
-  const leftover = /\(\s*\d|\d\s*[.,/·]\s*\d/.test(nameKo);
+  // Leftover code-like text makes the line unreadable: an unclosed bracket with digits, digit-separator-digit runs,
+  // or a lone 1–2 digit number standing as its own token or glued to the end of a dish ("요구르트2", "우유 2").
+  const leftover = /\(\s*\d|\d\s*[.,/·]\s*\d/.test(nameKo)
+    || /(?:^|[\s/&<[\]>])\d{1,2}(?=$|[\s/&<[\]>])/.test(nameKo)
+    || (hadGroup && /(?<=[\uac00-\ud7a3])\d{1,2}(?=$|[\s/&])/.test(nameKo));
 
   const codes = [...new Set(found.filter(isAllergenCode))].sort((a, b) => a - b);
   const unknownCodes = [...new Set(found.filter((n) => !isAllergenCode(n)))].sort((a, b) => a - b);
+  const ambiguousCodes = [...new Set(ambiguous)].filter((n) => !codes.includes(n)).sort((a, b) => a - b);
   /** @type {ParseStatus} */
   const parseStatus = unknownCodes.length || leftover ? 'malformed' : codes.length ? 'coded' : 'uncoded';
-  return { raw: String(raw ?? ''), nameKo, codes, unknownCodes, parseStatus };
+  return { raw: String(raw ?? ''), nameKo, codes, unknownCodes, ambiguousCodes, parseStatus };
 }

@@ -17,3 +17,15 @@ test('every UI language has every string', () => {
 test('every allergen is named in every UI language', () => {
   for (const a of ALLERGENS) for (const lang of UI_LANGS) assert.ok(a.names[lang], `${a.id} ${lang}`);
 });
+
+test('R2 finding: the clear label cannot be confused with the no-number / unreadable labels', () => {
+  const shared3 = (a, b) => { for (let i = 0; i + 3 <= a.length; i++) { const g = a.slice(i, i + 3); if (g.trim().length === 3 && b.includes(g)) return g; } return null; };
+  const words = (x) => new Set(x.toLowerCase().split(/[^\p{L}]+/u).filter((w) => w.length >= 4));
+  const sharedWord = (a, b) => [...words(a)].find((w) => words(b).has(w)) ?? null;
+  for (const lang of UI_LANGS) {
+    const cjk = ['ko', 'zh', 'ja'].includes(lang);
+    for (const other of ['nonumbers', 'unreadable']) {
+      assert.equal(cjk ? shared3(T[lang].clear, T[lang][other]) : sharedWord(T[lang].clear, T[lang][other]), null, `${lang} clear vs ${other}`);
+    }
+  }
+});

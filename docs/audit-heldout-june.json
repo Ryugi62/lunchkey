@@ -1,43 +1,32 @@
 {
   "summary": {
-    "measuredAt": "2026-10-05T21:16:09.302Z",
-    "lunchesFrom": "2026-08-31",
-    "weeks": 5,
+    "measuredAt": "2026-10-05T21:16:19.478Z",
+    "lunchesFrom": "2026-06-01",
+    "weeks": 4,
     "offices": 17,
     "officesWithMeals": 17,
     "schoolsSampled": 170,
     "distinctSchools": 170,
-    "schoolsWithMeals": 160,
-    "lunches": 3580,
-    "dishLines": 24745,
+    "schoolsWithMeals": 165,
+    "lunches": 2792,
+    "dishLines": 19209,
     "statusShare": {
-      "coded": 79.39,
-      "uncoded": 20.6,
-      "malformed": 0.01
+      "coded": 79.08,
+      "uncoded": 20.89,
+      "malformed": 0.03
     },
-    "uncodedLinesWithDigits": 26,
-    "variantTagLines": 128,
-    "linesWithAmbiguousNumbers": 221,
+    "uncodedLinesWithDigits": 20,
+    "variantTagLines": 110,
+    "linesWithAmbiguousNumbers": 163,
     "glossShare": {
-      "full": 78.77,
-      "partial": 20.05,
-      "none": 1.18
+      "full": 77.2,
+      "partial": 21.66,
+      "none": 1.14
     },
     "errors": 0,
-    "seconds": 13
+    "seconds": 10
   },
   "ambiguousLines": [
-    {
-      "raw": "감자전2(베이컨) (5.6.10)",
-      "codes": [
-        5,
-        6,
-        10
-      ],
-      "ambiguousCodes": [
-        2
-      ]
-    },
     {
       "raw": "꽃맛살샐러드2(대저중앙) (1.4.5.6.8.12.13.18)",
       "codes": [
@@ -55,16 +44,14 @@
       ]
     },
     {
-      "raw": "김치전1 (5.6.9.16.17)",
+      "raw": "단배추된장국2 (5.6.9)",
       "codes": [
         5,
         6,
-        9,
-        16,
-        17
+        9
       ],
       "ambiguousCodes": [
-        1
+        2
       ]
     },
     {
@@ -75,15 +62,17 @@
       ]
     },
     {
-      "raw": "바나나1/2",
-      "codes": [],
+      "raw": "감자전2(베이컨) (5.6)",
+      "codes": [
+        5,
+        6
+      ],
       "ambiguousCodes": [
-        1,
         2
       ]
     },
     {
-      "raw": "골드키위1/2",
+      "raw": "바나나1/2",
       "codes": [],
       "ambiguousCodes": [
         1,
@@ -117,6 +106,41 @@
       ]
     },
     {
+      "raw": "도시락김(9절7매)",
+      "codes": [],
+      "ambiguousCodes": [
+        9
+      ]
+    },
+    {
+      "raw": "김부각(초)-1 (5.6)",
+      "codes": [
+        5,
+        6
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "열무김치1 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "열무김치1 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
       "raw": "열무김치1 (9)",
       "codes": [
         9
@@ -146,26 +170,12 @@
       ]
     },
     {
-      "raw": "요구르트3 (2)",
+      "raw": "요구르트1 (2)",
       "codes": [
         2
       ],
       "ambiguousCodes": [
-        3
-      ]
-    },
-    {
-      "raw": "NEW 등갈비폭립(2탄) (5.6.10.12.13.16)",
-      "codes": [
-        5,
-        6,
-        10,
-        12,
-        13,
-        16
-      ],
-      "ambiguousCodes": [
-        2
+        1
       ]
     },
     {
@@ -183,14 +193,126 @@
       ]
     },
     {
-      "raw": "양념1 (5.6.7.8.13.18)",
+      "raw": "총각김치1 (9)",
       "codes": [
-        5,
-        6,
-        7,
-        8,
-        13,
-        18
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "열무김치1 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "보쌈김치1 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "총각김치1 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "배추김치1 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "깍두기1 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "총각김치1 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "배추김치1 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "배추김치1 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "총각김치1 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "보쌈김치1 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "배추김치1 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "총각김치1 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "배추김치1 (9)",
+      "codes": [
+        9
       ],
       "ambiguousCodes": [
         1
@@ -224,7 +346,7 @@
       ]
     },
     {
-      "raw": "배추김치1 (9)",
+      "raw": "깍두기1 (9)",
       "codes": [
         9
       ],
@@ -233,7 +355,7 @@
       ]
     },
     {
-      "raw": "배추김치1 (9)",
+      "raw": "보쌈김치1 (9)",
       "codes": [
         9
       ],
@@ -242,218 +364,24 @@
       ]
     },
     {
-      "raw": "해물짬뽕국2(초) (5.6.9.10.13.17.18)",
+      "raw": "깐쇼새우강정1 (4.5.6.9.12.13.18)",
       "codes": [
+        4,
         5,
         6,
         9,
-        10,
+        12,
         13,
-        17,
         18
       ],
       "ambiguousCodes": [
-        2
-      ]
-    },
-    {
-      "raw": "배추김치1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
         1
       ]
     },
     {
-      "raw": "배추김치1 (9)",
+      "raw": "찰토마토꿀절임1 (12.13)",
       "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "배추김치1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "보쌈김치1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "배추김치1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "보쌈김치1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "배추김치1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "배추김치1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "깍두기1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "배추김치1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "배추김치1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "배추김치1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "배추김치1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "총각김치1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "배추김치1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "총각김치1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "배추김치1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "깍두기1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "오징어초무침1 (5.6.13.17)",
-      "codes": [
-        5,
-        6,
-        13,
-        17
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "삼색나물1 (5.6.13)",
-      "codes": [
-        5,
-        6,
-        13
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "열무김치1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "삼겹살오븐구이1 (10.13)",
-      "codes": [
-        10,
+        12,
         13
       ],
       "ambiguousCodes": [
@@ -473,48 +401,8 @@
       ]
     },
     {
-      "raw": "순살파닭1 (2.5.6.11.12.13.15.16.18)",
-      "codes": [
-        2,
-        5,
-        6,
-        11,
-        12,
-        13,
-        15,
-        16,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
       "raw": "한라봉감귤쥬스1 (13)",
       "codes": [
-        13
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "아삭이고추쌈장무침1 (5.6.13)",
-      "codes": [
-        5,
-        6,
-        13
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "견과류멸치볶음1 (4.5.6.13)",
-      "codes": [
-        4,
-        5,
-        6,
         13
       ],
       "ambiguousCodes": [
@@ -533,6 +421,71 @@
       ]
     },
     {
+      "raw": "참나물무침1 (5.6)",
+      "codes": [
+        5,
+        6
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "열무김치1 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "취나물무침1 (5.6)",
+      "codes": [
+        5,
+        6
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "배추겉절이-4 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        4
+      ]
+    },
+    {
+      "raw": "나시고랭-4 (1.5.6.8.9.10.13.18)",
+      "codes": [
+        1,
+        5,
+        6,
+        8,
+        9,
+        10,
+        13,
+        18
+      ],
+      "ambiguousCodes": [
+        4
+      ]
+    },
+    {
+      "raw": "알새우칩-4 (5.9.13)",
+      "codes": [
+        5,
+        9,
+        13
+      ],
+      "ambiguousCodes": [
+        4
+      ]
+    },
+    {
       "raw": "깍두기-4 (9)",
       "codes": [
         9
@@ -542,7 +495,7 @@
       ]
     },
     {
-      "raw": "총각김치-4 (9)",
+      "raw": "깍두기-4 (9)",
       "codes": [
         9
       ],
@@ -560,84 +513,7 @@
       ]
     },
     {
-      "raw": "순살떡닭강정-4 (5.6.12.13.15)",
-      "codes": [
-        5,
-        6,
-        12,
-        13,
-        15
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "총각김치-4 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "배추겉절이-4 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "사과-4",
-      "codes": [],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "총각김치-4 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
       "raw": "깍두기-4 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "배추겉절이-4 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "오징어부추전-4 (1.5.6.17)",
-      "codes": [
-        1,
-        5,
-        6,
-        17
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "총각김치-4 (9)",
       "codes": [
         9
       ],
@@ -653,24 +529,6 @@
       ]
     },
     {
-      "raw": "총각김치-4 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "깍두기-4 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
       "raw": "배추겉절이-4 (9)",
       "codes": [
         9
@@ -680,27 +538,6 @@
       ]
     },
     {
-      "raw": "총각김치-4 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "모닝빵-4 (1.2.5.6)",
-      "codes": [
-        1,
-        2,
-        5,
-        6
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
       "raw": "깍두기-4 (9)",
       "codes": [
         9
@@ -710,133 +547,308 @@
       ]
     },
     {
-      "raw": "돈까스소스-4 (1.2.5.6.10.12.13.15.16.18)",
+      "raw": "쫀득참나물전-4 (1.5.6.10.15.16)",
       "codes": [
         1,
-        2,
         5,
         6,
         10,
-        12,
-        13,
         15,
-        16,
-        18
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "콩가루배춧국-4 (5.6.9)",
-      "codes": [
-        5,
-        6,
-        9
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "총각김치-4 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "크림슨(포도)-4",
-      "codes": [],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "강황쌀밥-4",
-      "codes": [],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "배추겉절이-4 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "총각김치-4 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "배추겉절이-4 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "깍두기-4 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "배추겉절이-4 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        4
-      ]
-    },
-    {
-      "raw": "포도(2색)",
-      "codes": [],
-      "ambiguousCodes": [
-        2
-      ]
-    },
-    {
-      "raw": "포도(2색)",
-      "codes": [],
-      "ambiguousCodes": [
-        2
-      ]
-    },
-    {
-      "raw": "담양버섯떡갈비3 (1.2.5.6.10.16)",
-      "codes": [
-        1,
-        2,
-        5,
-        6,
-        10,
         16
       ],
       "ambiguousCodes": [
-        3
+        4
+      ]
+    },
+    {
+      "raw": "배추겉절이-4 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        4
+      ]
+    },
+    {
+      "raw": "총각김치-4 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        4
+      ]
+    },
+    {
+      "raw": "배추겉절이-4 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        4
+      ]
+    },
+    {
+      "raw": "총각김치-4 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        4
+      ]
+    },
+    {
+      "raw": "요플레과일샐러드-4 (1.2.5.6.12)",
+      "codes": [
+        1,
+        2,
+        5,
+        6,
+        12
+      ],
+      "ambiguousCodes": [
+        4
+      ]
+    },
+    {
+      "raw": "배추김치-4 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        4
+      ]
+    },
+    {
+      "raw": "곤약메추리알장조림-4 (1.5.13)",
+      "codes": [
+        1,
+        5,
+        13
+      ],
+      "ambiguousCodes": [
+        4
+      ]
+    },
+    {
+      "raw": "검은깨온두부-4 (5)",
+      "codes": [
+        5
+      ],
+      "ambiguousCodes": [
+        4
+      ]
+    },
+    {
+      "raw": "김치볶음-4 (5.6.9)",
+      "codes": [
+        5,
+        6,
+        9
+      ],
+      "ambiguousCodes": [
+        4
+      ]
+    },
+    {
+      "raw": "총각김치-4 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        4
+      ]
+    },
+    {
+      "raw": "고등어갈비구이-4 (5.6.7.13)",
+      "codes": [
+        5,
+        6,
+        7,
+        13
+      ],
+      "ambiguousCodes": [
+        4
+      ]
+    },
+    {
+      "raw": "석박지-4 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        4
+      ]
+    },
+    {
+      "raw": "배추김치-4 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        4
+      ]
+    },
+    {
+      "raw": "깍두기-4 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        4
+      ]
+    },
+    {
+      "raw": "또띠아고르곤졸라-4 (2.5.6.12.13)",
+      "codes": [
+        2,
+        5,
+        6,
+        12,
+        13
+      ],
+      "ambiguousCodes": [
+        4
+      ]
+    },
+    {
+      "raw": "총각김치-4 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        4
       ]
     },
     {
       "raw": "친환경흑미밥-1",
       "codes": [],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "쇠고기미역국-1 (5.6.16)",
+      "codes": [
+        5,
+        6,
+        16
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "콩나물김치국-1 (5.9)",
+      "codes": [
+        5,
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "열대과일샐러드-1 (11)",
+      "codes": [
+        11
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "10곡잡곡밥-1 (5)",
+      "codes": [
+        5
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "오징어무국-1 (5.8.9.17)",
+      "codes": [
+        5,
+        8,
+        9,
+        17
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "고추잎고추장무침-1 (5.6.13)",
+      "codes": [
+        5,
+        6,
+        13
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "귀리밥-1",
+      "codes": [],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "보리밥-1",
+      "codes": [],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "우엉조림-1 (5.6.13)",
+      "codes": [
+        5,
+        6,
+        13
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "호박고추장찌개-1 (5.6.9)",
+      "codes": [
+        5,
+        6,
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "두부조림-1 (5.6)",
+      "codes": [
+        5,
+        6
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "비름나물-1 (5.6)",
+      "codes": [
+        5,
+        6
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "단무지-1 (9)",
+      "codes": [
+        9
+      ],
       "ambiguousCodes": [
         1
       ]
@@ -860,29 +872,11 @@
       ]
     },
     {
-      "raw": "우엉조림-1 (5.6.13)",
+      "raw": "코다리무조림-1 (5.6.13)",
       "codes": [
         5,
         6,
         13
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "보리밥-1",
-      "codes": [],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "대구매운탕-1 (5.6.9)",
-      "codes": [
-        5,
-        6,
-        9
       ],
       "ambiguousCodes": [
         1
@@ -903,12 +897,8 @@
       ]
     },
     {
-      "raw": "오븐감자채전-1 (5.6.10)",
-      "codes": [
-        5,
-        6,
-        10
-      ],
+      "raw": "팥밥-1",
+      "codes": [],
       "ambiguousCodes": [
         1
       ]
@@ -921,116 +911,36 @@
       ]
     },
     {
-      "raw": "열무된장무침-1 (5.6.13)",
+      "raw": "비엔나소시지볶음-1 (2.5.6.10.12.13.15.16)",
       "codes": [
+        2,
         5,
         6,
-        13
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "오징어볶음-1 (5.6.13.17)",
-      "codes": [
-        5,
-        6,
-        13,
-        17
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "보리밥-1",
-      "codes": [],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "돈육김치찌개-1 (5.6.9.10)",
-      "codes": [
-        5,
-        6,
-        9,
-        10
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "가지나물-1",
-      "codes": [],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "친환경흑미밥-1",
-      "codes": [],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "코다리고추장강정-1 (4.5.6.12.13)",
-      "codes": [
-        4,
-        5,
-        6,
+        10,
         12,
-        13
+        13,
+        15,
+        16
       ],
       "ambiguousCodes": [
         1
       ]
     },
     {
-      "raw": "보리밥-1",
-      "codes": [],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "두부조림-1 (5.6)",
+      "raw": "10곡잡곡밥-1 (5)",
       "codes": [
-        5,
-        6
+        5
       ],
       "ambiguousCodes": [
         1
       ]
     },
     {
-      "raw": "멸치고추장조림-1 (5.6.9.13)",
+      "raw": "돈등뼈감자탕-1 (5.6.10)",
       "codes": [
         5,
         6,
-        9,
-        13
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "보리밥-1",
-      "codes": [],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "우렁된장찌개-1 (5.6.9)",
-      "codes": [
-        5,
-        6,
-        9
+        10
       ],
       "ambiguousCodes": [
         1
@@ -1049,16 +959,24 @@
       ]
     },
     {
-      "raw": "10곡잡곡밥-1 (5)",
+      "raw": "찰보리밥-1",
+      "codes": [],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "얼갈이된장무침-1 (5.6)",
       "codes": [
-        5
+        5,
+        6
       ],
       "ambiguousCodes": [
         1
       ]
     },
     {
-      "raw": "오이지무침-1 (5.6.13)",
+      "raw": "꽈리고추멸치볶음-1 (5.6.13)",
       "codes": [
         5,
         6,
@@ -1069,15 +987,20 @@
       ]
     },
     {
-      "raw": "홍국쌀밥-1",
-      "codes": [],
+      "raw": "참치김치찌개-1 (5.9)",
+      "codes": [
+        5,
+        9
+      ],
       "ambiguousCodes": [
         1
       ]
     },
     {
-      "raw": "김실파무침-1 (13)",
+      "raw": "오이양배추무침-1 (5.6.13)",
       "codes": [
+        5,
+        6,
         13
       ],
       "ambiguousCodes": [
@@ -1085,10 +1008,11 @@
       ]
     },
     {
-      "raw": "우유미숫가루-1 (2.5.13)",
+      "raw": "건새우마늘쫑볶음-1 (5.6.9.13)",
       "codes": [
-        2,
         5,
+        6,
+        9,
         13
       ],
       "ambiguousCodes": [
@@ -1103,49 +1027,9 @@
       ]
     },
     {
-      "raw": "쇠고기미역국-1 (5.6.16)",
-      "codes": [
-        5,
-        6,
-        16
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "무생채-1 (13)",
-      "codes": [
-        13
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "연두부/간장-1 (5.6)",
-      "codes": [
-        5,
-        6
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "10곡잡곡밥-1 (5)",
+      "raw": "콩나물무침-1 (5)",
       "codes": [
         5
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "취나물된장무침-1 (5.6)",
-      "codes": [
-        5,
-        6
       ],
       "ambiguousCodes": [
         1
@@ -1159,18 +1043,7 @@
       ]
     },
     {
-      "raw": "돈등뼈감자탕-1 (5.6.10)",
-      "codes": [
-        5,
-        6,
-        10
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "알감자조림-1 (5.6.13)",
+      "raw": "참나물겉절이-1 (5.6.13)",
       "codes": [
         5,
         6,
@@ -1181,51 +1054,13 @@
       ]
     },
     {
-      "raw": "찹쌀밥-1",
-      "codes": [],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "미리먹는 토란국-1 (5.6.16)",
-      "codes": [
-        5,
-        6,
-        16
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "돼지갈비찜-1 (5.6.10.13)",
-      "codes": [
-        5,
-        6,
-        10,
-        13
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "렌틸콩밥-1",
-      "codes": [],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "닭두반장조림-1 (2.5.6.12.13.15.16.18)",
+      "raw": "쇠고기카레소스-1 (2.5.6.12.13.16.18)",
       "codes": [
         2,
         5,
         6,
         12,
         13,
-        15,
         16,
         18
       ],
@@ -1234,7 +1069,36 @@
       ]
     },
     {
-      "raw": "두부미소된장국-1 (5.6)",
+      "raw": "열무된장무침-1 (5.6.13)",
+      "codes": [
+        5,
+        6,
+        13
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "보리밥-1",
+      "codes": [],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "감자수제비국-1 (5.6.9)",
+      "codes": [
+        5,
+        6,
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "깻잎찜-1 (5.6)",
       "codes": [
         5,
         6
@@ -1244,148 +1108,85 @@
       ]
     },
     {
-      "raw": "도토리묵김치무침-1 (5.6.9.13)",
+      "raw": "가지나물-1",
+      "codes": [],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "19돼지갈비찜1 (5.6.10.13)",
       "codes": [
         5,
         6,
+        10,
+        13
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "버섯전골13 (5.6.16)",
+      "codes": [
+        5,
+        6,
+        16
+      ],
+      "ambiguousCodes": [
+        13
+      ]
+    },
+    {
+      "raw": "돼지갈비찜3 (5.6.10.13)",
+      "codes": [
+        5,
+        6,
+        10,
+        13
+      ],
+      "ambiguousCodes": [
+        3
+      ]
+    },
+    {
+      "raw": "해물탕2 (5.6.8.9.13)",
+      "codes": [
+        5,
+        6,
+        8,
         9,
         13
       ],
       "ambiguousCodes": [
-        1
+        2
       ]
     },
     {
-      "raw": "오이피클-1",
-      "codes": [],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "친환경흑미밥-1",
-      "codes": [],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "쇠고기미역국-1 (5.6.16)",
+      "raw": "청양갈빗살떡갈비3 (5.6.10.13.15)",
       "codes": [
         5,
         6,
-        16
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "찹쌀밥-1",
-      "codes": [],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "알감자조림-1 (5.6.13)",
-      "codes": [
-        5,
-        6,
-        13
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "멸치견과류볶음-1 (4.5.6.13)",
-      "codes": [
-        4,
-        5,
-        6,
-        13
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "깨순나물볶음14 (5.6)",
-      "codes": [
-        5,
-        6
-      ],
-      "ambiguousCodes": [
-        14
-      ]
-    },
-    {
-      "raw": "비빔밥2 (1.5.6.13.16)",
-      "codes": [
-        1,
-        5,
-        6,
+        10,
         13,
-        16
-      ],
-      "ambiguousCodes": [
-        2
-      ]
-    },
-    {
-      "raw": "자장면14 (1.2.5.6.10.13)",
-      "codes": [
-        1,
-        2,
-        5,
-        6,
-        10,
-        13
-      ],
-      "ambiguousCodes": [
-        14
-      ]
-    },
-    {
-      "raw": "양배추깨소스샐러드15 (1.5.13)",
-      "codes": [
-        1,
-        5,
-        13
-      ],
-      "ambiguousCodes": [
         15
+      ],
+      "ambiguousCodes": [
+        3
       ]
     },
     {
-      "raw": "깨순나물볶음14 (5.6)",
+      "raw": "숙주나물미나리무침-1",
+      "codes": [],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "얼갈이배추된장무침-1 (5.6)",
       "codes": [
         5,
         6
-      ],
-      "ambiguousCodes": [
-        14
-      ]
-    },
-    {
-      "raw": "등갈비조림2 (5.6.10.12)",
-      "codes": [
-        5,
-        6,
-        10,
-        12
-      ],
-      "ambiguousCodes": [
-        2
-      ]
-    },
-    {
-      "raw": "토마토블루베리샐러드-1 (2.12.13)",
-      "codes": [
-        2,
-        12,
-        13
       ],
       "ambiguousCodes": [
         1
@@ -1398,6 +1199,22 @@
         6,
         13
       ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "온두부-1 (5)",
+      "codes": [
+        5
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "들깨머위나물-1",
+      "codes": [],
       "ambiguousCodes": [
         1
       ]
@@ -1414,23 +1231,7 @@
       ]
     },
     {
-      "raw": "마늘종장아찌-1",
-      "codes": [],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "영양부추무침-1 (13)",
-      "codes": [
-        13
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "도라지사과무침-1 (5.6.13)",
+      "raw": "오이부추무침-1 (5.6.13)",
       "codes": [
         5,
         6,
@@ -1441,18 +1242,18 @@
       ]
     },
     {
-      "raw": "가지나물-1 (5.6)",
-      "codes": [
-        5,
-        6
-      ],
+      "raw": "쌈채소-1",
+      "codes": [],
       "ambiguousCodes": [
         1
       ]
     },
     {
-      "raw": "친환경쌈-1",
-      "codes": [],
+      "raw": "깻잎순볶음-1 (5.6)",
+      "codes": [
+        5,
+        6
+      ],
       "ambiguousCodes": [
         1
       ]
@@ -1467,40 +1268,16 @@
       ]
     },
     {
-      "raw": "얼갈이배추된장무침-1 (5.6)",
+      "raw": "참나물겉절이-1 (13)",
       "codes": [
-        5,
-        6
+        13
       ],
       "ambiguousCodes": [
         1
       ]
     },
     {
-      "raw": "꼬막야채무침-1 (5.6.13.18)",
-      "codes": [
-        5,
-        6,
-        13,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "구운채소-1 (2.5.6)",
-      "codes": [
-        2,
-        5,
-        6
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "배추김치-1 (9)",
+      "raw": "열무김치-1 (9)",
       "codes": [
         9
       ],
@@ -1509,7 +1286,25 @@
       ]
     },
     {
-      "raw": "온두부/간장양념-1 (5.6.13)",
+      "raw": "쑥갓두부무침-1 (5)",
+      "codes": [
+        5
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "애호박들깨볶음-1 (5)",
+      "codes": [
+        5
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "상추겉절이-1 (5.6.13)",
       "codes": [
         5,
         6,
@@ -1520,72 +1315,8 @@
       ]
     },
     {
-      "raw": "미역줄기볶음-1",
-      "codes": [],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "근대나물무침-1 (5.6)",
+      "raw": "부추겉절이-1 (5.6.13)",
       "codes": [
-        5,
-        6
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "무생채-1 (13)",
-      "codes": [
-        13
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "도라지강정-1 (5.6.12.13)",
-      "codes": [
-        5,
-        6,
-        12,
-        13
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "도토리묵무침-1 (5.6.13)",
-      "codes": [
-        5,
-        6,
-        13
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "고구마줄기볶음-1",
-      "codes": [],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "시금치무침-1",
-      "codes": [],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "구운채소-1 (2.5.6.13)",
-      "codes": [
-        2,
         5,
         6,
         13
@@ -1606,339 +1337,257 @@
       ]
     },
     {
-      "raw": "공통양념1 (8.9.18)",
+      "raw": "토마토블루베리샐러드-1 (2.12.13)",
       "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "공통양념1 (8.9.18)",
-      "codes": [
-        8,
-        9,
-        18
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "배추김치2 (9.13)",
-      "codes": [
-        9,
+        2,
+        12,
         13
       ],
       "ambiguousCodes": [
-        2
+        1
       ]
     },
     {
-      "raw": "배추김치2 (9.13)",
+      "raw": "취나물무침-1 (5.6)",
       "codes": [
-        9,
-        13
+        5,
+        6
       ],
       "ambiguousCodes": [
-        2
+        1
       ]
     },
     {
-      "raw": "배추김치2 (9.13)",
+      "raw": "공통양념1 (8.9.18)",
       "codes": [
+        8,
         9,
-        13
+        18
       ],
       "ambiguousCodes": [
-        2
+        1
       ]
     },
     {
-      "raw": "배추김치2 (9.13)",
+      "raw": "공통양념1 (8.9.18)",
       "codes": [
+        8,
         9,
-        13
+        18
       ],
       "ambiguousCodes": [
-        2
+        1
       ]
     },
     {
-      "raw": "배추김치2 (9.13)",
+      "raw": "공통양념1 (8.9.18)",
       "codes": [
+        8,
         9,
-        13
+        18
       ],
       "ambiguousCodes": [
-        2
+        1
       ]
     },
     {
-      "raw": "배추김치2 (9.13)",
+      "raw": "공통양념1 (8.9.18)",
       "codes": [
+        8,
         9,
-        13
+        18
       ],
       "ambiguousCodes": [
-        2
+        1
       ]
     },
     {
-      "raw": "배추김치2 (9.13)",
+      "raw": "공통양념1 (8.9.18)",
       "codes": [
+        8,
         9,
-        13
+        18
       ],
       "ambiguousCodes": [
-        2
+        1
       ]
     },
     {
-      "raw": "배추김치2 (9.13)",
+      "raw": "공통양념1 (8.9.18)",
       "codes": [
+        8,
         9,
-        13
+        18
       ],
       "ambiguousCodes": [
-        2
+        1
       ]
     },
     {
-      "raw": "배추김치2 (9.13)",
+      "raw": "공통양념1 (8.9.18)",
       "codes": [
+        8,
         9,
-        13
+        18
       ],
       "ambiguousCodes": [
-        2
+        1
+      ]
+    },
+    {
+      "raw": "공통양념1 (8.9.18)",
+      "codes": [
+        8,
+        9,
+        18
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "공통양념1 (8.9.18)",
+      "codes": [
+        8,
+        9,
+        18
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "공통양념1 (8.9.18)",
+      "codes": [
+        8,
+        9,
+        18
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "공통양념1 (8.9.18)",
+      "codes": [
+        8,
+        9,
+        18
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "공통양념1 (8.9.18)",
+      "codes": [
+        8,
+        9,
+        18
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "공통양념1 (8.9.18)",
+      "codes": [
+        8,
+        9,
+        18
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "공통양념1 (8.9.18)",
+      "codes": [
+        8,
+        9,
+        18
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "공통양념1 (8.9.18)",
+      "codes": [
+        8,
+        9,
+        18
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "공통양념1 (8.9.18)",
+      "codes": [
+        8,
+        9,
+        18
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "공통양념1 (8.9.18)",
+      "codes": [
+        8,
+        9,
+        18
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "공통양념1 (8.9.18)",
+      "codes": [
+        8,
+        9,
+        18
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "공통양념1 (8.9.18)",
+      "codes": [
+        8,
+        9,
+        18
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "공통양념1 (8.9.18)",
+      "codes": [
+        8,
+        9,
+        18
+      ],
+      "ambiguousCodes": [
+        1
       ]
     },
     {
       "raw": "배추김치1 (9)",
+      "codes": [
+        9
+      ],
+      "ambiguousCodes": [
+        1
+      ]
+    },
+    {
+      "raw": "깍두기1 (9)",
       "codes": [
         9
       ],
@@ -1965,54 +1614,40 @@
       ]
     },
     {
-      "raw": "배추김치1 (9)",
+      "raw": "바나나1/2",
+      "codes": [],
+      "ambiguousCodes": [
+        1,
+        2
+      ]
+    },
+    {
+      "raw": "양배추,브로컬리/초장1 (5.6.13)",
       "codes": [
-        9
+        5,
+        6,
+        13
       ],
       "ambiguousCodes": [
         1
       ]
     },
     {
-      "raw": "배추김치1 (9)",
+      "raw": "쇠고기국1 (5.6.16)",
       "codes": [
-        9
+        5,
+        6,
+        16
       ],
       "ambiguousCodes": [
         1
       ]
     },
     {
-      "raw": "배추김치1 (9)",
+      "raw": "삼색나물1 (5.6)",
       "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "배추김치1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "배추김치1 (9)",
-      "codes": [
-        9
-      ],
-      "ambiguousCodes": [
-        1
-      ]
-    },
-    {
-      "raw": "배추김치1 (9)",
-      "codes": [
-        9
+        5,
+        6
       ],
       "ambiguousCodes": [
         1
@@ -2020,308 +1655,222 @@
     }
   ],
   "malformedExamples": [
-    "비빔면과삼겹살은 절친 2 (5.6.10.16)",
-    "지코바치밥2/초 (1.2.5.6.12.13.15)"
+    "바나나1/2 (2.5.6)",
+    "목살스테이크2/초 (2.5.6.10.11.12.13.16.18)",
+    "반미샌드1/2 (1.2.5.6.10.12.13.15.16.18)",
+    "가지구이무침 18 (5.6)",
+    "오렌지 31",
+    "디저트39 청사과주스# (11)"
   ],
   "uncodedWithDigitsExamples": [
     "무말랭이무침2(대저중앙)",
     "아삭모둠피클(4색)",
-    "압맥보리밥(80)",
-    "차조밥(65)",
-    "차수수밥(25중등)",
-    "제철과일(골드키위)(25중등)",
-    "보리밥(25초등)",
-    "흑미기장밥(25초등)",
-    "오색현미밥(25초등)",
-    "감자채볶음(25초등)",
-    "병아리콩밥(0)",
-    "시금치나물(0)",
-    "친환경팥밥(0)",
-    "홍국쌀밥(0)",
-    "오리곰탕(0)",
-    "키위(0)",
-    "샤인머스켓(0)",
-    "궁채장아찌(0)",
-    "단감(0)",
+    "도시락김(9절7매)",
+    "골드파인애플바(50)",
+    "발아현미밥(80)",
+    "발아현미밥(80)",
+    "귀리밥(80)",
+    "율무밥(80)",
+    "아이스망고(0)",
+    "모둠쌈(친)(0)",
+    "블루베리(0)",
+    "단배추나물무침(0)",
+    "골드키위(0)",
+    "야채피클(0)",
+    "김구이(0)",
+    "거봉(0)",
     "파인애플(30)-4",
-    "포도(2색)",
-    "포도(2색)",
+    "식혜(100)",
     "흑미밥(2011)",
-    "흑미밥(2011)",
-    "흑미밥(2011)",
-    "바나나(6수)*"
+    "100일떡(2026학년도)"
   ],
   "topUnglossed": [
     [
-      "차",
-      73
+      "수리취",
+      96
     ],
     [
       "청",
-      68
+      62
     ],
     [
       "물",
-      60
+      56
     ],
     [
-      "초",
-      49
-    ],
-    [
-      "단",
-      47
-    ],
-    [
-      "순",
-      46
-    ],
-    [
-      "래",
-      45
-    ],
-    [
-      "소",
-      39
-    ],
-    [
-      "실",
-      38
-    ],
-    [
-      "막",
-      37
-    ],
-    [
-      "꽃",
-      33
+      "차",
+      54
     ],
     [
       "냉",
-      30
+      52
     ],
     [
-      "잔",
+      "래",
+      44
+    ],
+    [
+      "초",
+      42
+    ],
+    [
+      "쫑",
+      41
+    ],
+    [
+      "막",
+      40
+    ],
+    [
+      "단",
+      40
+    ],
+    [
+      "순",
+      32
+    ],
+    [
+      "소",
       28
     ],
     [
-      "장",
-      28
-    ],
-    [
-      "슈",
+      "타리",
       26
     ],
     [
-      "은지",
+      "실",
       26
     ],
     [
-      "수",
-      26
+      "바",
+      25
     ],
     [
-      "병",
+      "꽃",
       25
     ],
     [
       "돈",
-      25
-    ],
-    [
-      "약",
-      24
-    ],
-    [
-      "지",
-      24
-    ],
-    [
-      "바",
       23
     ],
     [
-      "대",
-      23
+      "소바",
+      22
     ],
     [
-      "드",
+      "수",
+      22
+    ],
+    [
+      "병",
       21
     ],
     [
-      "이",
+      "은지",
       21
-    ],
-    [
-      "갑",
-      21
-    ],
-    [
-      "링",
-      20
-    ],
-    [
-      "과",
-      19
-    ],
-    [
-      "산",
-      19
-    ],
-    [
-      "동",
-      18
-    ],
-    [
-      "명엽",
-      18
-    ],
-    [
-      "마카",
-      18
-    ],
-    [
-      "해",
-      18
-    ],
-    [
-      "왕",
-      18
-    ],
-    [
-      "타리",
-      17
-    ],
-    [
-      "백",
-      17
-    ],
-    [
-      "과자",
-      17
-    ],
-    [
-      "도",
-      17
-    ],
-    [
-      "토란",
-      17
-    ],
-    [
-      "포",
-      17
-    ],
-    [
-      "쫑",
-      17
     ],
     [
       "바싹",
-      17
+      20
     ],
     [
-      "톳",
-      17
-    ],
-    [
-      "더덕",
-      17
-    ],
-    [
-      "발효유",
-      17
-    ],
-    [
-      "뼈없는",
-      16
-    ],
-    [
-      "찹",
-      16
-    ],
-    [
-      "언양식",
-      16
-    ],
-    [
-      "크래미",
-      16
+      "드",
+      20
     ],
     [
       "가쓰오",
-      16
+      20
     ],
     [
-      "카다이프",
-      16
+      "장",
+      20
     ],
     [
-      "담기",
-      16
+      "해",
+      19
     ],
     [
-      "지짐",
-      15
+      "대",
+      19
     ],
     [
-      "달콤",
-      15
+      "겨자",
+      19
     ],
     [
-      "후리가케",
-      15
+      "잔",
+      19
     ],
     [
-      "텐더",
-      15
+      "슈",
+      19
+    ],
+    [
+      "미숫",
+      19
     ],
     [
       "구슬",
+      19
+    ],
+    [
+      "어",
+      18
+    ],
+    [
+      "머스터드",
+      18
+    ],
+    [
+      "연포",
+      18
+    ],
+    [
+      "약",
+      17
+    ],
+    [
+      "산",
+      17
+    ],
+    [
+      "명엽",
+      17
+    ],
+    [
+      "오향장",
+      16
+    ],
+    [
+      "오미자",
+      16
+    ],
+    [
+      "뼈없는",
       15
     ],
     [
-      "케이준",
+      "톳",
       15
     ],
     [
-      "비타민",
+      "비",
       15
     ],
     [
-      "일",
-      15
-    ],
-    [
-      "쪽",
-      15
-    ],
-    [
-      "대구",
-      15
-    ],
-    [
-      "싸먹는",
-      15
+      "탄두리",
+      14
     ],
     [
       "찐",
-      15
-    ],
-    [
-      "케익",
       14
     ],
     [
-      "오삼",
+      "완두",
       14
     ],
     [
-      "주식",
-      14
-    ],
-    [
-      "날개",
+      "황도",
       14
     ],
     [
@@ -2329,48 +1878,132 @@
       14
     ],
     [
+      "케이준",
+      14
+    ],
+    [
+      "찹",
+      13
+    ],
+    [
+      "마카",
+      13
+    ],
+    [
+      "식",
+      13
+    ],
+    [
+      "지",
+      13
+    ],
+    [
       "저당",
-      14
-    ],
-    [
-      "오향장",
-      14
-    ],
-    [
-      "동인동",
-      14
-    ],
-    [
-      "홍미",
-      14
-    ],
-    [
-      "머스터드",
-      14
-    ],
-    [
-      "한방",
-      14
-    ],
-    [
-      "백색",
-      14
-    ],
-    [
-      "그릭",
       13
     ],
     [
-      "스위트",
-      13
+      "후리가케",
+      12
     ],
     [
-      "소바",
-      13
+      "백",
+      12
     ],
     [
       "메론",
-      13
+      12
+    ],
+    [
+      "초절임",
+      12
+    ],
+    [
+      "차돌",
+      12
+    ],
+    [
+      "싸먹는",
+      12
+    ],
+    [
+      "스",
+      11
+    ],
+    [
+      "돌",
+      11
+    ],
+    [
+      "나가사끼",
+      11
+    ],
+    [
+      "돈코츠라멘",
+      11
+    ],
+    [
+      "비타민",
+      11
+    ],
+    [
+      "대구",
+      11
+    ],
+    [
+      "포",
+      11
+    ],
+    [
+      "동",
+      11
+    ],
+    [
+      "블랙사",
+      11
+    ],
+    [
+      "대추",
+      11
+    ],
+    [
+      "머위",
+      11
+    ],
+    [
+      "홍미",
+      11
+    ],
+    [
+      "도",
+      10
+    ],
+    [
+      "깍둑",
+      10
+    ],
+    [
+      "투움바",
+      10
+    ],
+    [
+      "검은",
+      10
+    ],
+    [
+      "유산균",
+      10
+    ],
+    [
+      "고춧",
+      10
+    ],
+    [
+      "텐더",
+      10
+    ],
+    [
+      "장어",
+      10
     ]
   ],
   "schools": [

@@ -22,6 +22,7 @@ test('partial gloss keeps the unknown part romanized', () => {
   const g = glossDish('뀨뀨볶음밥', 'en');
   assert.equal(g.status, 'partial');
   assert.match(g.text.toLowerCase(), /fried rice/);
+  assert.match(g.text, /\(\?\)/); // the unknown part is visibly marked
   assert.ok(g.coverage > 0 && g.coverage < 1);
 });
 
@@ -47,4 +48,15 @@ test('hand-check findings: mis-segmentations fixed', () => {
   assert.match(en('무지개별떡국'), /^rainbow/);
   assert.match(en('맛있는 쌀밥'), /^tasty rice$/);
   assert.match(en('조갯살아욱된장국'), /^clam meat mallow/);
+});
+
+test('R2 findings: natural order, no repeats, crab is known', () => {
+  assert.equal(glossDish('달걀찜', 'en').text, 'steamed egg');
+  assert.equal(glossDish('달걀찜', 'zh').text, '蒸鸡蛋');
+  assert.equal(glossDish('달걀찜', 'vi').text, 'trứng hấp');
+  assert.equal(glossDish('땅콩조림', 'vi').text, 'đậu phộng kho');
+  assert.equal(glossDish('떡갈비구이', 'en').text, 'grilled short-rib patties');
+  assert.equal(glossDish('돼지고기김치찌개', 'vi').text, 'canh hầm thịt heo kim chi');
+  assert.match(glossDish('게맛살샐러드', 'en').text, /^crab sticks salad$/);
+  assert.match(glossDish('냉모밀', 'en').text, /buckwheat/);
 });

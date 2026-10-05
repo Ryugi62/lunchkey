@@ -6,7 +6,8 @@
 
 - ⛔ contains your child's allergen
 - ✓ none of your child's allergens listed
-- ? not labeled, ask the school
+- ○ no numbers printed
+- ? numbers it couldn't read, ask the school
 
 Live: **https://ryugi62.github.io/lunchkey/**. One-click sample: https://ryugi62.github.io/lunchkey/?demo=1 (Vietnamese: `?demo=1&lang=vi`).
 No login, no server, no cost. Built solo for WarriorHacks 2.0 (theme: *solve an issue in your community, county, state, or nation*).
@@ -21,7 +22,7 @@ No login, no server, no cost. Built solo for WarriorHacks 2.0 (theme: *solve an 
 
 - South Korea has **202,208 multicultural K-12 students**, 4.0% of all students. That is a record high and still rising ([2025 Education Statistics, KEDI](https://www.kedi.re.kr/khome/main/announce/selectBroadAnnounceForm.do?selectTp=0&board_sq_no=3&article_sq_no=36108)). Many of their parents grew up in Vietnam, China, the Philippines, Japan or Central Asia and do not read Korean well.
 - In a survey of 27,679 Korean students, **6.8% had a doctor-diagnosed food allergy**, and 7.6% had a reaction in the past year ([Allergy Asthma Respir Dis, 2013, data from 2012](https://synapse.koreamed.org/upload/synapsedata/pdfdata/0206aard/aard-1-227.pdf)).
-- **Who exactly is hurt:** on those two numbers, about 13,700 multicultural children have a diagnosed food allergy (202,208 × 6.8%, an upper bound). Each of them has a parent who must check a Korean-only menu. The per-child view also helps any parent of an allergic child, roughly 340,000 children at the same rate.
+- **Who exactly is hurt:** a rough estimate is about 13,700 multicultural children with a diagnosed food allergy (202,208 × 6.8%, using old prevalence data). Many multicultural families have a parent who reads Korean, so the core users are households where the parent who handles school can't. I found no published count for that group, so I don't claim one.
 - Every school publishes its menu through the national NEIS system, **only in Korean, with allergens as numbers 1–19**. To check one day for one child, a parent must:
   1. read each Korean dish name;
   2. find its numbers;
@@ -39,46 +40,48 @@ No login, no server, no cost. Built solo for WarriorHacks 2.0 (theme: *solve an 
 3. **Pick what your child must avoid** from the 19 numbered allergens. Each is shown in your language with the Korean word under it.
 4. **See the week.** Each day tab shows one of:
    - ⛔ and a count;
-   - ✓, only when *every* dish is labeled and none match;
-   - ?, when nothing matches but something is unlabeled.
+   - ✓, only when *every* dish has numbers and none match;
+   - ○, when nothing matches but some dishes have no numbers printed;
+   - ?, when something code-like couldn't be read.
 
-   Each dish shows its verdict, an explanation of the dish name, and every allergen number decoded, with your child's in red.
-5. **Print a one-page fridge sheet** in your language, or **copy a family link**. The link holds the school and allergens in its `#hash`, which is never sent to a server. It does *not* include the child's name.
-6. **Paste a menu** from a daycare or kindergarten. These use the same numbers and the same checker.
+   Each dish shows its verdict, an explanation of the dish name, and every allergen number decoded, with your child's in red. Families with several children switch with one tap.
+5. **Print a one-page fridge sheet** in your language, or **copy a family link**. The link holds the school and allergens in its `#hash`, which is never sent to a server. It does *not* include the child's name. Opening a link for a second child adds that child instead of replacing the first.
+6. **No Korean typing needed when the school shares a link.** "For schools and family centers: copy a link with this school already chosen" gives a nutrition teacher or a multicultural family center a link to print as a QR code. The parent then only picks a language and the allergens.
+7. **Paste a menu** from a daycare or kindergarten. These use the same numbers and the same checker.
 
-### Three verdicts, one rule: never "clear" without evidence
+### Four verdicts, one rule: never green without evidence
 
-| Verdict | When | Why |
+| Verdict | When | Shown as |
 |---|---|---|
-| ⛔ **Contains** | a printed number matches your child's allergen | always wins, even if other text on the line is unreadable |
-| ✓ **None of your child's allergens listed** | numbers are printed and none match | "listed" is the honest claim: we read what the school printed |
-| ? **Not labeled, ask the school** | no number printed, or code-like text we can't read cleanly | we can't tell, so it is never shown as clear, and neither is a day or meal that contains it |
+| ⛔ **Contains** | a printed number matches your child's allergen | red — always wins |
+| ? **Couldn't read the numbers — ask the school** | code-like text that can't be read cleanly, or a number that *might* be one of your child's codes (menu numbering like `배추김치1 (9)`, notes like `(1난류)`) | amber |
+| ○ **No numbers printed** | nothing code-like printed (plain rice, fruit) | grey, neutral — not green |
+| ✓ **None of your child's allergens listed** | numbers printed, read cleanly, none match | green — the only green |
 
-## Does it actually read real menus? Measured, not claimed
+A day or meal is green only if every dish is ✓. A property test appends every possible code N (as `N`, ` N`, `/요구르트N`, `[N]`, `<N>`, `(N난류)`) to real lines and checks the app never says ✓ for a child avoiding N.
 
-`npm run audit` asks the live NEIS API one school-week of lunches at a time. **170 distinct schools** (10 per office × **all 17 provincial education offices**), lunches from 2026-08-31 to 2026-10-02. Run on 2026-10-06:
+## Does it actually read real menus? (measured, not claimed)
 
-| | |
-|---|---|
-| Schools with published lunches | 160 of 170, in **17 of 17** offices |
-| Lunches · dish lines (each school-day counted once) | 3,580 · **24,745** |
-| Lines with allergen numbers / no numbers / unreadable | 79.4% / 20.6% / **0%** |
-| Menu numbering not mistaken for allergens (`호박죽-1`, `공통양념-2`) | 128 lines |
-| Number notes not mistaken for allergens (`(20kg)`, `(25초등)`, `바나나1/2`) | all 25 listed in [`docs/audit.json`](docs/audit.json) checked by hand |
-| Dish names fully / partly / not explained by the glossary | 78.6% / 20.2% / 1.2% |
+`npm run audit` asks the live NEIS API one school-week of lunches at a time: **170 distinct schools** (10 per office × **all 17 provincial education offices**). Each school-day counted once. Run 2026-10-06:
 
-**Hand checks, with their findings:**
-- **Parser.** 150 real lines were checked one by one against the printed text and against an independent regex: 150/150 agree. One line, `깍두기(5) (9)`, is ambiguous. It is read conservatively, so it can only over-warn. The labels are in [`docs/audit-labels.json`](docs/audit-labels.json). A test asserts **zero false "clear"** on them for every single-allergen child (SPEC criterion 2).
-- **What the checks caught along the way:**
-  - `공통양념-2` ("common seasoning #2") was read as milk.
-  - `(20kg)`, `(25초등)` and `바나나1/2` were read as codes.
-  - Lines like `달걀찜 (1 5 6)` or `카레라이스(1.2.5.6)/요구르트(2)` lost codes.
+| | Aug 31 – Oct 2, 2026 | June 2026 (held out until the last round) |
+|---|---|---|
+| Schools with lunches / offices | 160 · 17 of 17 | 165 · 17 of 17 |
+| Lunches · dish lines | 3,580 · **24,745** | 2,792 · **19,209** |
+| Lines with numbers / no numbers / unreadable (→ ?) | 79.4% / 20.6% / 0.01% | 79.1% / 20.9% / 0.03% |
+| Lines holding a number that *might* be a code (shown as ? only to children avoiding it) | 221 (0.9%) | 163 (0.8%) |
+| Dish names fully / partly / not explained | 78.8% / 20.1% / 1.2% | 77.2% / 21.7% / 1.1% |
 
-  All of these are fixed, each with a regression test.
-- **Dish names.** 100 English explanations were checked by hand: 95 were acceptable on the first pass. The 5 mis-splits (화채 → "julienned" and similar) are fixed, with tests.
+Every one of those odd lines is listed in [`docs/audit.json`](docs/audit.json) and [`docs/audit-heldout-june.json`](docs/audit-heldout-june.json). The sample is a convenience sample (schools found by short name searches, because keyless NEIS can't page a full list).
+
+**Hand checks** ([`docs/audit-labels.json`](docs/audit-labels.json), enforced by tests):
+- **Even sample:** 150 real lines read one by one — 150/150 agree; 0 false ✓ for every single-allergen child.
+- **Stratified odd formats:** all **111** distinct odd formats found in both audits (glued numbers, fractions, lone numbers, menu numbering, number notes) read by hand — codes as labeled, never ✓ for any number that could be a code.
+- **What the checks and three rounds of mock judging caught**, each now a regression test: "common seasoning #2" read as milk; `(20kg)`/`(25초등)` read as codes; `달걀찜 (1 5 6)`, `A(…)/B2`, `[2]`, `(1난류)` losing a code (false ✓). June's held-out run added one fix (`요구르트80 (2)` = an 80 ml portion).
+- **Dish names:** 100 English explanations checked by hand — 95 acceptable on the first pass, the 5 mis-splits fixed with tests.
 
 ### Dish names: explained, not machine-translated
-A wrong translation could hide an ingredient. So each name is built only from a **glossary of 650+ Korean menu words** (English, Vietnamese, Chinese), using longest-match segmentation. For example, `돼지고기김치찌개` becomes pork + kimchi + stew. A part LunchKey doesn't know is shown romanized and marked "(?)". It is never guessed.
+A wrong translation could hide an ingredient. So each name is built only from a **glossary of 650+ Korean menu words** (English, Vietnamese, Chinese), using longest-match segmentation. For example, `돼지고기김치찌개` becomes "pork kimchi stew", and `달걀찜` becomes "steamed egg" / "trứng hấp" / "蒸鸡蛋" (word order per language). A part LunchKey doesn't know is shown romanized with "(?)" right in the name. It is never guessed.
 
 The allergen verdict never depends on the dish name, only on the printed numbers. English glosses were checked by the author, a native Korean speaker. Vietnamese and Chinese glosses were drafted with AI help and checked against dictionaries; native-speaker review is the next step. Filipino, Japanese and Russian users see English dish explanations, tagged as English for screen readers.
 
@@ -86,30 +89,31 @@ The allergen verdict never depends on the dish name, only on the printed numbers
 
 ```
 src/domain/       allergens (19 × 7 languages) · menu parser · verdict · gloss · romanize   — pure, no I/O
-src/application/  weekView (+ summaryStatus) · pasteView                                  — pure, depends on domain
+src/application/  weekView (+ summaryStatus) · headline · pasteView                       — pure, depends on domain
 src/adapters/     neis (fetch injected, error codes, retry on 5xx/network only) · profileStore (#hash)
 src/ui/           app.js (composition root) · i18n (7 languages) · styles
 scripts/          audit.mjs (national sample) · check-layers.mjs
 ```
 
 - **Zero dependencies, no build step.** Plain ES modules on GitHub Pages and a free public API, so it costs $0 to keep running.
-- **Keyless NEIS returns only the first 5 rows and ignores paging.** I measured this on 2026-10-06. So LunchKey asks narrow questions: one school, one week, lunch only. That is at most 5 rows, and the tests use a fake API that behaves the same way.
+- **Keyless NEIS returns only the first 5 rows and ignores paging.** I measured this on 2026-10-06. So LunchKey asks narrow questions: one school, one week, lunch only. That is at most 5 rows, fetched once per week and re-rendered from memory, and the tests use a fake API that behaves the same way.
+- **Sustainability.** The code already supports a free personal NEIS key (`?key=…`, stored on the device) for full paging. If keyless sample access ever changes, the fallback is a small scheduled job that pre-fetches opted-in schools into static JSON on GitHub Pages, behind the same adapter port.
 - **Resilience.** NEIS error codes are shown as errors, never as "no menu". The last loaded weeks are saved on the phone and shown, labeled, if the network fails. The sample school ships with a bundled week.
-- **Tests: 48** (`npm test`, Node's built-in runner, CI on Node 20/22/24). They cover every acceptance criterion in [`SPEC.md`](SPEC.md), the hand-checked real lines, the "never green with unknowns" rule, and a layer check. The check fails if `domain/` or `application/` imports adapters or the UI, or touches `fetch`, `localStorage` or `document`.
+- **Tests: 60** (`npm test`, Node's built-in runner, CI on Node 20/22/24). They cover every acceptance criterion in [`SPEC.md`](SPEC.md), the hand-checked real lines, the never-✓ property test, the top-card logic (`application/headline.js`), and a layer check. The check fails if `domain/` or `application/` imports adapters or the UI, or touches `fetch`, `localStorage` or `document`.
 - **Accessibility.**
   - Every verdict is shown as an icon, a word and a color.
   - Each language block carries its own `lang` attribute.
   - Day tabs are real tabs with arrow keys.
-  - A single polite live region announces the day's result.
+  - A polite live region announces the day's result.
   - Tap targets are at least 44 px, nothing scrolls sideways at 390 px, and dark mode works.
 
 Run locally: `npm test` · `npm run audit` · `npm run serve`, then open http://127.0.0.1:4321.
 
 ## Limits (honest)
 
-- LunchKey reads the **19 allergens that Korean school menus number**. It can't see ingredients a school didn't number, and it is **not medical advice**. Every screen says so and points parents to the school's nutrition teacher.
-- School search needs the Korean name. Parents have it on every notice and can paste it, but a Korean keyboard isn't required. Keyless search shows at most 5 matches, so the app asks for more of the name or a province.
-- **No user study yet.** The next step is to try it with multicultural family support centers in Changwon and measure the time it takes to check a day, with LunchKey versus with the legend sheet.
+- LunchKey reads the **19 allergens that Korean school menus number**. It can't see ingredients a school didn't number, and it is **not medical advice**. The setup, week and paste screens say so and point parents to the school's nutrition teacher.
+- School search needs the Korean name, which is on every notice and can be pasted, or a school link or QR code from the school or a family center. Keyless search shows at most 5 matches, so the app asks for more of the name or a province. English-name search isn't possible without a key: there is no such filter, and the full school list can't be paged.
+- **No user study yet.** That is the honest gap. Plan after WarriorHacks: I own it. Pilot it with a multicultural family support center in Changwon handing out the school-link QR. Measure the minutes and mistakes it takes to check one day with LunchKey versus the legend sheet.
 
 ## Why me, why here
 

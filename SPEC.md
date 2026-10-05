@@ -1,4 +1,4 @@
-# LunchKey — SPEC (v0.1, 2026-10-06)
+# LunchKey — SPEC (v0.3, 2026-10-06)
 
 ## 0. One line
 LunchKey turns a Korean school's official lunch menu, where allergens are printed only as bare numbers after Korean dish names (`새알심만두국 (1.2.5.6.9.10.15.16.18)`), into a per-child view in the parent's own language: each dish is marked **contains your child's allergen**, **no listed allergen**, or **not labeled**.
@@ -30,7 +30,7 @@ Essence: not a menu translator, but **the key that lets a parent who can't read 
 | Dish line | One dish as printed in the menu, e.g. `달걀찜 (1.5)` | `DishLine` |
 | Parse status | `coded` (codes found) · `uncoded` (no codes printed) · `malformed` (something code-like that we could not read) | `parseStatus` |
 | Child profile | The set of allergens one child must avoid, plus the display language | `ChildProfile` |
-| Verdict | `contains` · `clear` (coded, no match) · `unlabeled` (no codes, so we can't tell) | `Verdict` |
+| Verdict | `contains` · `clear` (coded, read cleanly, no match) · `nonumbers` (nothing code-like printed) · `unreadable` (code-like text we can't read, or a possibly-code number matching the child) | `Verdict` |
 | Meal | One school, one date, one meal type, with its dish lines | `Meal` |
 | Gloss | English (or vi/zh) rendering of a Korean dish name built from a reviewed glossary | `Gloss` |
 | Menu source | Where meals come from: NEIS API or pasted text | `MenuSource` port |
@@ -54,15 +54,17 @@ Essence: not a menu translator, but **the key that lets a parent who can't read 
 ## 6. Acceptance criteria (each → ≥ 1 test)
 - AC-1: Given `새알심만두국 (1.2.5.6.9.10.15.16.18)`, When parsed, Then nameKo=`새알심만두국`, codes=[1,2,5,6,9,10,15,16,18], status `coded`.
 - AC-2: Given variants `달걀찜(1.5)`, `우유 2.`, `닭강정 ⑮⑥`, `김치 (9)*`, `볶음밥1.5.6.10`, `요구르트(2.)`, When parsed, Then the codes are read the same way as AC-1.
-- AC-3: Given `바나나` (nothing printed), Then status `uncoded`, and the verdict for any profile is `unlabeled`, never `clear`.
-- AC-4: Given code 25 (out of range), Then it goes to `unknownCodes`, status `malformed`, and the verdict is `unlabeled` unless a valid code already matches (`contains`).
+- AC-3: Given `바나나` (nothing printed), Then status `uncoded`, and the verdict for any profile is `nonumbers`, never `clear`.
+- AC-4: Given `특식 (2.25)` (an out-of-range code inside a code group), Then 25 goes to `unknownCodes`, status `malformed`, verdict `unreadable` unless a valid code matches (`contains`). A bracket holding only one number outside 1–19 (`(80)`, `(0)`) is a portion size and is dropped; numbers removed as notes or menu numbering that lie in 1–19 go to `ambiguousCodes` and make the dish `unreadable` for a child avoiding them.
 - AC-5: Given profile {2 milk} and dish codes [1,5], Then verdict `clear`. Given profile {2} and codes [2,6], Then `contains` with matched=[2].
 - AC-6: Given NEIS `DDISH_NM` with `<br/>` separators, When split, Then one DishLine per dish, trimmed, empty parts dropped.
 - AC-7: Given `돼지고기김치찌개`, When glossed to English, Then the text contains "pork", "kimchi" and "stew", with coverage 1.0. Given an unknown name, Then status `none`, and the text is the romanization, marked as not translated.
 - AC-8: Given keyless NEIS (first 5 rows only), When a range with more rows is requested, Then one call is made, the first 5 rows are mapped to `Meal`s and `truncated` is reported; With a key, Then pages are fetched until `list_total_count`. Non-`INFO-200` result codes are errors; only 5xx/network errors are retried.
-- AC-11: Given a day with no match but ≥ 1 unlabeled dish, Then the day/meal status is `unknown` (amber ?), never `clear`.
 - AC-9: Given a profile, When encoded to a hash and decoded, Then you get the same profile back. Garbage hash → empty profile, no throw.
 - AC-10: Layer rule: no file in `src/domain` or `src/application` imports from `src/adapters` or `src/ui`.
+
+- AC-11: Given a day with no match, Then it is green only if every dish is `clear`; any `unreadable` → amber `unknown`; otherwise any `nonumbers` → neutral `nolisted`.
+- AC-12 (property): appending any possible code N (`N`, ` N`, `/요구르트N`, `[N]`, `<N>`, `(N난류)`, `&우유N`) to a coded line never yields `clear` for a child avoiding N.
 
 ## 7. Architecture
 ```
@@ -89,4 +91,5 @@ tests/            node:test
 ## 11. UI acceptance (Toss-style checklist)
 1. Mobile first: 390 px, no horizontal scroll (measured: scrollWidth 390). 2. One question per setup screen (language → school → allergens) with a progress bar. 3. Type scale: titles 22–24 px bold, body 16 px, auxiliary 13 px. 4. Cards 16 px radius, sections ≥ 24 px apart. 5. One fixed bottom CTA, ≥ 52 px tall. 6. The result leads with the count ("2 dishes contain Milk", 32 px), the verdict list below. 7. Evidence (printed line, numbers, gloss parts) sits in a closed `<details>`. 8. Short, friendly microcopy in 7 languages. 9. White + one blue + three status colors, icon + word + color for every status, dark mode. 10. System fonts, no CDN, skeleton loading.
 
+- v0.3 2026-10-06 round-2 fixes: ambiguousCodes + four verdicts, property test, headline module, in-memory weeks, multi-child, school link, NEIS key option, stratified hand labels (111) + held-out June audit.
 - v0.2 2026-10-06 mock-review fixes: keyless NEIS reality (first 5 rows), parser reads all bracket groups and odd separators, portion/number notes, `summaryStatus` (never green with unknowns), error codes, saved weeks, honest audit (distinct schools, dedup), hand labels, i18n wording of the clear verdict.
