@@ -5,7 +5,8 @@
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { createNeisSource, OFFICES } from '../src/adapters/neis.js';
 import { glossDish } from '../src/domain/gloss.js';
-import { weekRange } from '../src/application/weekView.js';
+import { weekRange, summaryStatus } from '../src/application/weekView.js';
+import { judgeDish } from '../src/domain/verdict.js';
 
 const [perOffice = 10, firstMonday = '2026-08-31', weeks = 5, out = 'docs/audit.json'] = process.argv.slice(2);
 const KEYS = ['중앙', '동', '서', '남', '북', '신', '대', '산', '성', '해', '평', '광', '명', '용', '봉', '천', '화', '양', '덕', '월'];
@@ -48,11 +49,12 @@ const stat = { ambiguous: 0, lines: 0, coded: 0, uncoded: 0, malformed: 0, uncod
 const malformed = [], uncodedDigits = [], unglossed = new Map(), all = [];
 const schoolsWithMeals = new Set(), officesWithMeals = new Set(), byOffice = {};
 let mealsN = 0;
+const allMeals = [];
 for (const { s, meals } of fetched) {
   for (const m of meals) {
     const k = `${s.code}:${m.date}`;
     if (seen.has(k)) continue; // never count the same school-day twice
-    seen.add(k); mealsN++; schoolsWithMeals.add(s.code); officesWithMeals.add(s.office);
+    seen.add(k); mealsN++; allMeals.push(m); schoolsWithMeals.add(s.code); officesWithMeals.add(s.office);
     const po = (byOffice[s.office] ??= { lines: 0, coded: 0, uncoded: 0, malformed: 0, ambiguous: 0 });
     for (const d of m.dishes) { po.lines++; po[d.parseStatus]++; if (d.ambiguousCodes?.length) po.ambiguous++; }
     for (const d of m.dishes) {
@@ -69,6 +71,18 @@ for (const { s, meals } of fetched) {
     }
   }
 }
+// Warning load: for a child avoiding ONE allergen, what share of school days come out ⛔ / ? / ○ / ✓?
+const dayLoad = {};
+for (let a = 1; a <= 19; a++) {
+  const c = { contains: 0, unknown: 0, nolisted: 0, clear: 0 };
+  for (const m of allMeals) {
+    const sum = { contains: 0, clear: 0, nonumbers: 0, unreadable: 0 };
+    for (const d of m.dishes) sum[judgeDish(d, new Set([a])).verdict]++;
+    const st = summaryStatus(sum); if (c[st] !== undefined) c[st]++;
+  }
+  const n = allMeals.length || 1;
+  dayLoad[a] = Object.fromEntries(Object.entries(c).map(([k, v]) => [k, Math.round((v / n) * 1000) / 10]));
+}
 const pct = (a, b) => (b ? Math.round((a / b) * 10000) / 100 : null);
 const summary = {
   measuredAt: new Date().toISOString(), lunchesFrom: firstMonday, weeks: Number(weeks),
@@ -79,11 +93,12 @@ const summary = {
   glossShare: { full: pct(stat.glossFull, stat.lines), partial: pct(stat.glossPartial, stat.lines), none: pct(stat.glossNone, stat.lines) },
   errors, seconds: Math.round((Date.now() - t0) / 1000),
   byOffice,
+  dayLoadPercentBySingleAllergen: dayLoad,
 };
 mkdirSync('docs', { recursive: true });
 const step = Math.max(1, Math.floor(all.length / 150));
 const sample = all.filter((_, i) => i % step === 0).slice(0, 150).map((d) => ({ raw: d.raw, nameKo: d.nameKo, codes: d.codes, status: d.parseStatus }));
-if (out === 'docs/audit.json') writeFileSync('docs/audit-sample.json', JSON.stringify(sample, null, 1));
+writeFileSync(out === 'docs/audit.json' ? 'docs/audit-sample.json' : out.replace(/\.json$/, '-sample.json'), JSON.stringify(sample, null, 1));
 writeFileSync(out, JSON.stringify({ summary, ambiguousLines, malformedExamples: malformed, uncodedWithDigitsExamples: uncodedDigits, topUnglossed: [...unglossed.entries()].sort((a, b) => b[1] - a[1]).slice(0, 80), schools }, null, 2));
 console.log(JSON.stringify(summary, null, 2));
 if (distinct < Number(perOffice) * OFFICES.length * 0.85) { console.error(`too few distinct schools: ${distinct}`); process.exit(1); }

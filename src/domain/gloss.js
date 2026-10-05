@@ -25,7 +25,18 @@ function segment(name) {
     else { unknown += name[i]; i += 1; }
   }
   flush();
-  return parts;
+  // A one-syllable match sitting next to an unknown piece is usually a false split ("파운드" ≠ green onion + "undeu"):
+  // treat it as unknown too, so we never invent an ingredient.
+  for (let i = 0; i < parts.length; i++) {
+    const p = parts[i];
+    if (p.known && p.ko.length === 1 && ((parts[i - 1] && !parts[i - 1].known) || (parts[i + 1] && !parts[i + 1].known))) p.known = false;
+  }
+  const merged = [];
+  for (const p of parts) {
+    const last = merged[merged.length - 1];
+    if (last && !last.known && !p.known) last.ko += p.ko; else merged.push({ ...p });
+  }
+  return merged;
 }
 
 /**

@@ -437,9 +437,9 @@ export const GLOSSARY = {
 "zh": "韩牛"
 },
 "장조림": {
-"en": "soy-braised beef",
-"vi": "thịt bò kho tương",
-"zh": "酱牛肉"
+"en": "soy-braised",
+"vi": "kho tương",
+"zh": "酱煮"
 },
 "닭고기": {
 "en": "chicken",
@@ -2444,7 +2444,7 @@ export const GLOSSARY = {
 "오븐": {
 "en": "oven-baked",
 "vi": "nướng lò",
-"zh": "烤箱"
+"zh": "焗"
 },
 "연두부": {
 "en": "silken tofu",
@@ -3330,5 +3330,45 @@ export const GLOSSARY = {
 "en": "sliced radish",
 "vi": "củ cải thái lát",
 "zh": "萝卜片"
+},
+"파운드케이크": {
+"en": "pound cake",
+"vi": "bánh bông lan bơ",
+"zh": "磅蛋糕"
+},
+"생일케이크": {
+"en": "birthday cake",
+"vi": "bánh sinh nhật",
+"zh": "生日蛋糕"
+},
+"마카롱": {
+"en": "macaron",
+"vi": "bánh macaron",
+"zh": "马卡龙"
+},
+"브라우니": {
+"en": "brownie",
+"vi": "bánh brownie",
+"zh": "布朗尼"
+},
+"추로스": {
+"en": "churros",
+"vi": "bánh churros",
+"zh": "吉事果"
+},
+"츄러스": {
+"en": "churros",
+"vi": "bánh churros",
+"zh": "吉事果"
+},
+"타코야끼": {
+"en": "takoyaki",
+"vi": "bánh takoyaki",
+"zh": "章鱼烧"
+},
+"핫바": {
+"en": "fish-cake bar",
+"vi": "chả cá que",
+"zh": "鱼糕棒"
 }
 };

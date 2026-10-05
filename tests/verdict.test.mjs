@@ -57,17 +57,16 @@ test('a number glued to a dish with no code group is ambiguous: amber for that a
 test('fuzz: a possible code N after any separator, before a name, or inside a note never yields clear', async () => {
   const { splitMenu } = await import('../src/domain/menu.js');
   const seps = [',', '·', '.', '+', '*', ':', ';', '~', '–', '-', '_', '#', '、', '，', 'ㆍ', '/', '&', ' ', '', '※', '=', '|', '!', '?', '^', '@', '$', '%'];
-  const bases = ['달걀찜(5.6)', '된장국 (5.6)', '닭강정 (5.6.13.15)'];
+  const bases = ['달걀찜(5.6)', '된장국 (5.6)', '닭강정 (5.6.13.15)', '미역국(5.6)', '수제비 (5.6)', '호박죽 (5)', '알감자조림 (5.6.13)', '차돌된장찌개 (5.6.16)', '매운탕 (5.6.9)'];
   const verdictsFor = (line, n) => splitMenu(line).map((l) => judgeDish(parseDishLine(l), new Set([n])).verdict);
   for (const b of bases) for (let n = 1; n <= 19; n++) {
     const lines = [
       ...seps.map((sep) => `${b}${sep}${n}`),
-      `${n}${b}`, `${n} ${b}`, `${b}{${n}}`, `${b}（${n}）`, `${b}⑴`.replace('⑴', String.fromCodePoint(0x2473 + n)), `${b}${String.fromCodePoint(0x2075 + 0)}`,
+      `${n}${b}`, `${n} ${b}`, `${b}{${n}}`, `${b}（${n}）`, `${b} ${String.fromCodePoint(0x2473 + n)}`, ...(n <= 10 ? [`${b} ${String.fromCodePoint(0x24f4 + n)}`, `${b} ${String.fromCodePoint(0x2789 + n)}`] : [`${b} ${String.fromCodePoint(0x24eb + n - 11)}`]), ...(n <= 9 ? [`${b}${'¹²³⁴⁵⁶⁷⁸⁹'[n - 1]}`] : []),
       `${b}(난류${n})`, `${b}(가공:${n})`, `${b}(${n}우유 ${n}난류)`, `${b}(13아황산,${n}난류)`, `${b} ※${n}`, `${b}[난류${n}]`,
     ];
     for (const line of lines) {
       const vs = verdictsFor(line, n);
-      if (line.endsWith(String.fromCodePoint(0x2075))) continue;
       assert.ok(!vs.every((v) => v === 'clear'), `${line} / ${n} → ${vs}`);
     }
   }
@@ -87,4 +86,30 @@ test('a dish name that suggests the allergen is never clear, even with other num
   assert.equal(judgeDish(parseDishLine('치즈돈가스 (1.5.6.10)'), new Set([2])).reason, 'name');
   assert.equal(judgeDish(parseDishLine('땅콩조림'), new Set([4])).verdict, 'unreadable');
   assert.equal(judgeDish(parseDishLine('우유 (2)'), new Set([2])).verdict, 'contains');
+});
+
+test('legend words in brackets are codes; cut-off lists and odd enclosed numbers are never clear', () => {
+  assert.equal(judgeDish(parseDishLine('된장국 (5.6) (난류)'), new Set([1])).verdict, 'contains');
+  assert.equal(judgeDish(parseDishLine('게살스프 (1.5)(게)'), new Set([8])).verdict, 'contains');
+  assert.equal(judgeDish(parseDishLine('건포도 (5)(아황산)'), new Set([13])).verdict, 'contains');
+  assert.notEqual(judgeDish(parseDishLine('마파두부 (5.6.'), new Set([10])).verdict, 'clear');
+  assert.notEqual(judgeDish(parseDishLine('카레 (5.6.10.1'), new Set([13])).verdict, 'clear');
+  assert.equal(judgeDish(parseDishLine('된장국 (5.6) ⓯'), new Set([15])).verdict, 'contains');
+  assert.deepEqual(parseDishLine('새우볶음 (1ㆍ5ㆍ9)').codes, [1, 5, 9]);
+  for (const [l, n] of [['1미역국(5.6)', 1], ['2수제비(5.6)', 2], ['10호박죽(5)', 10], ['된장국(5.6) 1알감자', 1]]) {
+    assert.notEqual(judgeDish(parseDishLine(l), new Set([n])).verdict, 'clear', l);
+  }
+  for (const l of ['비빔밥 (2 large)', '국 (13%)', '떡 (1개)', '밥 (2인분)']) {
+    const n = Number(l.match(/\((\d+)/)[1]);
+    assert.notEqual(judgeDish(parseDishLine(l), new Set([n])).verdict, 'clear', l);
+  }
+});
+
+test('name hints skip look-alike words (duck bulgogi is not beef, kidney bean is not soy)', async () => {
+  const { nameHints } = await import('../src/domain/hints.js');
+  assert.ok(!nameHints('오리불고기').includes(16));
+  assert.ok(!nameHints('돈육고추장불고기').includes(16));
+  assert.ok(nameHints('소불고기').includes(16));
+  assert.ok(!nameHints('강낭콩밥').includes(5));
+  assert.ok(nameHints('콩나물국').includes(5));
 });

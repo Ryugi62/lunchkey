@@ -29,3 +29,10 @@ test('stratified odd formats from two national audits: codes as labeled, never c
     for (const n of l.mustNotClearFor) assert.notEqual(judgeDish(d, new Set([n])).verdict, 'clear', `${l.raw} / ${n}`);
   }
 });
+
+test('held-out May 2026 sample (never used for tuning): parser matches all 150 hand-checked lines', () => {
+  const may = JSON.parse(readFileSync(new URL('../docs/audit-labels.json', import.meta.url))).holdoutMay.labels;
+  assert.equal(may.length, 150);
+  const wrong = may.filter((l) => JSON.stringify(parseDishLine(l.raw).codes) !== JSON.stringify(l.expectedCodes));
+  assert.deepEqual(wrong.map((l) => l.raw), []);
+});

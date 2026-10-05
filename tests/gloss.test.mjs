@@ -61,3 +61,11 @@ test('gloss: natural word order, no repeated words, crab is known', () => {
   assert.match(glossDish('게맛살샐러드', 'en').text, /^crab sticks salad$/);
   assert.match(glossDish('냉모밀', 'en').text, /buckwheat/);
 });
+
+test('gloss never invents an ingredient from a one-syllable false split', () => {
+  assert.equal(glossDish('파운드케이크', 'en').text, 'pound cake');
+  assert.ok(!/green onion/.test(glossDish('파운드파이', 'en').text));
+  assert.ok(!/beef/.test(glossDish('돼지고기장조림', 'en').text));
+  assert.ok(!/beef/.test(glossDish('계란장조림', 'en').text));
+  assert.equal(glossDish('마카롱', 'en').text, 'macaron');
+});

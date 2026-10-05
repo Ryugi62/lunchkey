@@ -1,5 +1,6 @@
 // Composition root: wires the NEIS adapter, the profile store and the pure domain/application code to the DOM.
 import { ALLERGENS, allergenName } from '../domain/allergens.js';
+import { parseDishLine } from '../domain/menu.js';
 import { GLOSS_LANGS } from '../domain/gloss.js';
 import { buildWeekView, weekRange } from '../application/weekView.js';
 import { buildPasteView } from '../application/pasteView.js';
@@ -12,7 +13,7 @@ import { t, LANG_NAMES } from './i18n.js';
 const SAMPLE = { school: { office: 'S10', code: '9022479', name: '의창초등학교' }, allergens: [1, 2], name: 'Mina' };
 const SAMPLE_WEEK = '2026-09-28'; // bundled copy in docs/sample-week.json (used if the live API can't be reached)
 const STORE = 'lunchkey.v1';
-const CACHE = 'lunchkey.cache.v1';
+const CACHE = 'lunchkey.cache.v4'; // stores RAW menu lines, re-parsed on read, so parser fixes reach saved weeks
 const params = new URLSearchParams(location.search);
 const DEMO = params.get('demo') === '1';
 const KEY_STORE = 'lunchkey.neisKey';
@@ -164,7 +165,7 @@ function dishCard(d, lang, L) {
 
 function readCache() { try { return JSON.parse(localStorage.getItem(CACHE) || '{}'); } catch { return {}; } }
 function writeCache(key, meals) {
-  try { const c = readCache(); c[key] = meals; const keys = Object.keys(c); if (keys.length > 12) delete c[keys[0]]; localStorage.setItem(CACHE, JSON.stringify(c)); } catch { /* ignore */ }
+  try { const c = readCache(); c[key] = meals.map((m) => ({ date: m.date, mealType: m.mealType, mealName: m.mealName, lines: m.dishes.map((d) => d.raw) })); const keys = Object.keys(c); if (keys.length > 12) delete c[keys[0]]; localStorage.setItem(CACHE, JSON.stringify(c)); } catch { /* ignore */ }
 }
 async function bundledSample() {
   const body = await (await fetch('docs/sample-week.json')).json();
@@ -184,7 +185,11 @@ async function loadWeek(monday) {
     return { meals, offline: false };
   } catch (err) {
     const cached = readCache()[key];
-    if (cached) return { meals: cached, offline: true };
+    if (cached) {
+      const res = { meals: cached.map((m) => ({ ...m, dishes: (m.lines ?? []).map(parseDishLine) })), offline: true };
+      state.weeks.set(key, res);
+      return res;
+    }
     if (DEMO) { state.monday = SAMPLE_WEEK; return { meals: await bundledSample(), offline: true }; }
     throw err;
   }
