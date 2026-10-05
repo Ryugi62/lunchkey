@@ -7,17 +7,24 @@ import { parseDishLine } from '../src/domain/menu.js';
 const m = (lines, allergens) => buildWeekView([{ date: '2026-10-05', mealType: '2', dishes: lines.map(parseDishLine) }], { allergens, lang: 'en' }).days[0].meals[0];
 
 test('headline: contains wins and names the matched allergens', () => {
-  assert.deepEqual(headline(m(['우유 (2)', '달걀찜 (1.5)', '쌀밥'], [1, 2])), { tone: 'no', count: 2, matched: [1, 2] });
+  const h = headline(m(['우유 (2)', '달걀찜 (1.5)', '쌀밥'], [1, 2]));
+  assert.equal(h.tone, 'no'); assert.equal(h.count, 2); assert.deepEqual(h.matched, [1, 2]);
 });
 test('headline: unreadable → amber, never green', () => {
   assert.equal(headline(m(['된장국 (5.6)', '요구르트(2'], [1])).tone, 'warn');
 });
 test('headline: only unnumbered staples left → neutral, not green', () => {
-  assert.deepEqual(headline(m(['쌀밥', '된장국 (5.6)'], [1])), { tone: 'neutral', count: 1, matched: [] });
+  const h = headline(m(['쌀밥', '된장국 (5.6)'], [1]));
+  assert.equal(h.tone, 'neutral'); assert.equal(h.count, 1); assert.equal(h.unnumbered[0].nameKo, '쌀밥');
 });
 test('headline: green only when every dish is numbered and none match', () => {
   assert.equal(headline(m(['된장국 (5.6)', '배추김치 (9)'], [1])).tone, 'ok');
 });
 test('headline: an empty menu is "none", not "0 not labeled"', () => {
   assert.equal(headline({ dishes: [], summary: { contains: 0, clear: 0, nonumbers: 0, unreadable: 0 } }).tone, 'none');
+});
+
+test('headline names the possible allergen when a number might be a code', () => {
+  const h = headline(m(['깍두기(물2) (9.13)', '된장국 (5.6)'], [2]));
+  assert.equal(h.tone, 'warn'); assert.deepEqual(h.maybe, [2]);
 });

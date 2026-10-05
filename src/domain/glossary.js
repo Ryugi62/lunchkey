@@ -3370,5 +3370,20 @@ export const GLOSSARY = {
 "en": "fish-cake bar",
 "vi": "chả cá que",
 "zh": "鱼糕棒"
+},
+"돼지감자": {
+"en": "Jerusalem artichoke",
+"vi": "củ cúc vu",
+"zh": "菊芋"
+},
+"타르타르소스": {
+"en": "tartar sauce",
+"vi": "sốt tartar",
+"zh": "塔塔酱"
+},
+"마늘빵": {
+"en": "garlic bread",
+"vi": "bánh mì bơ tỏi",
+"zh": "蒜香面包"
 }
 };

@@ -22,6 +22,6 @@ export function judgeDish(dish, avoid) {
   if (byNumber.length) return { verdict: 'unreadable', matched: [], maybe: byNumber, reason: 'number' };
   if (byName.length) return { verdict: 'unreadable', matched: [], maybe: byName, reason: 'name' };
   if (dish.parseStatus === 'malformed') return { verdict: 'unreadable', matched: [], maybe: [], reason: 'malformed' };
-  if (dish.parseStatus === 'uncoded') return { verdict: 'nonumbers', matched: [], maybe: [], reason: 'none' };
+  if (dish.parseStatus === 'uncoded' || dish.shared) return { verdict: 'nonumbers', matched: [], maybe: [], reason: dish.shared ? 'shared' : 'none' };
   return { verdict: 'clear', matched: [], maybe: [], reason: 'code' };
 }

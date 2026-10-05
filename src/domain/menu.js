@@ -28,19 +28,47 @@ export function splitMenu(ddish) {
     .flatMap(splitCompound);
 }
 
-const HAS_CODE_GROUP = /[(\[<]\s*\d{1,2}(?:[.,/·\s]+\d{1,2})*\s*[.,]?\s*[)\]>]|[\u2460-\u2473\u2776-\u277f]/;
+const HAS_CODE_GROUP = /[(\[<]\s*\d{1,2}(?:[.,/·\s]+\d{1,2})*\s*[.,]?\s*[)\]>]|[\u2460-\u24ff\u2776-\u2793]/;
+// Side items that may share the main dish's numbers ("밥/짜장소스 (5.6.10)").
+const SIDE = /^(?:소스|쌈장|양념장|초장|간장|양념|밥|쌀밥|상추|쌈|드레싱|케첩|케찹|머스터드|마요|단무지|피클|김치|배추김치|깍두기)$/;
+
+/** Split on separators that are OUTSIDE brackets only. */
+function splitOutside(line) {
+  const out = []; let depth = 0; let cur = '';
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if ('([<{'.includes(ch)) depth++;
+    if (')]>}'.includes(ch)) depth = Math.max(0, depth - 1);
+    const isSep = depth === 0 && ('/&+'.includes(ch) || (ch === ',' && /[\uac00-\ud7a3]/.test(line.slice(i + 1).trimStart()[0] ?? '')));
+    if (isSep) { out.push(cur); cur = ''; } else cur += ch;
+  }
+  out.push(cur);
+  return out.map((x) => x.trim()).filter(Boolean);
+}
+
 /**
- * "카레라이스(1.5.6)/요구르트(2)" is two dishes. Split on / & + , when both sides name a dish.
- * If only the LAST part carries a code group ("잡채밥/짜장소스 (5.6.10)"), the codes are shared and the line stays one dish.
+ * One printed line can hold several dishes:
+ * - "카레라이스(1.5.6)/요구르트(2)" → two dishes (split on / & + , outside brackets)
+ * - "새우튀김 (1.5.6.9) 타르타르소스" → two dishes (Korean text after the last code group is its own, unnumbered dish)
+ * - "잡채밥/짜장소스 (5.6.10)" → one dish whose numbers may be shared; it is marked `shared:` so it is never shown green
+ *   unless the earlier parts are plain side items.
  * @param {string} line
  * @returns {string[]}
  */
 export function splitCompound(line) {
-  const parts = line.split(/\s*[/&+]\s*|\s*,\s*(?=[\uac00-\ud7a3])/).map((x) => x.trim()).filter(Boolean);
+  // Trailing dish after the last code group, separated by a space: "새우튀김 (1.5.6.9) 타르타르소스".
+  const tail = line.match(/^(.*[)\]>])\s+([^()\[\]<>]*[\uac00-\ud7a3]{2,}[^()\[\]<>]*)$/);
+  if (tail && HAS_CODE_GROUP.test(tail[1]) && !/^\s*[-–]?\d/.test(tail[2]) === true && !/^[\s\d]*$/.test(tail[2])) {
+    return [...splitCompound(tail[1].trim()), tail[2].trim()];
+  }
+  const parts = splitOutside(line);
   if (parts.length < 2 || !parts.every((x) => /[\uac00-\ud7a3]/.test(x))) return [line];
   const coded = parts.map((x) => HAS_CODE_GROUP.test(x));
   if (!coded.some(Boolean)) return [line];
-  if (coded.filter(Boolean).length === 1 && coded[coded.length - 1]) return [line];
+  if (coded.filter(Boolean).length === 1 && coded[coded.length - 1]) {
+    const earlier = parts.slice(0, -1).map((x) => x.replace(/[^\uac00-\ud7a3]/g, ''));
+    return earlier.every((x) => SIDE.test(x)) ? [line] : [`shared:${line}`];
+  }
   return parts;
 }
 
@@ -54,6 +82,9 @@ const numbers = (group) => group.split(/[^\d]+/).filter(Boolean).map(Number);
  * @returns {DishLine}
  */
 export function parseDishLine(raw) {
+  // "shared:" marks a line whose numbers belong to only some of its dishes (see splitCompound): never green.
+  const shared = String(raw ?? '').startsWith('shared:');
+  if (shared) raw = String(raw).slice('shared:'.length);
   const found = [];
   const ambiguous = []; // numbers that COULD be codes but aren't clearly codes: never allowed to support "clear"
   const maybe = (n) => { if (isAllergenCode(n)) ambiguous.push(n); };
@@ -72,7 +103,11 @@ export function parseDishLine(raw) {
   // ㆍ (U+318D) is a common middle-dot stand-in; swap it BEFORE NFKC (which turns it into a jamo).
   s = s.replace(/[ㆍ\u119e]/g, '·').normalize('NFKC').replace(MARKERS, '');
   // A bracket holding only an allergen's name ("(난류)", "(게)", "(아황산)") is that code.
-  s = s.replace(/[([]\s*([\uac00-\ud7a3]{1,5})\s*[)\]]/g, (all, w) => { const id = LEGEND_WORDS.get(w); if (id) { found.push(id); hadGroup = true; return ' '; } return all; });
+  s = s.replace(/[([]\s*([\uac00-\ud7a3]{1,5}(?:\s*[,·/\s]\s*[\uac00-\ud7a3]{1,5})*)\s*[)\]]/g, (all, list) => {
+    const ids = list.split(/[,·/\s]+/).map((w) => LEGEND_WORDS.get(w));
+    if (ids.length && ids.every(Boolean)) { found.push(...ids); hadGroup = true; return ' '; }
+    return all;
+  });
 
   // Portion notes ("(30g*3개)", "(20kg)", "(50 ml)") are not codes, but any 1–19 number inside stays ambiguous.
   s = s.replace(/\(\s*[\d.]+\s*(?:g|kg|ml|mL|l|L|개|ea|EA|인분|조각|%)(?:\s*[*x×]\s*\d+\s*(?:개|ea|EA|조각)?)?\s*\)/g, (note) => { for (const m of note.matchAll(/\d+/g)) maybe(+m[0]); return ' '; });
@@ -106,19 +141,21 @@ export function parseDishLine(raw) {
   const COUNTER = /^(?:곡|색|가지|종류|인분|학년|단계|등급|겹|혼합|탄)/;
   s = s.replace(/\d+/g, (num, at, whole) => {
     const after = whole.slice(at + num.length);
-    if (COUNTER.test(after) && !(at === 0 && Number(num) <= 19 && !/^(?:곡|색|가지|종류|혼합)/.test(after))) return num; // part of the dish name
+    const glued = at === 0 || /[\uac00-\ud7a3]/.test(whole[at - 1] ?? '');
+    if (glued && COUNTER.test(after) && !(at === 0 && Number(num) <= 19 && !/^(?:곡|색|가지|종류|혼합)/.test(after))) return num; // part of the dish name
     const v = Number(num);
+    if (num.length === 2 && hadGroup) { maybe(Number(num[0])); maybe(Number(num[1])); } // "(5.6)¹²" → 12, or 1 and 2
     if (num.length > 2 || v > 19 || v === 0) return num; // "비타500", "오렌지 31": not a code
     maybe(v);
     return /[가-힣]/.test(whole[at - 1] ?? '') && /[가-힣]/.test(after[0] ?? '') ? num : ' ';
   });
 
-  const nameKo = s.replace(/\s{2,}/g, ' ').replace(/\s*([/&])\s*/g, '$1').replace(/[\s(.:;,·~_\-]+$/, '').replace(/^[\s(.:;,·~_\-]+/, '').replace(MARKERS, '').trim();
+  const nameKo = s.replace(/\(\s*[-–·.,\s]*\)/g, ' ').replace(/(?:^|\s)(?:개|조각)(?=\s|$)/g, ' ').replace(/\s{2,}/g, ' ').replace(/\s*([/&])\s*/g, '$1').replace(/[\s(.:;,·~_\-]+$/, '').replace(/^[\s(.:;,·~_\-]+/, '').replace(MARKERS, '').trim();
 
   const codes = [...new Set(found.filter(isAllergenCode))].sort((a, b) => a - b);
   const unknownCodes = [...new Set(found.filter((n) => !isAllergenCode(n)))].sort((a, b) => a - b);
   const ambiguousCodes = [...new Set(ambiguous)].filter((n) => !codes.includes(n)).sort((a, b) => a - b);
   /** @type {ParseStatus} */
   const parseStatus = unknownCodes.length || leftover || unreadableMark ? 'malformed' : codes.length ? 'coded' : 'uncoded';
-  return { raw: String(raw ?? ''), nameKo, codes, unknownCodes, ambiguousCodes, parseStatus };
+  return { raw: String(raw ?? ''), nameKo, codes, unknownCodes, ambiguousCodes, parseStatus, shared };
 }

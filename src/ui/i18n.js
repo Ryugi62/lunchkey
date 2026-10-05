@@ -14,7 +14,7 @@ export const T = {
     containsCount: (n, a) => `${n} ${n === 1 ? 'dish contains' : 'dishes contain'} ${a}`,
     allClear: 'No dish lists your child\'s allergens', noMeal: 'No lunch menu published for this day.',
     howRead: 'How LunchKey read this', printed: 'Printed on the menu', codes: 'Allergen numbers',
-    glossNote: 'Dish names are explained from a reviewed word list, not machine-translated. Untranslated parts are shown in Korean letters.',
+    glossNote: 'Dish names are explained from a reviewed word list, not machine-translated. Parts it does not know are shown romanized and marked (?).',
     print: 'Print fridge sheet', share: 'Copy link for family', copied: 'Link copied',
     prevWeek: '← Previous week', nextWeek: 'Next week →', week: 'Week of', edit: 'Change',
     pasteInstead: 'Or paste a menu (daycare, kindergarten…)', pasteTitle: 'Paste a menu', pasteHint: 'One dish per line, with the numbers as printed.', check: 'Check',
@@ -32,6 +32,7 @@ export const T = {
     notPublished: "This week's menu isn't published yet.", addChild: '+ Add another child', linkedChild: 'Added as another child.',
     schoolLink: 'For schools and family centers: copy a link with this school already chosen', noLunch: 'No lunch',
     mightContain: (a) => `Might contain ${a} — ask the school`, whyNumber: (n) => `A "${n}" is printed next to the name.`, whyName: 'The dish name suggests it, but no number is printed for it.', avoid: 'Avoid',
+    maybeHero: (n, a) => `${n} ${n === 1 ? 'dish' : 'dishes'} might contain ${a} — ask the school`, noNumbersOn: 'no numbers on', sampleWeek: 'Sample week (the live menu service could not be reached from here).',
   },
   ko: {
     tagline: '우리 아이 학교 급식, 내 언어로.',
@@ -63,6 +64,7 @@ export const T = {
     notPublished: '이번 주 식단이 아직 올라오지 않았어요.', addChild: '+ 아이 추가', linkedChild: '다른 아이로 추가했어요.',
     schoolLink: '학교·가족센터용: 이 학교가 미리 선택된 링크 복사', noLunch: '급식 없음',
     mightContain: (a) => `${a} 들어 있을 수 있음 — 학교에 확인`, whyNumber: (n) => `이름 옆에 "${n}"이(가) 적혀 있어요.`, whyName: '메뉴 이름에 들어 있는데 번호는 없어요.', avoid: '피할 것',
+    maybeHero: (n, a) => `${n}개 메뉴에 ${a} 들어 있을 수 있음 — 학교에 확인`, noNumbersOn: '번호 없는 메뉴', sampleWeek: '예시 주간이에요(여기서는 실시간 급식 서비스에 연결되지 않았어요).',
   },
   vi: {
     tagline: 'Bữa trưa ở trường của con, bằng ngôn ngữ của bạn.',
@@ -94,6 +96,7 @@ export const T = {
     notPublished: 'Thực đơn tuần này chưa được đăng.', addChild: '+ Thêm con', linkedChild: 'Đã thêm như một bé khác.',
     schoolLink: 'Dành cho trường và trung tâm gia đình: sao chép liên kết đã chọn sẵn trường này', noLunch: 'Không có bữa trưa',
     mightContain: (a) => `Có thể có ${a} — hãy hỏi nhà trường`, whyNumber: (n) => `Có số "${n}" in cạnh tên món.`, whyName: 'Tên món gợi ý có, nhưng không có số.', avoid: 'Cần tránh',
+    maybeHero: (n, a) => `${n} món có thể có ${a} — hãy hỏi nhà trường`, noNumbersOn: 'món không in số', sampleWeek: 'Tuần mẫu (không kết nối được dịch vụ thực đơn trực tiếp từ đây).',
   },
   zh: {
     tagline: '孩子的学校午餐，用您的语言看懂。',
@@ -125,6 +128,7 @@ export const T = {
     notPublished: '本周菜单尚未发布。', addChild: '+ 添加孩子', linkedChild: '已作为另一个孩子添加。',
     schoolLink: '供学校和家庭中心使用：复制已选好本校的链接', noLunch: '无午餐',
     mightContain: (a) => `可能含有${a} — 请向学校确认`, whyNumber: (n) => `菜名旁印有“${n}”。`, whyName: '菜名提示含有，但没有编号。', avoid: '需避开',
+    maybeHero: (n, a) => `${n} 道菜可能含有${a} — 请向学校确认`, noNumbersOn: '无编号的菜', sampleWeek: '示例周（从这里无法连接实时菜单服务）。',
   },
   tl: {
     tagline: 'Ang tanghalian ng anak mo sa paaralan, sa sarili mong wika.',
@@ -156,6 +160,7 @@ export const T = {
     notPublished: 'Hindi pa nailalabas ang menu ngayong linggo.', addChild: '+ Magdagdag ng anak', linkedChild: 'Idinagdag bilang ibang anak.',
     schoolLink: 'Para sa paaralan at family center: kopyahin ang link na napili na ang paaralang ito', noLunch: 'Walang tanghalian',
     mightContain: (a) => `Maaaring may ${a} — itanong sa paaralan`, whyNumber: (n) => `May "${n}" na nakasulat sa tabi ng pangalan.`, whyName: 'Ipinahihiwatig ng pangalan ng ulam, pero walang numero.', avoid: 'Iwasan',
+    maybeHero: (n, a) => `${n} ulam ang maaaring may ${a} — itanong sa paaralan`, noNumbersOn: 'walang numero', sampleWeek: 'Halimbawang linggo (hindi maabot ang live na serbisyo ng menu mula rito).',
   },
   ja: {
     tagline: 'お子さんの給食を、あなたの言葉で。',
@@ -187,6 +192,7 @@ export const T = {
     notPublished: '今週の献立はまだ公開されていません。', addChild: '+ 子どもを追加', linkedChild: '別のお子さんとして追加しました。',
     schoolLink: '学校・家族支援センター向け：この学校を選択済みのリンクをコピー', noLunch: '給食なし',
     mightContain: (a) => `${a}を含む可能性 — 学校に確認`, whyNumber: (n) => `料理名の横に「${n}」と書かれています。`, whyName: '料理名からは含まれそうですが、番号はありません。', avoid: '避けるもの',
+    maybeHero: (n, a) => `${n}品に${a}が含まれる可能性 — 学校に確認`, noNumbersOn: '番号なし', sampleWeek: 'サンプルの週です（ここからは献立サービスに接続できませんでした）。',
   },
   ru: {
     tagline: 'Школьный обед вашего ребёнка — на вашем языке.',
@@ -218,6 +224,7 @@ export const T = {
     notPublished: 'Меню на эту неделю ещё не опубликовано.', addChild: '+ Добавить ребёнка', linkedChild: 'Добавлен как другой ребёнок.',
     schoolLink: 'Для школ и семейных центров: скопировать ссылку с уже выбранной школой', noLunch: 'Нет обеда',
     mightContain: (a) => `Может содержать: ${a} — уточните в школе`, whyNumber: (n) => `Рядом с названием напечатано «${n}».`, whyName: 'Название блюда указывает на это, но номера нет.', avoid: 'Избегать',
+    maybeHero: (n, a) => `Может содержать «${a}» (блюд: ${n}) — уточните в школе`, noNumbersOn: 'без номеров', sampleWeek: 'Пример недели (служба меню отсюда недоступна).',
   },
 };
 

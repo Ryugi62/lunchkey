@@ -11,6 +11,7 @@ import { encodeProfile, decodeProfile, UI_LANGS } from '../adapters/profileStore
 import { t, LANG_NAMES } from './i18n.js';
 
 const SAMPLE = { school: { office: 'S10', code: '9022479', name: '의창초등학교' }, allergens: [1, 2], name: 'Mina' };
+const SAMPLE_SIBLING = { school: SAMPLE.school, allergens: [4], name: 'Joon' }; // demo family: a peanut-allergic sibling shows the grey / green states
 const SAMPLE_WEEK = '2026-09-28'; // bundled copy in docs/sample-week.json (used if the live API can't be reached)
 const STORE = 'lunchkey.v1';
 const CACHE = 'lunchkey.cache.v4'; // stores RAW menu lines, re-parsed on read, so parser fixes reach saved weeks
@@ -22,7 +23,8 @@ if (params.get('key')) {
   params.delete('key'); history.replaceState(null, '', location.pathname + (params.toString() ? `?${params}` : '') + location.hash); // don't leave the key in the address bar
 }
 let neisKey = ''; try { neisKey = localStorage.getItem(KEY_STORE) || ''; } catch { /* ignore */ }
-const neis = createNeisSource({ fetch: (u) => fetch(u), key: neisKey || undefined }); // optional free NEIS key enables full paging
+const fetchWithTimeout = (u) => { const c = new AbortController(); const t = setTimeout(() => c.abort(), 6000); return fetch(u, { signal: c.signal }).finally(() => clearTimeout(t)); };
+const neis = createNeisSource({ fetch: fetchWithTimeout, key: neisKey || undefined }); // 6 s timeout; optional free NEIS key enables full paging
 const $app = document.getElementById('app');
 const $cta = document.getElementById('cta');
 const $lang = document.getElementById('langSelect');
@@ -52,7 +54,10 @@ function loadState() {
   const notice = merged.notice;
   if (!children.length) children = [{ allergens: [], lang: guessLang(), name: '', school: null }];
   let profile = children[Math.min(active, children.length - 1)];
-  if (DEMO) { profile = { ...profile, ...SAMPLE, lang: UI_LANGS.includes(params.get('lang')) ? params.get('lang') : profile.lang }; children = [profile]; active = 0; }
+  if (DEMO) {
+    const lang = UI_LANGS.includes(params.get('lang')) ? params.get('lang') : profile.lang;
+    children = [{ ...SAMPLE, lang }, { ...SAMPLE_SIBLING, lang }]; active = params.get('kid') === '2' ? 1 : 0; profile = children[active];
+  }
   // A parent arriving from a school link (school set, nothing chosen yet) starts at the language step.
   const step = params.get('paste') === '1' ? 'paste' : profile.school && profile.allergens.length ? 'week' : 'lang';
   return { children, active, profile, step, monday: weekRange(todayIso()).monday, day: null, firstLoad: true, notice, pasteText: '', office: '', weeks: new Map() };
@@ -190,7 +195,12 @@ async function loadWeek(monday) {
       state.weeks.set(key, res);
       return res;
     }
-    if (DEMO) { state.monday = SAMPLE_WEEK; return { meals: await bundledSample(), offline: true }; }
+    if (DEMO) {
+      state.monday = SAMPLE_WEEK;
+      const res = { meals: await bundledSample(), offline: 'sample' };
+      state.weeks.set(`${state.profile.school.office}:${state.profile.school.code}:${SAMPLE_WEEK}`, res);
+      return res;
+    }
     throw err;
   }
 }
@@ -242,8 +252,8 @@ async function renderWeek() {
     const names = h.matched.map((c) => allergenName(c, p.lang)).join(', ');
     const hero = {
       no: `<div class="hero no"><div class="big">⛔ ${esc(L.containsCount(h.count, names))}</div><p>${esc(L.lunch)}</p></div>`,
-      warn: `<div class="hero warn"><div class="big">? ${esc(L.unknownHero(h.count))}</div><p>${esc(L.lunch)}</p></div>`,
-      neutral: `<div class="hero neutral"><div class="big">○ ${esc(L.nolistedHero(h.count))}</div><p>${esc(L.lunch)}</p></div>`,
+      warn: `<div class="hero warn"><div class="big">? ${esc(h.maybe.length ? L.maybeHero(h.count, h.maybe.map((c) => allergenName(c, p.lang)).join(', ')) : L.unknownHero(h.count))}</div><p>${esc(L.lunch)}</p></div>`,
+      neutral: `<div class="hero neutral"><div class="big">○ ${esc(L.nolistedHero(h.count))}</div><p>${esc(L.lunch)} · ${esc(L.noNumbersOn)}: ${esc(h.unnumbered.map((d) => (p.lang === 'ko' ? d.nameKo : d.gloss.text)).join(', '))}</p></div>`,
       ok: `<div class="hero ok"><div class="big">✓ ${esc(L.allClear)}</div><p>${esc(L.lunch)}</p></div>`,
       none: `<div class="hero none"><div class="big">—</div><p>${esc(L.noMeal)}</p></div>`,
     }[h.tone];
@@ -251,7 +261,7 @@ async function renderWeek() {
     return hero + [...m.dishes].sort((a, b) => order[a.verdict] - order[b.verdict]).map((d) => dishCard(d, p.lang, L)).join('');
   }).join('');
   $app.innerHTML = `${header(p, L)}
-    ${state.notice ? `<p class="banner">${esc(state.notice)}</p>` : ''}${res.offline ? `<p class="banner">${esc(L.errNet)} ${esc(L.savedCopy)}</p>` : ''}
+    ${state.notice ? `<p class="banner">${esc(state.notice)}</p>` : ''}${res.offline === 'sample' ? `<p class="banner">${esc(L.sampleWeek)}</p>` : res.offline ? `<p class="banner">${esc(L.errNet)} ${esc(L.savedCopy)}</p>` : ''}
     <div class="weeknav" style="margin-top:12px"><button class="btn link" id="prev">${esc(L.prevWeek)}</button><span class="aux">${esc(L.week)} ${esc(fmtDate(state.monday, p.lang))}</span><button class="btn link" id="next">${esc(L.nextWeek)}</button></div>
     <div class="tabs" role="tablist">${tabs}</div><div id="panel" role="tabpanel" aria-labelledby="tab-${state.day}">${body}</div>
     <p class="note">${esc(L.safety)}</p><p class="note">${esc(L.glossNote)} · ${esc(L.dataSource)}</p>

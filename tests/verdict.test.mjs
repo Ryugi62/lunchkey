@@ -78,7 +78,11 @@ test('multi-dish lines: an unnumbered second dish is its own dish, never folded 
     const vs = splitMenu(line).map((l) => judgeDish(parseDishLine(l), new Set([n])).verdict);
     assert.ok(vs.length === 2 && vs[1] !== 'clear', `${line} → ${vs}`);
   }
-  assert.deepEqual(splitMenu('잡채밥/짜장소스 (5.6.10.13)'), ['잡채밥/짜장소스 (5.6.10.13)']); // shared trailing codes stay one dish
+  // shared trailing codes: one dish, marked shared, so it is never green unless the earlier parts are plain side items
+  const [shared] = splitMenu('잡채밥/짜장소스 (5.6.10.13)');
+  assert.equal(judgeDish(parseDishLine(shared), new Set([1])).verdict, 'nonumbers');
+  assert.deepEqual(splitMenu('밥/짜장소스 (5.6.10.13)'), ['밥/짜장소스 (5.6.10.13)']);
+  assert.equal(judgeDish(parseDishLine('밥/짜장소스 (5.6.10.13)'), new Set([1])).verdict, 'clear');
 });
 
 test('a dish name that suggests the allergen is never clear, even with other numbers printed', () => {
@@ -112,4 +116,31 @@ test('name hints skip look-alike words (duck bulgogi is not beef, kidney bean is
   assert.ok(nameHints('소불고기').includes(16));
   assert.ok(!nameHints('강낭콩밥').includes(5));
   assert.ok(nameHints('콩나물국').includes(5));
+});
+
+test('round-5 findings: brackets are not split, legend lists are codes, shared codes are not green, trailing dishes split', async () => {
+  const { splitMenu } = await import('../src/domain/menu.js');
+  const dishVerdicts = (line, n) => splitMenu(line).map((l) => ({ name: parseDishLine(l).nameKo, v: judgeDish(parseDishLine(l), new Set([n])).verdict }));
+  // the dish that contains N is never clear
+  for (const [line, n] of [['볶음밥(5.6)(게,새우)', 8], ['된장국 (5) (밀,토마토)', 6], ['국 (5)(난류/우유)', 2], ['멸치볶음 (5)(호두,잣)', 19]]) {
+    assert.ok(dishVerdicts(line, n).every((d) => d.v !== 'clear'), `${line} / ${n}`);
+  }
+  for (const [line, n] of [['오므라이스/미역국(5.6)', 1], ['카스테라/우유(2)', 1], ['탕수육/짜장소스(5.6)', 10], ['게장/밥(5)', 8]]) {
+    assert.ok(dishVerdicts(line, n).every((d) => d.v !== 'clear'), `${line} / ${n}`);
+  }
+  for (const [line, n] of [['새우튀김 (1.5.6.9) 타르타르소스', 2], ['떡볶이 (5.6.12.13) 어묵', 1], ['스파게티(5.6) 마늘빵', 2]]) {
+    const ds = dishVerdicts(line, n);
+    assert.equal(ds.length, 2, line); assert.notEqual(ds[1].v, 'clear', line);
+  }
+  assert.notEqual(judgeDish(parseDishLine('된장국(5.6)¹²'), new Set([1])).verdict, 'clear');
+  assert.notEqual(judgeDish(parseDishLine('된장국(5.6) 2가지'), new Set([2])).verdict, 'clear');
+  assert.equal(parseDishLine('달걀찜 (1-5-6)').nameKo.includes('('), false);
+});
+
+test('mushroom bulgogi still warns for beef; Jerusalem artichoke is not pork', async () => {
+  const { nameHints } = await import('../src/domain/hints.js');
+  const { glossDish } = await import('../src/domain/gloss.js');
+  assert.ok(nameHints('버섯불고기').includes(16));
+  assert.ok(!nameHints('돼지감자조림').includes(10));
+  assert.ok(!/pork/.test(glossDish('돼지감자조림', 'en').text));
 });

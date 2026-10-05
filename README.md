@@ -62,7 +62,7 @@ A day or meal is green only if every dish is ✓. Two safety layers make sure of
 - **The parser treats any leftover number from 1 to 19 as possibly a code**, unless it is part of a counting word (`10곡`, `3색`).
 - **The dish name can only add warnings.** For example, `우유` (milk) printed without a number shows "Might contain Milk" to a milk-allergic child.
 
-A fuzz test checks this. For every code N and 9 real dish bases, it puts N after 28 separators (`,` `·` `ㆍ` `;` `~` `–` `※` …), in front of the name, inside notes (`(난류N)`, `(가공:N)`), in full-width brackets, as every circled-number style and as a superscript. That is about 7,000 generated lines, and none of them may produce ✓ for a child avoiding N. Legend words printed instead of numbers (`(난류)`, `(게)`) count as codes, and a list that is cut off (`(5.6.`) is unreadable. Lines with two dishes (`카레라이스(1.5.6)/요구르트`) are split, so the unnumbered dish is never folded into a green one.
+A fuzz test checks this. For every code N and 9 real dish bases, it puts N after 28 separators (`,` `·` `ㆍ` `;` `~` `–` `※` …), in front of the name, inside notes (`(난류N)`, `(가공:N)`), in full-width brackets, as every circled-number style and as a superscript. That is about 7,000 generated lines, and none of them may produce ✓ for a child avoiding N. Legend words printed instead of numbers (`(난류)`, `(게)`) count as codes, and a list that is cut off (`(5.6.`) is unreadable. Lines with two dishes are split outside brackets (`카레라이스(1.5.6)/요구르트`, `새우튀김 (1.5.6.9) 타르타르소스`), and when numbers are printed only after the last of several dishes (`오므라이스/미역국(5.6)`), that line is never shown green unless the others are plain side items (rice, sauce).
 
 ## Does it actually read real menus? (measured, not claimed)
 
@@ -98,7 +98,7 @@ Every one of those odd lines is listed in [`docs/audit.json`](docs/audit.json), 
 Amber "?" days stay under 2% for every allergen, so the warning keeps its meaning. Milk shows ⛔ on 81% of days because the daily milk carton is numbered.
 
 ### Dish names: explained, not machine-translated
-A wrong translation could hide an ingredient. So each name is built only from a **glossary of 650+ Korean menu words** (English, Vietnamese, Chinese), using longest-match segmentation. For example, `돼지고기김치찌개` becomes "pork kimchi stew", and `달걀찜` becomes "steamed egg" / "trứng hấp" / "蒸鸡蛋" (word order per language). A part LunchKey doesn't know is marked "(?)" right in the name: romanized in English, kept in Korean letters in Vietnamese and Chinese. It is never guessed.
+A wrong translation could hide an ingredient. So each name is built only from a **glossary of 670+ Korean menu words** (English, Vietnamese, Chinese), using longest-match segmentation. For example, `돼지고기김치찌개` becomes "pork kimchi stew", and `달걀찜` becomes "steamed egg" / "trứng hấp" / "蒸鸡蛋" (word order per language). A part LunchKey doesn't know is marked "(?)" right in the name: romanized in English, kept in Korean letters in Vietnamese and Chinese. It is never guessed.
 
 The allergen verdict never depends on the dish name, only on the printed numbers. English glosses were checked by the author, a native Korean speaker. Vietnamese and Chinese glosses were drafted with AI help and checked against dictionaries; native-speaker review is the next step. Filipino, Japanese and Russian users see English dish explanations, tagged as English for screen readers.
 
@@ -116,7 +116,7 @@ scripts/          audit.mjs (national sample) · check-layers.mjs
 - **Keyless NEIS returns only the first 5 rows and ignores paging.** I measured this on 2026-10-06. So LunchKey asks narrow questions: one school, one week, lunch only. That is at most 5 rows, fetched once per week and re-rendered from memory, and the tests use a fake API that behaves the same way.
 - **Sustainability.** The code already supports a free personal NEIS key (`?key=…`, stored on the device) for full paging. If keyless sample access ever changes, the fallback is a small scheduled job that pre-fetches opted-in schools into static JSON on GitHub Pages, behind the same adapter port.
 - **Resilience.** NEIS error codes are shown as errors, never as "no menu". The last loaded weeks are saved on the phone as raw menu text and re-parsed when shown, so a parser fix reaches saved weeks too; they appear labeled if the network fails. The sample school ships with a bundled week.
-- **Tests: 72** (`npm test`, Node's built-in runner, CI on Node 20/22/24). They cover every acceptance criterion in [`SPEC.md`](SPEC.md), the hand-checked real lines, the never-✓ property and fuzz tests, three hand-labeled sets (incl. the held-out May sample), the top-card logic (`application/headline.js`), the link-merge rules (`application/children.js`), and a layer check. The check fails if `domain/` or `application/` imports adapters or the UI, or touches `fetch`, `localStorage` or `document`.
+- **Tests: 75** (`npm test`, Node's built-in runner, CI on Node 20/22/24). They cover every acceptance criterion in [`SPEC.md`](SPEC.md), the hand-checked real lines, the never-✓ property and fuzz tests, three hand-labeled sets (incl. the held-out May sample), the top-card logic (`application/headline.js`), the link-merge rules (`application/children.js`), and a layer check. The check fails if `domain/` or `application/` imports adapters or the UI, or touches `fetch`, `localStorage` or `document`.
 - **Accessibility.**
   - Every verdict is shown as an icon, a word and a color.
   - Each language block carries its own `lang` attribute.
@@ -128,7 +128,7 @@ Run locally: `npm test` · `npm run audit` · `npm run serve`, then open http://
 
 ## Limits (honest)
 
-- Two dishes on one line separated only by a space (`스파게티(1.2.5.6) 마늘빵`) are not split. Name hints catch the common risky words (milk, egg, peanut and others), but not every case.
+- Two dishes separated only by a space are split when the second one comes after the number group (`스파게티(5.6) 마늘빵`). If it comes before the group, the line is treated as one dish, and name hints only catch the common risky words.
 - I haven't tested the live API from outside Korea. If NEIS is slow or blocked abroad, the demo falls back to its bundled week and says so.
 
 - LunchKey reads the **19 allergens that Korean school menus number**. It can't see ingredients a school didn't number, and it is **not medical advice**. The setup, week and paste screens say so and point parents to the school's nutrition teacher.

@@ -1,4 +1,4 @@
-# LunchKey — SPEC (v0.4, 2026-10-06)
+# LunchKey — SPEC (v0.5, 2026-10-06)
 
 ## 0. One line
 LunchKey turns a Korean school's official lunch menu, where allergens are printed only as bare numbers after Korean dish names (`새알심만두국 (1.2.5.6.9.10.15.16.18)`), into a per-child view in the parent's own language: each dish is marked **contains your child's allergen** (⛔), **might contain / couldn't read** (?), **no numbers printed** (○), or **none of your child's allergens listed** (✓ — the only green).
@@ -7,7 +7,7 @@ Essence: not a menu translator, but **the key that lets a parent who can't read 
 ## 1. Success criteria · deadline · non-goals
 - Reference: Korean schools already publish menus with allergen numbers. Parents get a one-time number legend sheet at the start of each term. Nothing gives a per-child, in-language view of the live menu.
 - Success (numbers):
-  1. National sample (17 provincial education offices, ≥ 150 distinct schools, one month of lunches, each school-day once): **≤ 0.05% unreadable lines, all shown as ?**, and a ≥ 150-line hand check agrees with an independent reading. Measured by `npm run audit` → `docs/audit.json`, labels in `docs/audit-labels.json`. (2026-10-06: 170 schools, 24,745 lines, 0% unreadable; untouched May holdout 16,799 lines, 0.01%; 150/150 + 111 stratified.)
+  1. National sample (17 provincial education offices, ≥ 150 distinct schools, one month of lunches, each school-day once): **≤ 0.05% unreadable lines, all shown as ?**, and ≥ 150 hand-labeled lines (author, regex cross-check) agree with the parser. Measured by `npm run audit` → `docs/audit.json`, labels in `docs/audit-labels.json`. (2026-10-06: 170 schools, 24,745 lines, 0% unreadable; untouched May holdout 16,799 lines, 0.01%; 150/150 + 111 stratified.)
   2. **0 false "no listed allergen" results** on the hand-labeled test set. A dish whose codes include the child's allergen must never be shown as clear.
   3. Dish-name gloss: **≥ 80% of dish lines** in the audit sample get a full or partial English gloss. Unglossed names fall back to the Korean name plus romanization. A dish name is never invented.
   4. On a phone (390 px wide), a parent goes from opening the app to seeing this week's view in **≤ 3 taps** after picking a school once.
@@ -89,6 +89,7 @@ tests/            node:test
 1. Mobile first: 390 px, no horizontal scroll (measured: scrollWidth 390). 2. One question per setup screen (language → school → allergens) with a progress bar. 3. Type scale: titles 22–24 px bold, body 16 px, auxiliary 13 px. 4. Cards 16 px radius, sections ≥ 24 px apart. 5. One fixed bottom CTA, ≥ 52 px tall. 6. The result leads with the count ("2 dishes contain Milk", 32 px), the verdict list below. 7. Evidence (printed line, numbers, gloss parts) sits in a closed `<details>`. 8. Short, friendly microcopy in 7 languages. 9. White + one blue + three status colors, icon + word + color for every status, dark mode. 10. System fonts, no CDN, skeleton loading.
 
 ## 10. Changelog
+- v0.5 2026-10-06: split outside brackets + trailing-dish split, `shared:` lines never green, legend lists, two-digit leftovers, glued-only counting words, more name hints (egg/pork/crab dishes), mushroom bulgogi warns for beef, fetch timeout + labeled sample week, demo family (peanut sibling), headline names the possible allergen and the unnumbered dishes.
 - v0.4 2026-10-06: default-ambiguous leftover numbers (counting-word allow-list), NFKC + circled/negative-circled digits, all numbers in mixed notes, multi-dish split (`splitCompound`), name hints that only add warnings (`hints.js`), "might contain X" chips with the reason, link merge as a pure function (`children.js`), school links carry no language, key stripped from the URL, untouched May holdout.
 - v0.3 2026-10-06: ambiguousCodes + four verdicts, property test, headline module, in-memory weeks, multi-child, school link, NEIS key option, stratified hand labels (111) + June audit.
 - v0.2 2026-10-06: keyless NEIS reality (first 5 rows), parser reads all bracket groups and odd separators, portion/number notes, `summaryStatus` (never green with unknowns), error codes, saved weeks, honest audit (distinct schools, dedup), hand labels, i18n wording of the clear verdict.
